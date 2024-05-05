@@ -1,0 +1,34 @@
+@import "../../styles//var.scss";
+
+.input_field {
+   &-container {
+      position: relative;
+      width: 100%;
+      vaadin-text-field,
+      vaadin-email-field,
+      vaadin-password-field {
+         width: 100%;
+      }
+      vaadin-text-field::part(input-field),
+      vaadin-password-field::part(input-field) {
+         outline: none;
+         background-color: #fff !important;
+         border-bottom: 1px solid $primary-color !important;
+         border-radius: 0;
+         &:hover {
+            background-color: #fff !important;
+         }
+         &::after {
+            background-color: #fff !important;
+         }
+      }
+   }
+   &-error {
+      color: rgb(254, 76, 76);
+      font-size: 14px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: translateY(calc(100% - 5px));
+   }
+}

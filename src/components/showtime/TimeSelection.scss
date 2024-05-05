@@ -1,0 +1,18 @@
+.showtime-time {
+  vaadin-radio-group::part(group-field) {
+    justify-content: flex-start;
+  }
+  vaadin-radio-group {
+    padding: 0;
+  }
+  vaadin-button,
+  vaadin-button[theme~="primary"] {
+    padding: 16px;
+    cursor: pointer;
+    min-width: unset;
+  }
+}
+.showtime-selection.time {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}

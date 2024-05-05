@@ -1,0 +1,23 @@
+@import "../../styles/var.scss";
+vaadin-menu-bar-item {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 46px;
+   height: 46px;
+}
+vaadin-menu-bar-list-box vaadin-menu-bar-item {
+   width: 86px;
+   height: 26px;
+   font-size: 14px;
+   padding: 0;
+   color: $primary-color;
+   flex-direction: column;
+   padding-bottom: 21px;
+   cursor: pointer;
+}
+vaadin-avatar {
+   width: 40px;
+   height: 40px;
+   cursor: pointer;
+}

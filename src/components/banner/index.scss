@@ -1,0 +1,107 @@
+@import "../../style.scss";
+
+.banner {
+  background-color: $primary-color;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: 15px;
+
+  &-container {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    padding-block: 40px;
+    justify-content: center;
+    gap: 60px;
+    @media screen and (max-width: 769.98px) {
+      gap: 15px;
+      width: 90%;
+      height: 100%;
+      flex: 1;
+    }
+  }
+  &-poster {
+    padding-block: 5px;
+    background-color: white;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &-content {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 50%;
+    @media screen and (max-width: 425.98px) {
+      gap: 2px;
+      h2 {
+        margin-bottom: 0;
+      }
+    }
+  }
+  &-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 33.89px;
+    color: white;
+    margin-bottom: 14px;
+    @media screen and (min-width: 425.98px) and (max-width: 769.98px) {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+  }
+  &-detail {
+    margin: 0;
+    font-size: 18px;
+    line-height: 24.3px;
+    span {
+      font-weight: 200;
+      font-size: 16px;
+      @media screen and (max-width: 425.98px) {
+        font-size: 10px;
+      }
+    }
+    @media screen and (min-width: 425.98px) and (max-width: 769.98px) {
+      font-size: 14px;
+    }
+  }
+  &-button {
+    margin-top: 20px;
+    width: fit-content;
+    @media screen and (max-width: 768.98px) {
+      margin-left: auto;
+    }
+    vaadin-button {
+      padding: 1.4rem 2rem;
+      &[theme="primary"] {
+        background-color: #fff;
+        color: $primary-color;
+      }
+      @media screen and (max-width: 425.98px) {
+        padding: 6px 8px;
+        font-size: 10px;
+        line-height: 1;
+        height: auto;
+        min-height: unset;
+      }
+      @media screen and (min-width: 425.98px) and (max-width: 769.98px) {
+        padding: 10px 14px;
+        font-size: 14px;
+        line-height: 1;
+        height: auto;
+        min-height: unset;
+      }
+    }
+    vaadin-button::part(label) {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,79 @@
+@import "../../styles/var.scss";
+.input {
+   margin-bottom: 40px;
+   position: relative;
+   border-bottom: 1px solid $primary-color;
+   width: 100%;
+   position: relative;
+   cursor: pointer;
+   &.colSpan-1 {
+      width: calc(50% - 20px) !important;
+      &:nth-child(2) {
+         margin-left: 40px !important;
+      }
+   }
+   span {
+      position: absolute;
+      user-select: none;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      transition: all ease 0.3s;
+      font-style: italic;
+      color: $primary-color;
+      font-size: 16px;
+      font-weight: 500;
+      &.ontop {
+         top: 0%;
+      }
+   }
+   input {
+      outline: none;
+      border: none;
+      width: 100%;
+      min-height: 47px;
+   }
+   input:focus {
+      & + span,
+      & + span.ontop {
+         top: 0%;
+      }
+   }
+
+   .input_field {
+      width: calc(100% - 20px);
+      height: 30px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: translateY(100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      span {
+         color: rgb(254, 76, 76);
+         font-size: 14px;
+         font-weight: 300;
+         position: unset;
+         transform: unset;
+      }
+      &-error_icon svg {
+         width: 20px;
+         height: 20px;
+      }
+   }
+   .showIcon {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateX(-100%) translateY(-50%);
+      width: 20px;
+      height: 20px;
+      span {
+         width: 20px;
+         height: 20px;
+      }
+   }
+}

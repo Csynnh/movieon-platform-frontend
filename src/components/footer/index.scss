@@ -1,0 +1,189 @@
+@import "../../style.scss";
+
+.footer {
+   margin-top: 80px;
+   background-color: $primary-color;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   &-container {
+      display: flex;
+      width: 80%;
+      color: white;
+      padding-block: 40px;
+      justify-content: space-between;
+      gap: 86px;
+      @media screen and (max-width: 1023.98px) {
+         gap: 20px;
+      }
+
+      @media screen and (max-width: 425.98px) {
+         width: 90%;
+         margin-top: 0;
+         flex-direction: column;
+         gap: 30px;
+      }
+   }
+   &-wrapper {
+      &:not(:first-child) {
+         margin-top: 25px;
+         @media screen and (max-width: 425.98px) {
+            margin-top: 5px;
+         }
+      }
+   }
+   &-logo {
+      margin-bottom: 52px;
+      @media screen and (max-width: 425.98px) {
+         margin-bottom: 20px;
+         svg {
+            display: block;
+            margin: 0 auto;
+         }
+      }
+   }
+   &-address {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      &-item,
+      &-title {
+         display: flex;
+         align-items: center;
+         gap: 6px;
+      }
+      &-item {
+         line-height: 19.36px;
+         span {
+            font-weight: 600;
+         }
+         p {
+            font-weight: 300;
+         }
+      }
+      p {
+         margin: 0;
+      }
+      @media screen and (max-width: 425.98px) {
+         gap: 5px;
+         align-items: center;
+         span,
+         p {
+            font-size: 12px;
+         }
+         svg {
+            width: 14px;
+         }
+      }
+   }
+   &-title {
+      font-weight: 600;
+      line-height: 19.36px;
+      margin-bottom: 30px;
+   }
+   &-desc {
+      font-weight: 300;
+      line-height: 19.36px;
+      margin-bottom: 24px;
+   }
+   &-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      place-content: center;
+      text-align: center;
+      &-item {
+         width: 40px;
+         height: 40px;
+         cursor: pointer;
+         img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+      }
+   }
+   @media screen and (max-width: 425.98px) {
+      &-title,
+      &-desc {
+         font-size: 12px;
+         margin-bottom: 10px;
+         text-align: center;
+      }
+      &-meta {
+         width: 100px;
+         margin: 0 auto;
+      }
+   }
+   @media screen and (min-width: 425.98px) and (max-width: 768.98px) {
+      margin-top: 50px;
+      &-container {
+         width: 90%;
+         display: grid;
+         grid-template-columns: repeat(2, 1fr);
+         gap: 10px;
+      }
+      &-logo {
+         svg {
+            width: 150px;
+         }
+         margin-bottom: 20px;
+      }
+      &-address {
+         gap: 5px;
+         svg {
+            width: 12px;
+         }
+         span,
+         p {
+            font-size: 10px;
+         }
+      }
+      &-title,
+      &-desc {
+         font-size: 10px;
+         margin-bottom: 5px;
+      }
+
+      &-meta {
+         width: 100px;
+         margin-top: -5px;
+      }
+   }
+   @media screen and (min-width: 769.98px) and (max-width: 1024.98px) {
+      &-container {
+         gap: 10px;
+      }
+      &-logo {
+         svg {
+            width: 150px;
+         }
+         margin-bottom: 20px;
+      }
+      &-title,
+      &-desc {
+         font-size: 12px;
+         margin-bottom: 5px;
+      }
+      &-address {
+         margin-top: -10px;
+         gap: 5px;
+         svg {
+            width: 12px;
+         }
+         span,
+         p {
+            font-size: 12px;
+         }
+      }
+      &-wrapper {
+         &:last-child {
+            grid-column: -1 / 2;
+            grid-row: 2/ -1;
+            .footer-title {
+               margin-bottom: 50px;
+            }
+         }
+      }
+   }
+}

@@ -1,0 +1,114 @@
+@import "../../style.scss";
+.combo {
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &-container {
+    max-width: 464px;
+  }
+  &-content {
+    text-align: center;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  &-name {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  &-price,
+  &-desc {
+    justify-content: center;
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+
+    align-items: flex-end;
+    span.discount {
+      font-size: 16px;
+      color: red;
+    }
+    span.basic {
+      text-decoration: line-through;
+    }
+    p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+  &-desc {
+    span {
+      font-size: 16px;
+    }
+  }
+  &-interact {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+  &-count {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    p {
+      font-size: 18px;
+      margin-top: 3px;
+      margin-bottom: 0;
+      font-weight: 700;
+    }
+    span {
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+    .action-btn {
+      height: 18px;
+    }
+  }
+  vaadin-button {
+    padding: 20px;
+    background-color: $primary-color;
+    color: white;
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  @media screen and (max-width: 768.98px) {
+    &-name,
+    &-price {
+      font-size: 14px;
+    }
+    &-price p,
+    &-price span.discount,
+    &-price .basic,
+    &-desc p,
+    &-desc span {
+      font-size: 12px;
+    }
+    &-content {
+      gap: 0;
+    }
+    &-count {
+      gap: 10px;
+      span {
+        font-size: 12px;
+      }
+      p {
+        font-size: 14px;
+      }
+    }
+    vaadin-button {
+      padding: 10px;
+      font-size: 12px;
+    }
+  }
+}

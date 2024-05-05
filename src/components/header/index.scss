@@ -1,0 +1,216 @@
+@import "../../style.scss";
+
+.header {
+  box-shadow: 0px 3px 20px 0px #00000040;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  &-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    gap: 50px;
+    width: 80%;
+  }
+
+  vaadin-tabs {
+    justify-content: flex-end;
+    box-shadow: none;
+
+    &::part(tabs) {
+      max-width: 50%;
+    }
+  }
+}
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $secondary-color;
+
+  &-container {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    padding-block: 10px;
+    gap: 18px;
+  }
+
+  &-field {
+    width: 65%;
+    &::part(input-field) {
+      padding: 10px 20px;
+      background-color: white;
+      font-size: 18px;
+      outline: none;
+    }
+  }
+
+  &-auth {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  &-menu-icon {
+    display: none;
+    width: 24px;
+  }
+  vaadin-menu-bar-item,
+  vaadin-avatar {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 425.98px) {
+  .header {
+    &-container {
+      margin-top: 30px;
+      padding: 0;
+      justify-content: center;
+      vaadin-tabs {
+        display: none;
+      }
+    }
+    span {
+      svg {
+        width: 120px;
+      }
+    }
+  }
+  .search {
+    &-container {
+      width: 90%;
+      padding: 10px;
+      justify-content: space-between;
+      align-items: center;
+      a,
+      span {
+        display: none;
+      }
+      svg {
+        display: block;
+        width: 30px;
+      }
+    }
+    &-field {
+      padding: 0;
+      width: 90%;
+      &::part(input-field) {
+        width: 100%;
+        height: 40px;
+      }
+    }
+  }
+  .slider {
+    h2 {
+      font-size: 24px;
+    }
+  }
+  .banner {
+    height: 200px;
+    position: relative;
+    &-content {
+      gap: 5px;
+      height: 100%;
+      h2 {
+        font-size: 14px;
+      }
+    }
+    &-detail {
+      strong {
+        font-size: 10px;
+      }
+      span {
+        display: inline-block;
+        font-size: 10px;
+      }
+    }
+  }
+}
+@media screen and (min-width: 425.98px) and (max-width: 769.98px) {
+  .banner {
+    height: 300px;
+  }
+  .search {
+    a {
+      font-size: 12px;
+    }
+    &-container {
+      width: 90%;
+      justify-content: space-between;
+    }
+    &-field {
+      padding: 0;
+      width: 76%;
+      &::part(input-field) {
+        width: 100%;
+        height: 40px;
+      }
+    }
+    &-menu {
+      position: relative;
+    }
+  }
+  .header {
+    &-container {
+      padding: 10px;
+      width: 90%;
+    }
+    svg {
+      width: 150px;
+    }
+    vaadin-tabs {
+      margin-right: -65px;
+      &::part(tabs) {
+        max-width: 80%;
+      }
+      a {
+        font-size: 14px;
+      }
+    }
+  }
+}
+@media screen and (min-width: 769.98px) and (max-width: 1024.98px) {
+  .header {
+    &-container {
+      padding: 0;
+      margin-block: 20px;
+      justify-content: center;
+    }
+  }
+  .header {
+    vaadin-tabs {
+      margin-right: -80px;
+
+      &::part(tabs) {
+        max-width: 80%;
+      }
+      a {
+        font-size: 14px;
+      }
+    }
+  }
+  .search {
+    a {
+      font-size: 12px;
+    }
+    &-container {
+      width: 100%;
+    }
+    &-field {
+      padding: 0;
+
+      &::part(input-field) {
+        width: 100%;
+        height: 40px;
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+@import "../../styles/var.scss";
+.tenant {
+   &_signin {
+      &-container {
+         display: flex;
+         height: 100vh;
+         background-color: $primary-color;
+         overflow: hidden;
+      }
+      &-image {
+         flex: 1;
+      }
+      &-meta {
+         width: 85%;
+         svg {
+            width: 100%;
+         }
+      }
+      &-form {
+         width: 35.5%;
+         background-color: white;
+         height: 100%;
+         display: flex;
+         align-items: center;
+         flex-direction: column;
+         padding: 80px 60px;
+         box-sizing: border-box;
+         gap: 65px;
+      }
+   }
+}

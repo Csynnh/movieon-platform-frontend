@@ -1,0 +1,57 @@
+.popcorn {
+  &-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  h2 {
+    text-align: center;
+    padding: 50px;
+    font-weight: 700;
+  }
+  &-title {
+    display: flex;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  &-combo {
+    width: 80%;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+  }
+  @media screen and (max-width: 1024.98px) {
+    &-combo {
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 768.98px) {
+    &-container {
+      width: 90%;
+    }
+    h2 {
+      font-size: 20px;
+      padding: 30px;
+    }
+    &-title {
+      svg {
+        width: 80px;
+      }
+      p {
+        font-size: 14px;
+        margin: 0;
+        margin-top: 5px;
+      }
+    }
+    &-combo {
+      margin: 0 auto;
+      margin-block: 20px;
+      gap: 10px;
+    }
+  }
+  @media screen and (max-width: 425.98px) {
+    &-combo {
+      grid-template-columns: 1fr;
+    }
+  }
+}

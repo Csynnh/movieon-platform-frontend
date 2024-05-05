@@ -1,0 +1,20 @@
+.showtime {
+   &-selection {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      label {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         gap: 3px;
+         font-weight: 600;
+         @media screen and (max-width: 425.98px) {
+            svg {
+               width: 20px;
+            }
+         }
+      }
+   }
+}

@@ -1,0 +1,155 @@
+@import "../../styles/var.scss";
+.dashboard {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  &-search {
+    padding: 0 50px 0 0px;
+    box-sizing: border-box;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 100%;
+    vaadin-text-field {
+      width: 80%;
+    }
+    vaadin-text-field::part(input-field) {
+      padding: 0 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      border: 1px solid $primary-color;
+    }
+  }
+  &-admin {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  &-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 12fr 0fr;
+    gap: 24px;
+  }
+  &-form {
+    border: 0.25px solid $primary-color;
+    border-radius: 6px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &-container {
+      width: 80%;
+      height: 90%;
+    }
+    &-title {
+      text-align: center;
+      font-weight: 700;
+    }
+    &-input {
+      // width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    vaadin-button {
+      width: 100%;
+      background-color: $primary-color;
+      color: #fff;
+      margin-top: 30px;
+    }
+    vaadin-combo-box {
+      &::part(input-field) {
+        background-color: #fff;
+        color: $primary-color;
+        border-bottom: 0.5px solid $primary-color;
+      }
+    }
+    &-close {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      cursor: pointer;
+      svg {
+        width: 24px;
+      }
+    }
+  }
+  vaadin-grid {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.94px;
+    color: #000;
+    &::part(header-cell) {
+      background-color: $primary-color;
+      color: #fff;
+      padding-right: 20px;
+    }
+
+    &::part(first-column-cell) {
+      width: 150px;
+
+      flex-grow: unset;
+    }
+    &::part(last-column-cell) {
+      width: 120px;
+      flex-grow: unset;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-inline: 10px;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    &::part(cell) {
+      padding: 8px 10px;
+    }
+    vaadin-grid-cell-content {
+      padding: 0;
+      padding-left: 5px;
+    }
+  }
+  &-field {
+    position: relative;
+    vaadin-date-time-picker,
+    vaadin-combo-box {
+      width: 100%;
+    }
+    p {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      font-size: 12px;
+      color: red;
+      font-style: italic;
+      transform: translateY(calc(100% + 5px));
+    }
+  }
+  &-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    vaadin-button {
+      cursor: pointer;
+    }
+  }
+  &-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+  }
+  &-add {
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 29px;
+    margin: 0;
+    color: $primary-color;
+    padding: 12px 17px;
+  }
+}
