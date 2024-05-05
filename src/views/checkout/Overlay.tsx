@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import qr from "../../asset/image/qr.png";
 import { Action } from "./AddBtn";
 import CloseIcon from "./CloseIcon";

@@ -1,6 +1,6 @@
 import { Button } from "@hilla/react-components/Button.js";
 import { Icon } from "@hilla/react-components/Icon.js";
-import React, { FC } from "react";
+import { FC } from "react";
 
 const DashboardAdd: FC<any> = ({ handle }) => {
   return (

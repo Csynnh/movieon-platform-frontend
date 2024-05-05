@@ -1,18 +1,17 @@
 import { Button } from "@hilla/react-components/Button.js";
-import EyeIcon from "../../asset/icon/EyeIcon";
-import GoogleIcon from "../../asset/icon/GoogleIcon";
-import PhoneIcon from "../../asset/icon/PhoneIcon";
-import { useForm } from "react-hook-form";
-import SignIn from "../../asset/image/login.png";
-import Input from "../checkout/Input";
-import * as yup from "yup";
+import { FormLayout } from "@hilla/react-components/FormLayout.js";
 import { yupResolver } from "@hookform/resolvers/yup";
-import "./Login.scss";
-import { signInUser } from "../../api/signInUser";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-import { useNavigate } from "react-router-dom";
-import { FormLayout } from "@hilla/react-components/FormLayout.js";
+import * as yup from "yup";
+import { signInUser } from "../../api/signInUser";
+import GoogleIcon from "../../asset/icon/GoogleIcon";
+import PhoneIcon from "../../asset/icon/PhoneIcon";
+import SignIn from "../../asset/image/login.png";
+import Input from "../checkout/Input";
+import "./Login.scss";
 
 const schema = yup.object({
   username: yup.string().required("Username is required"),
@@ -60,14 +59,12 @@ const Login = () => {
               color: "#fff",
               fontWeight: "500",
             },
-            type: "error",
           }).showToast();
         }
       } catch (error) {
         Toastify({
           text: `Can't sign in Tenant: ${username}`,
           duration: 3000,
-          type: "error",
         }).showToast();
       }
     }

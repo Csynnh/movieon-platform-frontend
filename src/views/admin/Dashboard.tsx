@@ -38,6 +38,7 @@ const schema = yup.object({
   movieId: yup.string().required("Movie name is required"),
   theaterId: yup.string().required("Theater is required"),
   showTime: yup.string().required("Show time is required"),
+  calendarId: yup.string().required("Calendar is required"),
 });
 export const convertToDate = (date: string) => {
   const [day, month, year] = date.split("/");
@@ -352,6 +353,10 @@ const Dashboard = () => {
                         add(new Date(), { minutes: 5 }),
                         "yyyy-MM-dd'T'HH:mm"
                       )}
+                      max={format(
+                        add(new Date(), { days: 30 }),
+                        "yyyy-MM-dd'T'HH:mm"
+                      )} // Convert maxValue to string if necessary
                       autoOpenDisabled
                       value={format(
                         add(new Date(), { minutes: 30 }),
@@ -360,7 +365,7 @@ const Dashboard = () => {
                       errorMessage={errorDate}
                       onValueChanged={({ detail: { value: newValue } }) => {
                         const date = newValue ?? "";
-                        setValue(date);
+                        setValue("showTime", date);
                         if (isBefore(date, minDate)) {
                           setErrorDate(
                             "Too early, choose another date and time"

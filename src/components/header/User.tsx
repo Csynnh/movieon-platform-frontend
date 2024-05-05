@@ -2,12 +2,12 @@ import { NavLink } from "react-router-dom";
 import { Avatar } from "@hilla/react-components/Avatar";
 import React, { useEffect, useState } from "react";
 import getUser from "../../api/getUser";
-import { User as UserPropType } from "../../api/type";
 import { MenuBar } from "@hilla/react-components/MenuBar";
 import { createRoot } from "react-dom/client";
+import { User } from "../../api/type";
 
 const UserPropType: React.FC = () => {
-  const [user, setUser] = useState<UserPropType>();
+  const [user, setUser] = useState<User>();
   const userInLocal = localStorage.getItem("user");
   const [avatarComponent, setAvatarComponent] = useState<HTMLDivElement>();
 

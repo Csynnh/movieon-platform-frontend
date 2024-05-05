@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Action } from "./AddBtn";
 import "./CloseIcon.scss";
 
