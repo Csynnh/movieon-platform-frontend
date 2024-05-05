@@ -1,4 +1,3 @@
-import React from "react";
 import "./EyeIcon.scss";
 const EyeIcon = () => {
   return (

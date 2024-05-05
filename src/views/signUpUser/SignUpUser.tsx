@@ -59,7 +59,6 @@ const SignUpUser = () => {
           Toastify({
             text: `Email or Username already exists!`,
             duration: 3000,
-            type: "error",
           }).showToast();
         } else {
           reset({
@@ -84,7 +83,6 @@ const SignUpUser = () => {
         Toastify({
           text: `Can't create User: ${firstName}`,
           duration: 3000,
-          type: "error",
         }).showToast();
       }
     }

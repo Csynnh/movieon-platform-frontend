@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useState } from "react";
 import combo from "../../asset/image/combo.png";
 
 import { Button } from "@hilla/react-components/Button.js";
@@ -9,7 +8,6 @@ import { AddBtn } from "./AddBtn";
 import "./CheckOut.scss";
 import { MinusBtn } from "./MinusBtn";
 import Overlay from "./Overlay";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FormLayout } from "@hilla/react-components/FormLayout.js";
@@ -19,6 +17,8 @@ import { addSeat } from "../../api/addSeat";
 import { useNavigate, useLocation } from "react-router-dom";
 import { formatDate } from "../../util/date";
 import { convertToVietnamese } from "../../util/language";
+import { useForm } from "react-hook-form";
+import { useEffect, useMemo, useState } from "react";
 const schema = yup.object({
   customerName: yup.string().required("Customer name is required"),
   customerPhone: yup
@@ -38,31 +38,32 @@ const schema = yup.object({
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   useEffect(() => {
     if (!location?.state?.data) {
       navigate("/");
     }
-  }, []);
-  if (!location?.state?.data) return null;
+  }, [location, navigate]);
 
   const data: {
     movie: Movie;
     seats: SeatRequest[];
     showtime: string;
   } = location.state.data;
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+
   const priceTicket = useMemo(() => {
-    return (
-      data?.seats?.reduce?.((acc, seat) => acc + Number(seat.price), 0) * 1000
-    );
-  }, []);
+    if (data?.seats)
+      return (
+        data?.seats?.reduce?.((acc, seat) => acc + Number(seat.price), 0) * 1000
+      );
+    else return 0;
+  }, [data?.seats]);
   const priceCombo = 60000;
 
   const [count, setCount] = useState(1); // khoi tao 1 state va 1 ham de thay doi trang thai
@@ -87,17 +88,18 @@ const CheckOut = () => {
     setIsOpenOverlay(false);
   };
 
-  const handleSubmitForm = async (value: any) => {
+  const handleSubmitForm = async () => {
     const seatsData = data?.seats?.map((seat) => {
       return {
         ...seat,
         price: Number(seat.price) * 1000,
       };
     });
-    const res = await addSeat(seatsData);
+    await addSeat(seatsData);
     setIsOpenOverlay(true);
     navigate("/");
   };
+  if (!location?.state?.data) return null;
 
   return (
     <div>

@@ -8,21 +8,25 @@ import useMoviesData from "../../api/listMoviesData";
 import Loading from "../../components/loading/Loading";
 import { Movie } from "../../api/type";
 const HomeView = () => {
-  const dummy: { image: {}; description: string; id: number; title: string }[] =
-    [
-      {
-        id: 1,
-        image: poster,
-        title: "Hello",
-        description: "This is description",
-      },
-      {
-        id: 2,
-        image: poster,
-        title: "Hello",
-        description: "This is description",
-      },
-    ];
+  const dummy: {
+    image: any;
+    description: string;
+    id: number;
+    title: string;
+  }[] = [
+    {
+      id: 1,
+      image: poster,
+      title: "Hello",
+      description: "This is description",
+    },
+    {
+      id: 2,
+      image: poster,
+      title: "Hello",
+      description: "This is description",
+    },
+  ];
   const [movieData, setMovieData] = useState<Movie[]>([]);
   const data = useMoviesData({ limit: 8 });
   useEffect(() => {
@@ -34,7 +38,7 @@ const HomeView = () => {
     <Loading spinning={!movieData.length}>
       <div className="home">
         <SlickSlider sliders={dummy as BannerProps[]} />
-        <Showtime data={movieData} />
+        <Showtime />
       </div>
     </Loading>
   );

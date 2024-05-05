@@ -50,7 +50,6 @@ const Admin = () => {
         Toastify({
           text: `Can't create Tenant: ${firstName}`,
           duration: 3000,
-          type: "error",
         }).showToast();
       }
       // }

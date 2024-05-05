@@ -1,6 +1,7 @@
 import api from "./axiosConfig";
 import { CalendarType } from "./type";
 import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 
 export const addCalendar = async (
   showTime: Date,
@@ -38,7 +39,6 @@ export const addCalendar = async (
       text: `${errorStatus}: ${errorMessage}`,
       duration: 6000,
       backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
-      type: "error",
     }).showToast();
     return null;
   }

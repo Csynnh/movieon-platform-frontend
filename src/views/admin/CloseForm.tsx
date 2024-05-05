@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import "./Dashboard.scss";
 
 const CloseForm: FC<any> = ({ handle }) => {

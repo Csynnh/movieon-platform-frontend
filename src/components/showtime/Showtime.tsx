@@ -12,7 +12,7 @@ import useCalendars from "../../api/listCalendar";
 import { convertToDate } from "../../views/admin/Dashboard";
 import Loading from "../loading/Loading";
 import uploadImage from "../../asset/image/uploading-calender.png";
-const Showtime = (props: { data: Movie[] }) => {
+const Showtime = () => {
   const [listCinema, setListCinema] = useState<Cinema[]>([]);
   const [cinemaSelected, setCinemaSelected] = useState<string>();
   const [dateSelected, setDateSelected] = useState(dateData[0].value);

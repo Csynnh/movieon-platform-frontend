@@ -46,14 +46,12 @@ const SignInTenant = () => {
           Toastify({
             text: `${response.data.message}`,
             duration: 3000,
-            type: "error",
           }).showToast();
         }
       } catch (error) {
         Toastify({
           text: `Can't sign in Tenant: ${username}`,
           duration: 3000,
-          type: "error",
         }).showToast();
       }
     }
