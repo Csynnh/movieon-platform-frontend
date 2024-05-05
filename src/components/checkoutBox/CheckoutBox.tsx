@@ -1,10 +1,10 @@
-import { Button } from "@hilla/react-components/Button.js";
 import { Movie, SeatRequest } from "../../api/type";
 import CloseIcon from "../../views/checkout/CloseIcon";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./CheckoutBox.scss";
 import { formatDate } from "../../util/date";
 import { useCallback, useMemo } from "react";
+import { Button } from "antd";
 
 const CheckoutBox = (props: {
   handle: any;
@@ -34,7 +34,7 @@ const CheckoutBox = (props: {
       <div className="bill-container">
         <div className="bill-content">
           <div className="bill-desc">
-            <span className="title">Suất: </span>
+            <span className="bill-title">Suất: </span>
             <span>{formatDate(data?.showtime ?? "")}</span>
           </div>
           <div

@@ -8,4 +8,9 @@
   padding: 10px 20px;
   text-align: center;
   height: auto;
+  box-shadow: none;
+  &.ant-btn-primary {
+    color: white;
+    background-color: $primary-color;
+  }
 }

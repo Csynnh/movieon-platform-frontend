@@ -1,8 +1,28 @@
 @import "../../style.scss";
 
 .movie {
-  h2 {
+  &-title {
     font-weight: 700;
+    width: fit-content;
+    text-transform: uppercase;
+    position: relative;
+    isolation: isolate;
+    h2 {
+      z-index: 3;
+      position: relative;
+      background-color: white;
+      padding-inline: 2px;
+    }
+    .line {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: calc(100% + 20px);
+      height: 2px;
+      background-color: black;
+      left: -10px;
+      z-index: 2;
+    }
   }
   img {
     width: 100%;
@@ -43,6 +63,7 @@
     font-size: 16px;
     gap: 10px;
     justify-content: flex-start;
+    line-height: 1.8;
     &.content {
       display: -webkit-box;
       -webkit-line-clamp: 4;

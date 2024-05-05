@@ -26,7 +26,6 @@ import DateSelection, {
 } from "../../components/showtime/DateSelection";
 import { add, format, isBefore } from "date-fns";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import * as yup from "yup";
@@ -34,6 +33,7 @@ import CloseForm from "./CloseForm";
 import "./Dashboard.scss";
 import DashboardAdd from "./DashboardAdd";
 import Tenant from "./Tenant";
+import { useForm } from "react-hook-form";
 const schema = yup.object({
   movieId: yup.string().required("Movie name is required"),
   theaterId: yup.string().required("Theater is required"),
@@ -126,6 +126,7 @@ const Dashboard = () => {
     setOpenForm(!openForm);
   };
   const handleSubmitForm = async (values: any) => {
+    console.log(values);
     setSubmiting(true);
     if (!values.calendarId) {
       const res: any = await addCalendar(
@@ -358,10 +359,6 @@ const Dashboard = () => {
                         "yyyy-MM-dd'T'HH:mm"
                       )} // Convert maxValue to string if necessary
                       autoOpenDisabled
-                      value={format(
-                        add(new Date(), { minutes: 30 }),
-                        "yyyy-MM-dd'T'HH:mm"
-                      )}
                       errorMessage={errorDate}
                       onValueChanged={({ detail: { value: newValue } }) => {
                         const date = newValue ?? "";

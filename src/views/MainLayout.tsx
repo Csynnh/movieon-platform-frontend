@@ -1,4 +1,4 @@
-import { AppLayout } from "@hilla/react-components/AppLayout.js";
+import { Layout } from "antd";
 import Placeholder from "../components/placeholder/Placeholder.js";
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
@@ -8,12 +8,17 @@ import Footer from "../components/footer/Footer";
 
 export default function MainLayout() {
   return (
-    <AppLayout primarySection="drawer" className="w-full ">
+    <Layout
+      className="w-full "
+      style={{
+        background: "#fff",
+      }}
+    >
       <Header hasSearch={true} />
       <Suspense fallback={<Placeholder />}>
         <Outlet />
       </Suspense>
       <Footer />
-    </AppLayout>
+    </Layout>
   );
 }

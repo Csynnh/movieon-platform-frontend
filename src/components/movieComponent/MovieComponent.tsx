@@ -1,7 +1,7 @@
-import { Button } from "@hilla/react-components/Button.js";
 import { NavLink } from "react-router-dom";
 import "./index.scss";
 import { Movie } from "../../api/type";
+import { Button } from "antd";
 
 const MovieComponent = (props: {
   movie: Movie;
@@ -45,7 +45,7 @@ const MovieComponent = (props: {
                 <span>{props?.movie?.rated}</span>
               </p>
             </div>
-            <Button theme="primary">
+            <Button type="primary">
               <NavLink
                 to={`/movie/${encodeURIComponent(
                   props?.movie?.movieId

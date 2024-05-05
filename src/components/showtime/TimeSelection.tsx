@@ -1,8 +1,7 @@
-import { RadioGroup } from "@hilla/react-components/RadioGroup";
-import { RadioButton } from "@hilla/react-components/RadioButton";
+import { CheckboxOptionType, Radio } from "antd";
 import ClockIcon from "../../asset/icon/ClockIcon";
-import "./TimeSelection.scss";
 import TimeButton from "../../components/selects/timeSelection/TimeButton";
+import "./TimeSelection.scss";
 
 const TimeSelection = (props: {
   timeData: (string | undefined)[];
@@ -10,7 +9,14 @@ const TimeSelection = (props: {
   setTimeSelected: any;
 }) => {
   const { timeData, timeSelected, setTimeSelected } = props;
-
+  const items: CheckboxOptionType[] = timeData?.map((item) => ({
+    value: item ?? "",
+    label: (
+      <TimeButton isActive={timeSelected === item}>
+        {item?.split(":")[0] + ":" + item?.split(":")[1]}
+      </TimeButton>
+    ),
+  }));
   return (
     <>
       <div className="showtime-selection time">
@@ -20,27 +26,11 @@ const TimeSelection = (props: {
         </label>
       </div>
       <div className="showtime-time">
-        <RadioGroup value={timeSelected}>
-          {timeData?.map((item, index) => {
-            return (
-              <RadioButton
-                value={item}
-                key={index}
-                onClick={(event: any) => {
-                  if (event.currentTarget.value) {
-                    setTimeSelected(event.currentTarget.value);
-                  }
-                }}
-              >
-                <label slot="label">
-                  <TimeButton isActive={timeSelected === item}>
-                    {item?.split(":")[0] + ":" + item?.split(":")[1]}
-                  </TimeButton>
-                </label>
-              </RadioButton>
-            );
-          })}
-        </RadioGroup>
+        <Radio.Group
+          onChange={(e) => setTimeSelected(e.target.value)}
+          options={items}
+          value={timeSelected}
+        ></Radio.Group>
       </div>
     </>
   );

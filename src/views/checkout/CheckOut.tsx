@@ -1,24 +1,20 @@
 import combo from "../../asset/image/combo.png";
 
-import { Button } from "@hilla/react-components/Button.js";
-import { RadioButton } from "@hilla/react-components/RadioButton";
-import { RadioGroup } from "@hilla/react-components/RadioGroup";
-import { Movie, SeatRequest } from "../../api/type";
-import { AddBtn } from "./AddBtn";
-import "./CheckOut.scss";
-import { MinusBtn } from "./MinusBtn";
-import Overlay from "./Overlay";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, Form, Radio } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { FormLayout } from "@hilla/react-components/FormLayout.js";
-import { responsiveSteps } from "../admin/Admin";
-import Input from "./Input";
 import { addSeat } from "../../api/addSeat";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Movie, SeatRequest } from "../../api/type";
 import { formatDate } from "../../util/date";
 import { convertToVietnamese } from "../../util/language";
-import { useForm } from "react-hook-form";
-import { useEffect, useMemo, useState } from "react";
+import { AddBtn } from "./AddBtn";
+import "./CheckOut.scss";
+import Input from "./Input";
+import { MinusBtn } from "./MinusBtn";
+import Overlay from "./Overlay";
 const schema = yup.object({
   customerName: yup.string().required("Customer name is required"),
   customerPhone: yup
@@ -228,7 +224,7 @@ const CheckOut = () => {
               </div>
             </div>
             <div className="checkout-right">
-              <FormLayout responsiveSteps={responsiveSteps} autoFocus={false}>
+              <Form autoFocus={false}>
                 <Input
                   errors={errors}
                   colSpan={2}
@@ -251,24 +247,35 @@ const CheckOut = () => {
                   register={register}
                 />
                 <div className="checkout-payment">
-                  <p>Phương thức thanh toán</p>
-                  <div className="radio">
-                    <RadioGroup theme="vertical">
-                      <RadioButton value="bank" label="Ngân hàng" />
-                      <RadioButton value="momo" label="Momo" />
-                      <RadioButton value="vnpay" label="VnPay" />
-                    </RadioGroup>
+                  <p
+                    style={{
+                      marginBottom: 10,
+                    }}
+                  >
+                    Phương thức thanh toán
+                  </p>
+                  <div
+                    className="radio"
+                    style={{
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Radio.Group>
+                      <Radio.Button value="bank">Ngân hàng</Radio.Button>
+                      <Radio.Button value="momo">Momo</Radio.Button>
+                      <Radio.Button value="vnpay">VnPay</Radio.Button>
+                    </Radio.Group>
                   </div>
                 </div>
 
                 <Button
-                  theme="primary"
+                  type="primary"
                   onClick={handleSubmit(handleSubmitForm)}
                   disabled={isSubmitting}
                 >
                   Xác nhận
                 </Button>
-              </FormLayout>
+              </Form>
             </div>
           </div>
         </div>
