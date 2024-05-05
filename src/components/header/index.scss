@@ -23,9 +23,15 @@
           &::before {
             border-bottom: 0;
           }
+          .ant-tabs-ink-bar {
+            display: none;
+          }
         }
         &-tab {
-          &-avtice {
+          & :not(:first-child) {
+            margin-left: 70px;
+          }
+          &.ant-tabs-tab-active {
             .ant-btn {
               background-color: $primary-color;
               color: white;
