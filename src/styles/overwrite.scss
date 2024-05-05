@@ -1,0 +1,11 @@
+@import "./var.scss";
+.ant-btn {
+  font-size: 18px;
+  font-weight: 600;
+  font-family: $primary-font;
+  color: $primary-color;
+  line-height: 1;
+  padding: 10px 20px;
+  text-align: center;
+  height: auto;
+}

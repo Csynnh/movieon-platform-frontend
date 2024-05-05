@@ -1,12 +1,43 @@
-import { Tabs } from "@hilla/react-components/Tabs";
-import { Tab } from "@hilla/react-components/Tab";
-import { NavLink } from "react-router-dom";
-// @ts-ignore
+import { Button, Tabs, TabsProps } from "antd";
+import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../asset/icon/Logo.tsx";
-import "./index.scss";
 import Search from "../../components/header/Search";
+import "./index.scss";
 
 const Header = (props: { hasSearch?: boolean }) => {
+  const nav = useNavigate();
+
+  const items: TabsProps["items"] = [
+    {
+      key: "home",
+      label: <Button>Home</Button>,
+    },
+    {
+      key: "movie",
+      label: (
+        <Button>
+          <a href="#showtime">Phim</a>
+        </Button>
+      ),
+    },
+    {
+      key: "information",
+      label: <Button>Thông tin rạp</Button>,
+    },
+    {
+      key: "contact",
+      label: <Button>Liên hệ</Button>,
+    },
+  ];
+  const onChangeTab = (key: string) => {
+    if (key === "home") {
+      nav("/");
+    } else if (key === "movie") {
+      nav("#showtime");
+    } else if (key === "information") {
+      nav("/about");
+    }
+  };
   return (
     <>
       <div className={"header"}>
@@ -18,19 +49,11 @@ const Header = (props: { hasSearch?: boolean }) => {
           </h1>
           <Tabs
             slot="navbar"
+            defaultActiveKey=""
             className="flex gap-s header-nav"
-            theme={"equal-width-tabs"}
-          >
-            <Tab>
-              <a href="#showtime">Phim</a>
-            </Tab>
-            <Tab>
-              <NavLink to="/about">Thông tin rạp</NavLink>
-            </Tab>
-            <Tab>
-              <NavLink to="/contact">Liên hệ</NavLink>
-            </Tab>
-          </Tabs>
+            items={items}
+            onChange={onChangeTab}
+          ></Tabs>
         </header>
       </div>
       {props?.hasSearch && <Search />}
