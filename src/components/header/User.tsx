@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import getUser from "../../api/getUser";
 import { User } from "../../api/type";
-
+import "./User.scss";
 const UserPropType: React.FC = () => {
   const [user, setUser] = useState<User>();
   const userInLocal = localStorage.getItem("user");
@@ -17,8 +17,8 @@ const UserPropType: React.FC = () => {
   }, [userData]);
 
   const handleSelectItem = (event: any) => {
-    const eventValue = event.detail.value.text;
-    if (eventValue === "Sign out") {
+    const eventValue = event.key;
+    if (eventValue === "3") {
       handleSignOut();
     }
   };
@@ -39,6 +39,7 @@ const UserPropType: React.FC = () => {
     {
       key: "3",
       label: "Sign out",
+      onClick: handleSelectItem,
     },
   ];
   return (
@@ -57,7 +58,7 @@ const UserPropType: React.FC = () => {
           arrow={{ pointAtCenter: true }}
         >
           <Button>
-            <Avatar size="large">{user?.firstName}</Avatar>
+            <Avatar size="large">{user?.firstName?.split(" ")[1]}</Avatar>
           </Button>
         </Dropdown>
       )}
