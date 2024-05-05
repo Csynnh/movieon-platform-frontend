@@ -1,15 +1,13 @@
-import { NavLink } from "react-router-dom";
-import { Avatar } from "@hilla/react-components/Avatar";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Button, Dropdown, MenuProps } from "antd";
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import getUser from "../../api/getUser";
-import { MenuBar } from "@hilla/react-components/MenuBar";
-import { createRoot } from "react-dom/client";
 import { User } from "../../api/type";
 
 const UserPropType: React.FC = () => {
   const [user, setUser] = useState<User>();
   const userInLocal = localStorage.getItem("user");
-  const [avatarComponent, setAvatarComponent] = useState<HTMLDivElement>();
 
   const userData = userInLocal
     ? getUser(JSON.parse(userInLocal).username)
@@ -17,13 +15,6 @@ const UserPropType: React.FC = () => {
   useEffect(() => {
     userData && setUser(userData);
   }, [userData]);
-  useEffect(() => {
-    const container = document.createElement("div");
-    createRoot(container).render(
-      <Avatar name={`${user?.firstName.toUpperCase()}`} />
-    );
-    setAvatarComponent(container);
-  }, [user]);
 
   const handleSelectItem = (event: any) => {
     const eventValue = event.detail.value.text;
@@ -35,23 +26,21 @@ const UserPropType: React.FC = () => {
     localStorage.removeItem("user");
     window.location.reload();
   };
-  const menuBarItems = [
+
+  const items: MenuProps["items"] = [
     {
-      component: avatarComponent,
-      children: [
-        {
-          text: "Profile",
-        },
-        {
-          text: "Settings",
-        },
-        {
-          text: "Sign out",
-        },
-      ],
+      key: "1",
+      label: "Profile",
+    },
+    {
+      key: "2",
+      label: "Settings",
+    },
+    {
+      key: "3",
+      label: "Sign out",
     },
   ];
-
   return (
     <div className={"search-auth flex items-center"}>
       {!user ? (
@@ -59,14 +48,18 @@ const UserPropType: React.FC = () => {
           <NavLink to={"/signin"}>Log in</NavLink>
           <span>/</span>
           <NavLink to={"/signup"}>Sign up</NavLink>
-          <Avatar />
+          <Avatar size="large" icon={<UserOutlined />} />
         </>
       ) : (
-        <MenuBar
-          items={menuBarItems}
-          theme="tertiary-inline"
-          onItemSelected={handleSelectItem}
-        />
+        <Dropdown
+          menu={{ items }}
+          placement="bottomLeft"
+          arrow={{ pointAtCenter: true }}
+        >
+          <Button>
+            <Avatar size="large">{user?.firstName}</Avatar>
+          </Button>
+        </Dropdown>
       )}
     </div>
   );
