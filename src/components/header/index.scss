@@ -14,15 +14,29 @@
     padding: 1rem 2rem;
     gap: 50px;
     width: 80%;
-  }
-
-  vaadin-tabs {
-    justify-content: flex-end;
-    box-shadow: none;
-
-    &::part(tabs) {
-      max-width: 50%;
+    .ant {
+      &-btn {
+        border: 0;
+      }
+      &-tabs {
+        &-nav {
+          &::before {
+            border-bottom: 0;
+          }
+        }
+        &-tab {
+          &-avtice {
+            .ant-btn {
+              background-color: $primary-color;
+              color: white;
+            }
+          }
+        }
+      }
     }
+  }
+  &-logo {
+    margin: 0;
   }
 }
 .search {

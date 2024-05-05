@@ -1,5 +1,4 @@
 @import "../../style.scss";
-
 .banner {
   background-color: $primary-color;
   color: white;
@@ -73,35 +72,8 @@
     }
   }
   &-button {
-    margin-top: 20px;
-    width: fit-content;
     @media screen and (max-width: 768.98px) {
       margin-left: auto;
-    }
-    vaadin-button {
-      padding: 1.4rem 2rem;
-      &[theme="primary"] {
-        background-color: #fff;
-        color: $primary-color;
-      }
-      @media screen and (max-width: 425.98px) {
-        padding: 6px 8px;
-        font-size: 10px;
-        line-height: 1;
-        height: auto;
-        min-height: unset;
-      }
-      @media screen and (min-width: 425.98px) and (max-width: 769.98px) {
-        padding: 10px 14px;
-        font-size: 14px;
-        line-height: 1;
-        height: auto;
-        min-height: unset;
-      }
-    }
-    vaadin-button::part(label) {
-      padding: 0;
-      margin: 0;
     }
   }
 }

@@ -1,15 +1,13 @@
-import { Button } from "@hilla/react-components/Button";
-import { FC } from "react";
+import { Button } from "antd";
 import { NavLink } from "react-router-dom";
-import "./index.scss";
-
-export interface BannerProps {
+import "./styles.scss";
+export type BannerProps = {
   id: number;
   image: string;
   title: string;
   description: string;
-}
-const Banner: FC<BannerProps> = ({ image, title, description }) => {
+};
+const Banner = ({ image, title, description }: BannerProps) => {
   return (
     <div className={"banner"}>
       <div className="banner-container">
@@ -36,7 +34,7 @@ const Banner: FC<BannerProps> = ({ image, title, description }) => {
           </p>
 
           <NavLink to={`/movie/${1}`} className={"banner-button"}>
-            <Button theme="primary">Xem chi tiết</Button>
+            <Button type="default">Xem chi tiết</Button>
           </NavLink>
         </div>
       </div>
