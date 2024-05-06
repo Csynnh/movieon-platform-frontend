@@ -1,9 +1,6 @@
-import { Button } from "@hilla/react-components/Button.js";
-import { RadioButton } from "@hilla/react-components/RadioButton";
-import { RadioGroup } from "@hilla/react-components/RadioGroup";
+import { Radio } from "antd";
 import Calendaricon from "../../asset/icon/Calendaricon";
 import "./DateSelection.scss";
-import { Radio } from "antd";
 export const dateData = Array.from({ length: 7 }, (_, index) => {
   const date = new Date();
   date.setDate(new Date().getDate() + index);
@@ -15,14 +12,13 @@ export const dateData = Array.from({ length: 7 }, (_, index) => {
     year: "numeric",
   });
   const [weekday, day] = formattedDate.split(", ");
-  const label = (
-    <p>
-      <span className="day">{weekday}</span>
-      <br />
-      <span>{day}</span>
-    </p>
-  );
-  return { label, value: day };
+
+  return {
+    label: {
+      weekday,
+    },
+    value: day,
+  };
 });
 const DateSelection = (props: { dateSelected: any; setDateSelected: any }) => {
   const { dateSelected, setDateSelected } = props;
@@ -39,7 +35,16 @@ const DateSelection = (props: { dateSelected: any; setDateSelected: any }) => {
         <Radio.Group
           defaultValue={dateSelected}
           buttonStyle="solid"
-          options={dateData}
+          options={dateData?.map((item) => ({
+            label: (
+              <p className={`${item.value === dateSelected ? "checked" : ""}`}>
+                <span className="day">{item.label.weekday}</span>
+                <br />
+                <span>{item.value}</span>
+              </p>
+            ),
+            value: item.value,
+          }))}
           onChange={(e) => {
             setDateSelected(e.target.value);
           }}

@@ -1,55 +1,58 @@
 @import "../../styles/var.scss";
 .showtime {
-   &-selection {
+  &-selection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    width: 100%;
+    label {
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
+      gap: 3px;
+      font-weight: 600;
+      @media screen and (max-width: 425.98px) {
+        svg {
+          width: 20px;
+        }
+      }
+    }
+  }
+  .ant-radio.ant-wave-target {
+    display: none;
+  }
+  &-date {
+    vaadin-radio-button::part(radio) {
+      display: none;
+    }
+    vaadin-radio-group {
       width: 100%;
-      label {
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         gap: 3px;
-         font-weight: 600;
-         @media screen and (max-width: 425.98px) {
-            svg {
-               width: 20px;
-            }
-         }
+      &::part(group-field) {
+        width: 100%;
+        justify-content: flex-start;
       }
-   }
-   &-date {
-      vaadin-radio-button::part(radio) {
-         display: none;
-      }
-      vaadin-radio-group {
-         width: 100%;
-         &::part(group-field) {
-            width: 100%;
-            justify-content: flex-start;
-         }
-      }
+    }
 
-      vaadin-button {
-         cursor: pointer;
+    vaadin-button {
+      cursor: pointer;
 
-         outline: $primary-color 1px solid;
-         padding: 24px;
-         color: black;
-         &[theme~="primary"] {
-            background-color: $primary-color;
-            color: white;
-         }
-         @media screen and (max-width: 768.98px) {
-            padding: 16px;
-            p {
-               margin: 0;
-               font-size: 10px;
-               font-weight: 500;
-            }
-         }
+      outline: $primary-color 1px solid;
+      padding: 24px;
+      color: black;
+      &[theme~="primary"] {
+        background-color: $primary-color;
+        color: white;
       }
-      width: 100%;
-   }
+      @media screen and (max-width: 768.98px) {
+        padding: 16px;
+        p {
+          margin: 0;
+          font-size: 10px;
+          font-weight: 500;
+        }
+      }
+    }
+    width: 100%;
+  }
 }

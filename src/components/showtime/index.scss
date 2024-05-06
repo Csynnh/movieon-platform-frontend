@@ -67,11 +67,32 @@
     }
   }
 
-  .day {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 18.15px;
-    text-align: center;
+  &-date {
+    .ant-radio-wrapper {
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid $primary-color;
+      &-checked {
+        border-color: transparent;
+      }
+      span {
+        padding: 0;
+        p {
+          border-radius: 8px;
+          width: 100%;
+          padding: 6px 18px;
+          margin: 0;
+          &.checked {
+            background-color: $primary-color;
+            color: white;
+          }
+          .day {
+            font-size: 16px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
   }
   &-movies {
     margin-top: 50px;

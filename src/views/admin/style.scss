@@ -1,17 +1,72 @@
+@import "../../style.scss";
 .tenant {
-   &_schema {
-      width: 35%;
-      margin-left: auto;
-      margin-right: auto;
-      vaadin-button {
-         cursor: pointer;
-      }
+  &_schema {
+    margin-top: 50px;
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    vaadin-button {
+      cursor: pointer;
+    }
 
-      @media screen and (max-width: 1279.98px) {
-         width: 50%;
+    @media screen and (max-width: 1279.98px) {
+      width: 50%;
+    }
+    @media screen and (max-width: 1023.98px) {
+      width: 80%;
+    }
+  }
+}
+.ant-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.ant-col {
+  width: 100%;
+}
+.ant-form-item-row {
+  position: relative;
+  isolation: isolate;
+  .ant-typography {
+    min-width: 100px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    user-select: none;
+    z-index: 1;
+  }
+  .ant-input,
+  .ant-input-affix-wrapper.ant-input-password {
+    z-index: 2;
+    background-color: transparent;
+    position: relative;
+    box-shadow: none;
+    border-color: transparent;
+    border-bottom: 1px solid $primary-color;
+    border-radius: 0;
+    &:focus,
+    &.ant-input-affix-wrapper-focused {
+      border-bottom-color: #1890ff;
+      & + .ant-typography {
+        top: -15%;
+        left: 0;
+        color: #1890ff;
+        font-style: italic;
       }
-      @media screen and (max-width: 1023.98px) {
-         width: 80%;
-      }
-   }
+    }
+  }
+}
+.ant-form-item-label {
+  min-width: 100px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  z-index: 2;
+}
+.ant-btn {
+  width: 100%;
 }

@@ -51,7 +51,7 @@ export const routes = [
       },
 
       {
-        path: "/admin",
+        path: "/admin/login",
         element: (
           <ProtectedRoute>
             <Admin />
@@ -82,7 +82,7 @@ export const routes = [
         handle: { title: "Sign In" },
       },
       {
-        path: "/admin/dashboard",
+        path: "/admin",
         element: (
           <ProtectedRoute>
             <Dashboard />

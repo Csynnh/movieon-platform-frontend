@@ -1,38 +1,16 @@
-import { Button } from "@hilla/react-components/Button";
-import { FormLayout } from "@hilla/react-components/FormLayout";
-import { HorizontalLayout } from "@hilla/react-components/HorizontalLayout";
-import { VerticalLayout } from "@hilla/react-components/VerticalLayout";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { addTenant } from "../../api/addTenant";
-import InputField from "../../components/inputField/InputField";
-import { useForm } from "react-hook-form";
+import { Button, Card, Col, Form, Input, Typography } from "antd";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-import * as yup from "yup";
+import { addTenant } from "../../api/addTenant";
 import "./style.scss";
+import CustomInput_cp from "../../components/inputField/InputField";
 
-const schema = yup.object({
-  firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
-  username: yup.string().required("Username is required"),
-  email: yup.string().email("Email is invalid").required("Email is required"),
-  password: yup.string().required("Password is required"),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password")], "Passwords don't match"),
-});
 export const responsiveSteps = [
   { minWidth: "0", columns: 1 },
   { minWidth: "500px", columns: 2 },
 ];
 const Admin = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const [form] = Form.useForm();
 
   const onSubmit = async (data: any) => {
     const { firstName, lastName, username, email, password } = data;
@@ -58,89 +36,45 @@ const Admin = () => {
 
   return (
     <>
-      <div className="tenant_schema">
-        <VerticalLayout theme="spacing">
-          <HorizontalLayout
-            theme="spacing"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <h2
+      <Card className="tenant_schema">
+        <Form form={form}>
+          <Col span={24}>
+            <Typography.Title
               style={{
-                marginTop: "80px",
                 textAlign: "center",
-                flex: 1,
               }}
+              level={2}
             >
               Create New Tenant
-            </h2>
-          </HorizontalLayout>
-          <FormLayout responsiveSteps={responsiveSteps}>
-            <InputField
-              errors={errors}
-              label="First name"
+            </Typography.Title>
+          </Col>
+          <Col span={22}>
+            <CustomInput_cp
+              label="First Name"
               name="firstName"
-              register={register}
-            />
-            <InputField
-              errors={errors}
-              label="last name"
-              name="lastName"
-              register={register}
-            />
-            <InputField
-              colSpan={2}
-              errors={errors}
-              label="Username"
-              name="username"
-              register={register}
-            />
-
-            <InputField
-              colSpan={2}
-              errors={errors}
-              label="Email"
-              name="email"
-              register={register}
-              type="email"
-            />
-            <InputField
-              errors={errors}
+            ></CustomInput_cp>
+          </Col>
+          <Col span={22}>
+            <CustomInput_cp label="Last Name" name="lastName"></CustomInput_cp>
+          </Col>
+          <Col span={22}>
+            <CustomInput_cp label="Username" name="username"></CustomInput_cp>
+          </Col>
+          <Col span={22}>
+            <CustomInput_cp label="Email" name="email"></CustomInput_cp>
+          </Col>
+          <Col span={22}>
+            <CustomInput_cp
               label="Password"
               name="password"
-              register={register}
               type="password"
-            />
-            <InputField
-              errors={errors}
-              label="Confirm password"
-              name="confirmPassword"
-              register={register}
-              type="password"
-            />
-            <HorizontalLayout theme="spacing" style={{ marginTop: "20px" }}>
-              <Button
-                className="tenant__schema-button"
-                theme="primary"
-                onClick={handleSubmit(onSubmit)}
-                disabled={isSubmitting}
-              >
-                Create Tenant
-              </Button>
-              <Button
-                className="tenant__schema-button"
-                theme="secondary"
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-            </HorizontalLayout>
-          </FormLayout>
-        </VerticalLayout>
-      </div>
+            ></CustomInput_cp>
+          </Col>
+          <Col span={22}>
+            <Button onClick={() => form.submit()}>Create Tenant</Button>
+          </Col>
+        </Form>
+      </Card>
     </>
   );
 };

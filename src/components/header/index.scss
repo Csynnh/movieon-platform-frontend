@@ -115,15 +115,6 @@
     display: none;
     width: 24px;
   }
-  vaadin-menu-bar-item,
-  vaadin-avatar {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-  }
 }
 @media screen and (max-width: 425.98px) {
   .header {
@@ -223,15 +214,6 @@
     svg {
       width: 150px;
     }
-    vaadin-tabs {
-      margin-right: -65px;
-      &::part(tabs) {
-        max-width: 80%;
-      }
-      a {
-        font-size: 14px;
-      }
-    }
   }
 }
 @media screen and (min-width: 769.98px) and (max-width: 1024.98px) {
@@ -242,18 +224,7 @@
       justify-content: center;
     }
   }
-  .header {
-    vaadin-tabs {
-      margin-right: -80px;
 
-      &::part(tabs) {
-        max-width: 80%;
-      }
-      a {
-        font-size: 14px;
-      }
-    }
-  }
   .search {
     a {
       font-size: 12px;
@@ -263,11 +234,6 @@
     }
     &-field {
       padding: 0;
-
-      &::part(input-field) {
-        width: 100%;
-        height: 40px;
-      }
     }
   }
 }
