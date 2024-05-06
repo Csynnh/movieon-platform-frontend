@@ -71,28 +71,37 @@
       font-size: 18px;
       outline: none;
     }
+    .ant-input-wrapper {
+      overflow: hidden;
+      height: 100%;
+    }
     .ant-btn {
       &:hover {
         outline: none;
         border-color: transparent;
       }
     }
-    .ant-input {
-      outline: none;
-      border-color: transparent;
 
-      &-search-button {
-        outline: none;
-        border-color: transparent;
-        height: 31px;
-      }
-      &:hover {
-        outline: none;
-        border-color: transparent;
-      }
+    .ant-input,
+    .ant-input-outlined {
+      user-select: none;
+      height: 100%;
+      border: 0;
       &:focus {
         outline: none;
-        border: 1px solid $primary-color;
+        border: 0;
+        box-shadow: none;
+      }
+
+      &-search-button {
+        user-select: none;
+        height: 31px;
+        height: 100%;
+        border: 0;
+        &:hover {
+          outline: none;
+          border-color: transparent;
+        }
       }
     }
   }
