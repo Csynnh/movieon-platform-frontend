@@ -3,6 +3,7 @@ import { RadioButton } from "@hilla/react-components/RadioButton";
 import { RadioGroup } from "@hilla/react-components/RadioGroup";
 import Calendaricon from "../../asset/icon/Calendaricon";
 import "./DateSelection.scss";
+import { Radio } from "antd";
 export const dateData = Array.from({ length: 7 }, (_, index) => {
   const date = new Date();
   date.setDate(new Date().getDate() + index);
@@ -35,30 +36,14 @@ const DateSelection = (props: { dateSelected: any; setDateSelected: any }) => {
         </label>
       </div>
       <div className="showtime-date">
-        <RadioGroup value={dateSelected}>
-          {dateData?.map((item) => {
-            return (
-              <RadioButton
-                value={item.value}
-                key={item.value}
-                onClick={(event: any) => {
-                  if (event.currentTarget.value) {
-                    setDateSelected(event.currentTarget.value);
-                  }
-                }}
-              >
-                <label slot="label">
-                  <Button
-                    theme={dateSelected == item.value ? "primary" : "tertiary"}
-                    color="#0B2447"
-                  >
-                    {item.label}
-                  </Button>
-                </label>
-              </RadioButton>
-            );
-          })}
-        </RadioGroup>
+        <Radio.Group
+          defaultValue={dateSelected}
+          buttonStyle="solid"
+          options={dateData}
+          onChange={(e) => {
+            setDateSelected(e.target.value);
+          }}
+        ></Radio.Group>
       </div>
     </>
   );

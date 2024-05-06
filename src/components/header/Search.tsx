@@ -4,6 +4,7 @@ import UserPropType from "../../components/header/User";
 import { useState } from "react";
 import Menu from "./Menu";
 import MenuTab from "./MenuTab";
+import { Input } from "antd";
 
 const Search = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -17,6 +18,8 @@ const Search = () => {
   //     setIsOpenMenu(false);
   //   }
   // };\
+  // const Search = Input.Search;
+
   const handleClickMenu = () => {
     setIsOpenMenu(!isOpenMenu);
   };
@@ -27,14 +30,19 @@ const Search = () => {
           <Menu handle={handleClickMenu}></Menu>
           {isOpenMenu && <MenuTab></MenuTab>}
         </div>
-        <TextField
+        {/* <TextField
           placeholder={"Search"}
           onChange={(e) => console.log(e.target.value)}
           className={"search-field"}
           color={"secondary"}
         >
           <Icon slot="suffix" icon="vaadin:search" />
-        </TextField>
+        </TextField> */}
+        <Input.Search
+          className={"search-field"}
+          placeholder="input search text"
+          // onSearch={onSearch}
+        />
         <UserPropType />
       </div>
     </div>
