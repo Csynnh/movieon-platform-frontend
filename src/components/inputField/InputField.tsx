@@ -7,16 +7,23 @@ const CustomInput_cp = (props: {
 }) => {
   const { name, label, type } = props;
   return (
-    <>
-      <Form.Item name={name}>
-        {type && type === "password" ? (
-          <Input.Password></Input.Password>
-        ) : (
-          <Input></Input>
-        )}
-        <Typography.Text>{label}</Typography.Text>
-      </Form.Item>
-    </>
+    <Form.Item
+      name={name}
+      required
+      rules={[
+        {
+          required: true,
+          message: `Please input your ${label}!`,
+        },
+      ]}
+    >
+      {type && type === "password" ? (
+        <Input.Password></Input.Password>
+      ) : (
+        <Input></Input>
+      )}
+      <Typography.Text>{label}</Typography.Text>
+    </Form.Item>
   );
 };
 

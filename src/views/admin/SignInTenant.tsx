@@ -1,16 +1,16 @@
-import { Button, Col, Form } from "antd";
+import { Button, Col, Form, Input, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import { signInAdmin } from "../../api/signInAdmin";
 import Logo from "../../asset/icon/Logo";
 import SignInAdminImage from "../../asset/icon/SignInAdminImage";
-import CustomInput_cp from "../../components/inputField/InputField";
 import "./SignInTenant.scss";
 const SignInTenant = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const onSubmit = async (data: any) => {
-    const { username, password } = data;
+  const onSubmit = async (values: any) => {
+    console.log("data :>> ", values);
+    const { username, password } = values;
     if (username && password) {
       try {
         const response = await signInAdmin(username, password);
@@ -50,22 +50,47 @@ const SignInTenant = () => {
         <h1>
           <Logo />
         </h1>
-        <Form form={form} onFinish={onSubmit}>
-          <Col span={22}>
-            <CustomInput_cp label={"Username"} name="username"></CustomInput_cp>
+        <Form form={form} onFinish={onSubmit} autoFocus={false}>
+          <Col>
+            {/* <CustomInput_cp label={"Username"} name="username"></CustomInput_cp> */}
+            <Form.Item
+              name={"username"}
+              required
+              rules={[
+                {
+                  required: true,
+                  message: `Please input your username!`,
+                },
+              ]}
+            >
+              <Input></Input>
+              <Typography.Text>{"label"}</Typography.Text>
+            </Form.Item>
           </Col>
-          <Col span={22}>
-            <CustomInput_cp
+          <Col>
+            {/* <CustomInput_cp
               label={"Password"}
               name="password"
               type="password"
-            ></CustomInput_cp>
+            ></CustomInput_cp> */}
+            <Form.Item
+              name={"password"}
+              required
+              rules={[
+                {
+                  required: true,
+                  message: `Please input your password!`,
+                },
+              ]}
+            >
+              <Input.Password></Input.Password>
+              <Typography.Text>{"label"}</Typography.Text>
+            </Form.Item>
           </Col>
-
           <Button
+            htmlType="submit"
             className="tenant__schema-button"
             type="primary"
-            onClick={() => form.submit()}
           >
             Submit
           </Button>

@@ -15,17 +15,20 @@
     @media screen and (max-width: 1023.98px) {
       width: 80%;
     }
+
+    .ant-form {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+      .ant-col {
+        width: 100%;
+      }
+    }
   }
 }
-.ant-form {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-}
-.ant-col {
-  width: 100%;
-}
+
 .ant-form-item-row {
   position: relative;
   isolation: isolate;

@@ -33,7 +33,7 @@ import "./Dashboard.scss";
 import DashboardAdd from "./DashboardAdd";
 import Tenant from "./Tenant";
 import { useForm } from "react-hook-form";
-import { Button } from "antd";
+import { Button, Col, Form, Select } from "antd";
 const schema = yup.object({
   movieId: yup.string().required("Movie name is required"),
   theaterId: yup.string().required("Theater is required"),
@@ -47,7 +47,7 @@ export const convertToDate = (date: string) => {
 };
 const Dashboard = () => {
   const [tenant, setTenant] = useState<TenantType>();
-  const [movieData, setMovieData] = useState<any[]>([]);
+  const [movieOptions, setMovieOptions] = useState<any[]>([]);
   const [cinemaSelected, setCinemaSelected] = useState<string>();
   const [listCinema, setListCinema] = useState<Cinema[]>([]);
   const [openForm, setOpenForm] = useState(false);
@@ -118,7 +118,12 @@ const Dashboard = () => {
         ...item,
         released: new Date(item.released).toLocaleDateString(),
       }));
-      setMovieData(movies);
+      setMovieOptions(
+        movies?.map((item) => ({
+          key: item?.movieId,
+          label: item?.title,
+        }))
+      );
     }
   }, [data.length]);
 
@@ -316,64 +321,72 @@ const Dashboard = () => {
           {openForm && (
             <div className="dashboard-form">
               <div className="dashboard-form-container">
-                <CloseForm handle={handleChangeOpenForm}></CloseForm>
-                <div className="dashboard-form-title">
-                  <p>Thêm lịch chiếu</p>
-                </div>
-                <div className="dashboard-form-input">
-                  <div className="dashboard-field">
-                    <ComboBox
-                      {...register("movieId")}
-                      label="Tên phim"
-                      itemLabelPath="title"
-                      itemValuePath="movieId"
-                      items={movieData}
-                    />
-                    {errors?.movieId && <p>{errors?.movieId?.message}</p>}
+                <Form>
+                  <CloseForm handle={handleChangeOpenForm}></CloseForm>
+                  <div className="dashboard-form-title">
+                    <p>Thêm lịch chiếu</p>
                   </div>
-                  <div className="dashboard-field">
-                    <ComboBox
-                      {...register("theaterId")}
-                      label="Phòng chiếu"
-                      itemLabelPath="name"
-                      itemValuePath="theaterId"
-                      items={theaterData}
-                    />
-                    {errors?.theaterId && <p>{errors?.theaterId?.message}</p>}
+                  <div className="dashboard-form-input">
+                    <div className="dashboard-field">
+                      {/* <ComboBox
+                        {...register("movieId")}
+                        label="Tên phim"
+                        itemLabelPath="title"
+                        itemValuePath="movieId"
+                        items={movieOptions}
+                      /> */}
+                      <Col>
+                        <Form.Item name={"movieId"} label={"Tên phim"}>
+                          <Select options={movieOptions}></Select>
+                        </Form.Item>
+                      </Col>
+                      {errors?.movieId && <p>{errors?.movieId?.message}</p>}
+                    </div>
+                    <div className="dashboard-field">
+                      <ComboBox
+                        {...register("theaterId")}
+                        label="Phòng chiếu"
+                        itemLabelPath="name"
+                        itemValuePath="theaterId"
+                        items={theaterData}
+                      />
+
+                      {errors?.theaterId && <p>{errors?.theaterId?.message}</p>}
+                    </div>
+                    <div className="dashboard-field">
+                      <DateTimePicker
+                        {...register("showTime")}
+                        label="Lịch chiếu "
+                        datePlaceholder="Date"
+                        timePlaceholder="Time"
+                        step={60 * 20}
+                        min={format(
+                          add(new Date(), { minutes: 5 }),
+                          "yyyy-MM-dd'T'HH:mm"
+                        )}
+                        max={format(
+                          add(new Date(), { days: 30 }),
+                          "yyyy-MM-dd'T'HH:mm"
+                        )} // Convert maxValue to string if necessary
+                        autoOpenDisabled
+                        errorMessage={errorDate}
+                        onValueChanged={({ detail: { value: newValue } }) => {
+                          const date = newValue ?? "";
+                          setValue("showTime", date);
+                          if (isBefore(date, minDate)) {
+                            setErrorDate(
+                              "Too early, choose another date and time"
+                            );
+                          } else {
+                            setErrorDate("");
+                          }
+                        }}
+                      />
+                      {errors?.showTime && <p>{errors?.showTime?.message}</p>}
+                    </div>
                   </div>
-                  <div className="dashboard-field">
-                    <DateTimePicker
-                      {...register("showTime")}
-                      label="Lịch chiếu "
-                      datePlaceholder="Date"
-                      timePlaceholder="Time"
-                      step={60 * 20}
-                      min={format(
-                        add(new Date(), { minutes: 5 }),
-                        "yyyy-MM-dd'T'HH:mm"
-                      )}
-                      max={format(
-                        add(new Date(), { days: 30 }),
-                        "yyyy-MM-dd'T'HH:mm"
-                      )} // Convert maxValue to string if necessary
-                      autoOpenDisabled
-                      errorMessage={errorDate}
-                      onValueChanged={({ detail: { value: newValue } }) => {
-                        const date = newValue ?? "";
-                        setValue("showTime", date);
-                        if (isBefore(date, minDate)) {
-                          setErrorDate(
-                            "Too early, choose another date and time"
-                          );
-                        } else {
-                          setErrorDate("");
-                        }
-                      }}
-                    />
-                    {errors?.showTime && <p>{errors?.showTime?.message}</p>}
-                  </div>
-                </div>
-                <Button onClick={handleSubmit(handleSubmitForm)}>Thêm</Button>
+                  <Button onClick={handleSubmit(handleSubmitForm)}>Thêm</Button>
+                </Form>
               </div>
             </div>
           )}
