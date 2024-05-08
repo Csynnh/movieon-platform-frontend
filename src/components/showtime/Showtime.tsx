@@ -88,6 +88,7 @@ const Showtime = () => {
             <h2>Chi tiết giá vé</h2>
           </div>
           <div className="showtime-tickets">
+            <div className="showtime-animate"></div>
             <DetailTicket />
           </div>
         </div>

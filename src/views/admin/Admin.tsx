@@ -2,6 +2,7 @@ import { Button, Card, Col, Form, Typography } from "antd";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { addTenant } from "../../api/addTenant";
+import "toastify-js/src/toastify.css";
 import CustomInput_cp from "../../components/inputField/InputField";
 import "./style.scss";
 

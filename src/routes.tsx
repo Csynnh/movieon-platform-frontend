@@ -76,11 +76,7 @@ export const routes = [
         element: <Login />,
         handle: { title: "Login Movieon" },
       },
-      {
-        path: "/admin/signin",
-        element: <SignInAdmin />,
-        handle: { title: "Sign In" },
-      },
+
       {
         path: "/admin",
         element: (
@@ -91,6 +87,11 @@ export const routes = [
         handle: { title: "Dashboard" },
       },
     ],
+  },
+  {
+    path: "/admin/signin",
+    element: <SignInAdmin />,
+    handle: { title: "Sign In" },
   },
 ] as any;
 

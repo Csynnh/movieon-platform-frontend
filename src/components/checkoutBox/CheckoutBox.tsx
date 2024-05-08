@@ -44,7 +44,7 @@ const CheckoutBox = (props: {
             }}
           >
             <span className="bill-title">Ghế đã đặt: </span>
-            {seatSelected()}
+            <strong>{seatSelected()}</strong>
           </div>
           <div className="bill-desc">
             <span className="bill-title">Bắp nước: </span>

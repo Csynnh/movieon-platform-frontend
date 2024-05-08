@@ -128,9 +128,12 @@ const MovieDetail = () => {
         <>
           <div className={"movie"}>
             <div className="movie-container">
+              <div className="movie-poster">
+                <img src={movieDetail?.poster} alt="poster" />
+              </div>
               <div className="movie-detail">
                 <div className="movie-title">
-                  <h2>{movieDetail?.title}</h2>
+                  <h3>{movieDetail?.title}</h3>
                   <div className="line"></div>
                 </div>
                 <div className="movie-detail-desc">
@@ -190,9 +193,6 @@ const MovieDetail = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="movie-poster">
-                <img src={movieDetail?.poster} alt="poster" />
               </div>
             </div>
             <div className="movie-wrap">

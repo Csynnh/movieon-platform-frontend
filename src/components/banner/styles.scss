@@ -11,9 +11,8 @@
     width: 80%;
     display: flex;
     align-items: center;
-    padding-block: 40px;
-    justify-content: center;
-    gap: 45px;
+    padding: 1rem 0rem;
+    justify-content: left;
     @media screen and (max-width: 769.98px) {
       gap: 15px;
       width: 90%;
@@ -38,6 +37,7 @@
     flex-direction: column;
     gap: 16px;
     width: 50%;
+    margin-left: -30px;
     @media screen and (max-width: 425.98px) {
       gap: 2px;
       h2 {
@@ -46,9 +46,9 @@
     }
   }
   &-title {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 800;
-    line-height: 33.89px;
+    // line-height: 33.89px;
     color: white;
     margin-bottom: 14px;
     @media screen and (min-width: 425.98px) and (max-width: 769.98px) {
@@ -58,7 +58,7 @@
   }
   &-detail {
     margin: 0;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 24.3px;
     span {
       font-weight: 200;
