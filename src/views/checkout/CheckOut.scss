@@ -126,67 +126,18 @@
     border-radius: 5px;
     height: fit-content;
     font-size: 20px;
-    form {
-      display: flex;
-      padding-top: 50px;
-      flex-direction: column;
-      .input {
-        position: relative;
-        border-bottom: 1px solid $primary-color;
-        // max-width: 400px;
-        width: 100%;
-        span {
-          position: absolute;
-          user-select: none;
-          top: 50%;
-          left: 0;
-          transition: all ease 0.3s;
-          font-style: italic;
-          color: $primary-color;
-          font-size: 16px;
-          font-weight: 500;
-          &.ontop {
-            top: 0%;
-          }
-        }
-        input {
-          outline: none;
-          border: none;
-          cursor: pointer;
-          width: 100%;
-        }
-        input:focus {
-          & + span,
-          & + span.ontop {
-            top: 0%;
-          }
-        }
-      }
-    }
   }
   &-payment {
     display: flex;
     flex-direction: column;
     margin-top: -20px;
+    width: 100%;
     p {
       font-weight: 700;
       margin-bottom: 0;
     }
-    vaadin-radio-button[checked] {
-      &::part(radio) {
-        background-color: $primary-color;
-        outline: $primary-color;
-      }
-    }
   }
 
-  vaadin-button {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: -30px;
-    width: 75%;
-    background: $primary-color;
-  }
   .action-btn {
     cursor: pointer;
   }
@@ -324,15 +275,8 @@
         margin-top: 20px;
         font-size: 14px;
       }
-      vaadin-radio-button {
-        font-size: 12px;
-        font-weight: 500;
-      }
     }
-    vaadin-button {
-      margin-top: -10px;
-      width: 100%;
-    }
+
     &-overlay-container svg {
       top: 50px;
       right: 17px;

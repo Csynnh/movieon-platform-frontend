@@ -40,6 +40,12 @@ const MovieComponent = (props: {
                   </span>
                 ))}
               </p>
+              <p>
+                <span>Noi dung: </span>
+                <span className="movie__cp-details-body">
+                  {props?.movie?.fullplot} phút
+                </span>
+              </p>
             </div>
             <Button type="primary">
               <NavLink

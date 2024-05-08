@@ -1,4 +1,4 @@
-import { Form, Input, Typography } from "antd";
+import { Form, Input } from "antd";
 import "./style.scss";
 const CustomInput_cp = (props: {
   name: string;
@@ -9,6 +9,7 @@ const CustomInput_cp = (props: {
   return (
     <Form.Item
       name={name}
+      label={label}
       required
       rules={[
         {
@@ -22,7 +23,6 @@ const CustomInput_cp = (props: {
       ) : (
         <Input></Input>
       )}
-      <Typography.Text>{label}</Typography.Text>
     </Form.Item>
   );
 };

@@ -98,6 +98,8 @@
     margin: 50px auto;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     position: relative;
     &.seat {
@@ -139,6 +141,7 @@
       transform: translate(-50%, -50%);
       border-radius: 12px;
       border: 2px solid $primary-color;
+      opacity: 0.3;
     }
   }
   .dou-seat {
@@ -170,7 +173,7 @@
       }
       &.active {
         background-color: white;
-        border: 3px solid $primary-color;
+        border: 1px solid $primary-color;
 
         // color: white;
         // opacity: 0.8;

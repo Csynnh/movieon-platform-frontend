@@ -1,46 +1,20 @@
 import combo from "../../asset/image/combo.png";
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Form, Radio } from "antd";
+import { Button, Col, Input, Radio, Form } from "antd";
 import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import * as yup from "yup";
 import { addSeat } from "../../api/addSeat";
 import { Movie, SeatRequest } from "../../api/type";
 import { formatDate } from "../../util/date";
 import { convertToVietnamese } from "../../util/language";
 import { AddBtn } from "./AddBtn";
 import "./CheckOut.scss";
-import Input from "./Input";
 import { MinusBtn } from "./MinusBtn";
 import Overlay from "./Overlay";
-const schema = yup.object({
-  customerName: yup.string().required("Customer name is required"),
-  customerPhone: yup
-    .string()
-    .required("Phone number is required")
-    .test("startsWithZero", "Phone number must start with 0", (val) => {
-      return val.charAt(0) === "0";
-    })
-    .test("len", "Must be exactly 10 characters", (val) => {
-      return val.length === 10;
-    }),
-  customerEmail: yup
-    .string()
-    .email("Email is invalid")
-    .required("Email is required"),
-});
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+
   useEffect(() => {
     if (!location?.state?.data) {
       navigate("/");
@@ -66,7 +40,7 @@ const CheckOut = () => {
   const [tempCombo, setTemp] = useState(priceCombo * count);
   const [total, setTotal] = useState(priceTicket + tempCombo);
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
-
+  const [form] = Form.useForm();
   const handleIncrease = () => {
     setCount(count + 1); // re-render
     setTemp(priceCombo * (count + 1));
@@ -84,7 +58,8 @@ const CheckOut = () => {
     setIsOpenOverlay(false);
   };
 
-  const handleSubmitForm = async () => {
+  const handleSubmitForm = async (values: any) => {
+    console.log(values);
     const seatsData = data?.seats?.map((seat) => {
       return {
         ...seat,
@@ -224,54 +199,59 @@ const CheckOut = () => {
               </div>
             </div>
             <div className="checkout-right">
-              <Form autoFocus={false}>
-                <Input
-                  errors={errors}
-                  colSpan={2}
-                  label="Tên Khách hàng"
-                  name="customerName"
-                  register={register}
-                />
-                <Input
-                  errors={errors}
-                  colSpan={2}
-                  label="Số điện thoại"
-                  name="customerPhone"
-                  register={register}
-                />
-                <Input
-                  errors={errors}
-                  colSpan={2}
-                  label="Email"
-                  name="customerEmail"
-                  register={register}
-                />
-                <div className="checkout-payment">
-                  <p
-                    style={{
-                      marginBottom: 10,
-                    }}
+              <Form
+                autoFocus={false}
+                layout="vertical"
+                form={form}
+                onFinish={handleSubmitForm}
+              >
+                <Col>
+                  <Form.Item
+                    required
+                    label="Tên Khách hàng"
+                    name="customerName"
                   >
-                    Phương thức thanh toán
-                  </p>
-                  <div
+                    <Input placeholder="Nhap Tên Khách hàng"></Input>
+                  </Form.Item>
+                </Col>
+
+                <Col>
+                  <Form.Item
+                    required
+                    label="Số điện thoại"
+                    name="customerPhone"
+                  >
+                    <Input placeholder="Nhap Số điện thoại"></Input>
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item required label="Email" name="customerEmail">
+                    <Input placeholder="Nhap Email"></Input>
+                  </Form.Item>
+                </Col>
+                <Col className="checkout-payment">
+                  <Form.Item
+                    required
+                    label="Phương thức thanh toán"
+                    name={"paymentMethod"}
                     className="radio"
+                    initialValue={"bank"}
                     style={{
                       marginBottom: 20,
                     }}
                   >
-                    <Radio.Group>
+                    <Radio.Group buttonStyle="solid">
                       <Radio.Button value="bank">Ngân hàng</Radio.Button>
                       <Radio.Button value="momo">Momo</Radio.Button>
                       <Radio.Button value="vnpay">VnPay</Radio.Button>
                     </Radio.Group>
-                  </div>
-                </div>
+                  </Form.Item>
+                </Col>
 
                 <Button
                   type="primary"
-                  onClick={handleSubmit(handleSubmitForm)}
-                  disabled={isSubmitting}
+                  htmlType="submit"
+                  // disabled={isSubmitting}
                 >
                   Xác nhận
                 </Button>

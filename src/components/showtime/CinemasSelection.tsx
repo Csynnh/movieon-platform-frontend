@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Select, Skeleton } from "antd";
 import { Cinema } from "../../api/type";
 import LocaIcon from "../../asset/icon/LocaIcon";
 import "./CinemasSelection.scss";
@@ -11,6 +11,9 @@ const CinemasSelection = (props?: {
     value: item?.cinemaId,
     label: item?.name,
   }));
+  if (!props?.value) {
+    return <Skeleton.Button active={true} size="large" />;
+  }
   return (
     <div className={"showtime-selection"}>
       <label htmlFor="cinemas">
