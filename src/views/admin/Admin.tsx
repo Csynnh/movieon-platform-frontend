@@ -1,9 +1,9 @@
-import { Button, Card, Col, Form, Input, Typography } from "antd";
+import { Button, Card, Col, Form, Typography } from "antd";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { addTenant } from "../../api/addTenant";
-import "./style.scss";
 import CustomInput_cp from "../../components/inputField/InputField";
+import "./style.scss";
 
 export const responsiveSteps = [
   { minWidth: "0", columns: 1 },
@@ -37,7 +37,7 @@ const Admin = () => {
   return (
     <>
       <Card className="tenant_schema">
-        <Form form={form}>
+        <Form form={form} onFinish={onSubmit}>
           <Col span={24}>
             <Typography.Title
               style={{

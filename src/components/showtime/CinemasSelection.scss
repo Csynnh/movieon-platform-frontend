@@ -1,20 +1,38 @@
+@import "../../style.scss";
 .showtime {
-   &-selection {
+  &-selection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    label {
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-      label {
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         gap: 3px;
-         font-weight: 600;
-         @media screen and (max-width: 425.98px) {
-            svg {
-               width: 20px;
-            }
-         }
+      gap: 3px;
+      font-weight: 600;
+      @media screen and (max-width: 425.98px) {
+        svg {
+          width: 20px;
+        }
       }
-   }
+    }
+    .ant-select-dropdown {
+      .ant-select-item {
+        background-color: red;
+      }
+    }
+  }
+}
+// @Overwrite
+.ant-select-item {
+  &.ant-select-item-option {
+    &.ant-select-item-option-active {
+      background-color: $secondary-color;
+    }
+    &.ant-select-item-option-selected {
+      background-color: $primary-color;
+      color: white;
+    }
+  }
 }

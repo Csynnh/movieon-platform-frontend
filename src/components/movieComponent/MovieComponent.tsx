@@ -40,10 +40,6 @@ const MovieComponent = (props: {
                   </span>
                 ))}
               </p>
-              <p>
-                <span>Rated: </span>
-                <span>{props?.movie?.rated}</span>
-              </p>
             </div>
             <Button type="primary">
               <NavLink

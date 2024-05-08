@@ -1,29 +1,14 @@
-import { Button } from "@hilla/react-components/Button.js";
-import { FormLayout } from "@hilla/react-components/FormLayout.js";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, Col, Form } from "antd";
+import { useNavigate } from "react-router-dom";
+import Toastify from "toastify-js";
 import { signInAdmin } from "../../api/signInAdmin";
 import Logo from "../../asset/icon/Logo";
 import SignInAdminImage from "../../asset/icon/SignInAdminImage";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import Toastify from "toastify-js";
-import * as yup from "yup";
-import Input from "../checkout/Input";
-import { responsiveSteps } from "./Admin";
+import CustomInput_cp from "../../components/inputField/InputField";
 import "./SignInTenant.scss";
-const schema = yup.object({
-  username: yup.string().required("Username is required"),
-  password: yup.string().required("Password is required"),
-});
 const SignInTenant = () => {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const [form] = Form.useForm();
   const onSubmit = async (data: any) => {
     const { username, password } = data;
     if (username && password) {
@@ -65,31 +50,26 @@ const SignInTenant = () => {
         <h1>
           <Logo />
         </h1>
-        <FormLayout responsiveSteps={responsiveSteps}>
-          <Input
-            errors={errors}
-            colSpan={2}
-            label="Username"
-            name="username"
-            register={register}
-          />
-          <Input
-            errors={errors}
-            colSpan={2}
-            label="Password"
-            name="password"
-            register={register}
-            type={"password"}
-          />
+        <Form form={form} onFinish={onSubmit}>
+          <Col span={22}>
+            <CustomInput_cp label={"Username"} name="username"></CustomInput_cp>
+          </Col>
+          <Col span={22}>
+            <CustomInput_cp
+              label={"Password"}
+              name="password"
+              type="password"
+            ></CustomInput_cp>
+          </Col>
+
           <Button
             className="tenant__schema-button"
-            theme="primary"
-            onClick={handleSubmit(onSubmit)}
-            disabled={isSubmitting}
+            type="primary"
+            onClick={() => form.submit()}
           >
             Submit
           </Button>
-        </FormLayout>
+        </Form>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { Button } from "@hilla/react-components/Button";
 import { ComboBox } from "@hilla/react-components/ComboBox";
 import { ConfirmDialog } from "@hilla/react-components/ConfirmDialog";
 import { DateTimePicker } from "@hilla/react-components/DateTimePicker";
@@ -34,6 +33,7 @@ import "./Dashboard.scss";
 import DashboardAdd from "./DashboardAdd";
 import Tenant from "./Tenant";
 import { useForm } from "react-hook-form";
+import { Button } from "antd";
 const schema = yup.object({
   movieId: yup.string().required("Movie name is required"),
   theaterId: yup.string().required("Theater is required"),
@@ -295,7 +295,6 @@ const Dashboard = () => {
               {(record) => (
                 <div className="dashboard-actions">
                   <Button
-                    theme="tertiary-inline"
                     onClick={() => {
                       !dialogOpened && setDialogOpened(true);
                       setSelectedCalendar(record.item?.calendarId);
@@ -304,7 +303,6 @@ const Dashboard = () => {
                     <TrashIcon />
                   </Button>
                   <Button
-                    theme="tertiary-inline"
                     onClick={() => {
                       handleEditCalendar(record.item);
                     }}

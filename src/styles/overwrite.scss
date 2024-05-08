@@ -14,3 +14,54 @@
     background-color: $primary-color;
   }
 }
+.ant-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  .ant-form-item-row {
+    position: relative;
+    isolation: isolate;
+    .ant-typography {
+      min-width: 100px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 10px;
+      user-select: none;
+      z-index: 1;
+      color: $primary-color;
+      font-style: italic;
+      transition: all 0.3s ease-in-out;
+    }
+    .ant-input,
+    .ant-input-affix-wrapper.ant-input-password {
+      z-index: 2;
+      background-color: transparent;
+      position: relative;
+      box-shadow: none;
+      border: 0;
+      border-bottom: 1px solid $primary-color;
+      border-radius: 0;
+      .ant-input {
+        border: 0;
+      }
+      &:focus,
+      &.ant-input-affix-wrapper-focused {
+        border-bottom-color: #1890ff;
+        & + .ant-typography {
+          top: -15%;
+          left: 0;
+          color: #1890ff;
+        }
+      }
+    }
+  }
+  .ant-col {
+    width: 100%;
+  }
+  .ant-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

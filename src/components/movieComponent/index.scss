@@ -65,9 +65,20 @@
   }
   .ant-btn {
     width: fit-content;
+    margin-block: 18px;
+    padding: 0;
+    border: 0;
+    .movie__cp-link {
+      padding: 10px 20px;
+      background-color: inherit;
+      border-radius: inherit;
+    }
   }
   &-title {
     font-weight: 700;
+    margin: 0;
+    font-size: 20px;
+    margin-top: 20px;
   }
   @media screen and (max-width: 768.98px) {
     &-title {

@@ -1,12 +1,15 @@
 import { Button, Tabs, TabsProps } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../asset/icon/Logo.tsx";
 import Search from "../../components/header/Search";
 import "./index.scss";
 
 const Header = (props: { hasSearch?: boolean }) => {
   const nav = useNavigate();
-
+  const local = useLocation();
+  const defaultActiveKey = local.pathname.includes("/movie/")
+    ? "movie"
+    : "home";
   const items: TabsProps["items"] = [
     {
       key: "home",
@@ -49,7 +52,7 @@ const Header = (props: { hasSearch?: boolean }) => {
           </h1>
           <Tabs
             slot="navbar"
-            defaultActiveKey=""
+            defaultActiveKey={defaultActiveKey}
             className="flex gap-s header-nav"
             items={items}
             onChange={onChangeTab}

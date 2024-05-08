@@ -1,9 +1,9 @@
-import { Button } from "@hilla/react-components/Button.js";
 import { useState } from "react";
 import comboPoster from "../../asset/image/combo-poster.png";
 import { AddBtn } from "../checkout/AddBtn";
 import { MinusBtn } from "../checkout/MinusBtn";
 import "./Combo.scss";
+import { Button } from "antd";
 
 const Combo = () => {
   const [count, setCount] = useState(0); // khoi tao 1 state va 1 ham de thay doi trang thai
