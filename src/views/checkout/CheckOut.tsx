@@ -208,6 +208,12 @@ const CheckOut = () => {
                 <Col>
                   <Form.Item
                     required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập trường này",
+                      },
+                    ]}
                     label="Tên Khách hàng"
                     name="customerName"
                   >
@@ -218,6 +224,12 @@ const CheckOut = () => {
                 <Col>
                   <Form.Item
                     required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập trường này",
+                      },
+                    ]}
                     label="Số điện thoại"
                     name="customerPhone"
                   >
@@ -225,13 +237,29 @@ const CheckOut = () => {
                   </Form.Item>
                 </Col>
                 <Col>
-                  <Form.Item required label="Email" name="customerEmail">
+                  <Form.Item
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập trường này",
+                      },
+                    ]}
+                    label="Email"
+                    name="customerEmail"
+                  >
                     <Input placeholder="Nhap Email"></Input>
                   </Form.Item>
                 </Col>
                 <Col className="checkout-payment">
                   <Form.Item
                     required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập trường này",
+                      },
+                    ]}
                     label="Phương thức thanh toán"
                     name={"paymentMethod"}
                     className="radio"

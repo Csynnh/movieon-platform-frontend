@@ -111,7 +111,7 @@ const MovieDetail = () => {
     setIsOpenBill(false);
   };
   const handleSelectCinema = (event: any) => {
-    event.detail?.value && setCinemaSelected(event.detail?.value?.cinemaId);
+    event && setCinemaSelected(event);
   };
   const handleChangeSeat = (id: string) => {
     const seatIndex = seatSelected.findIndex((seat) => seat.id === id);

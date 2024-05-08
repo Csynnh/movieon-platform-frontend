@@ -24,15 +24,39 @@
     }
   }
 }
-// @Overwrite
-.ant-select-item {
-  &.ant-select-item-option {
-    &.ant-select-item-option-active {
-      background-color: $secondary-color;
-    }
-    &.ant-select-item-option-selected {
-      background-color: $primary-color;
-      color: white;
+
+.ant-select.ant-select-outlined {
+  min-width: 300px;
+  height: 44px;
+  .ant-select-selector {
+    height: 100%;
+    padding: 14px 28px;
+    border-radius: 100rem;
+  }
+}
+.ant-select-dropdown {
+  border-radius: 18px;
+  padding: 8px;
+  // @Overwrite
+  .rc-virtual-list-holder-inner {
+    gap: 4px;
+  }
+  .ant-select-item {
+    height: 44px;
+    border-radius: 52px;
+    &.ant-select-item-option {
+      &.ant-select-item-option-active {
+        background-color: $secondary-color;
+      }
+      &.ant-select-item-option-selected {
+        background-color: $primary-color;
+        color: white;
+      }
+      .ant-select-item-option-content {
+        padding-left: 4px;
+        display: flex;
+        align-items: center;
+      }
     }
   }
 }

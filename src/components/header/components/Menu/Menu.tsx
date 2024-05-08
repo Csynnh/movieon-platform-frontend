@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Action } from "../../views/checkout/AddBtn";
+import { Action } from "../../../../views/checkout/AddBtn";
 
 const Menu: FC<Action> = ({ handle }) => {
   return (

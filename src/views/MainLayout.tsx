@@ -10,7 +10,7 @@ export default function MainLayout() {
     <Layout
       className="w-full "
       style={{
-        background: "#fff",
+        background: "#f9f9f9",
       }}
     >
       <Header hasSearch={true} />

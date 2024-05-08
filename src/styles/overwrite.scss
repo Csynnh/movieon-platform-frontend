@@ -5,10 +5,12 @@
   font-family: $primary-font;
   color: $primary-color;
   line-height: 1;
-  padding: 10px 20px;
+  padding: 12px 24px;
   text-align: center;
+  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   height: auto;
-  box-shadow: none;
+  border-radius: 12px;
   &.ant-btn-primary {
     color: white;
     background-color: $primary-color;
@@ -19,18 +21,25 @@
   align-items: center;
   flex-direction: column;
   gap: 10px;
-
   .ant-col {
-    width: 100%;
-    .ant-row {
-      &.ant-form-item-row {
-        .ant-col.ant-form-item-label {
+    &:not(.ant-form-item-label) {
+      width: 100%;
+      .ant-form-item-control-input-content {
+        & > .ant-input,
+        & > .ant-input-password {
+          box-shadow: unset;
+          border-radius: 100rem;
+          padding: 10px 20px;
         }
-        .ant-form-item-control {
-          .ant-input {
-            box-shadow: none;
-          }
-        }
+      }
+    }
+    .ant-form-item-label {
+      font-size: 16px;
+      color: $primary-color;
+      font-style: italic;
+      font-weight: 500;
+      label.ant-form-item-required::before {
+        content: "";
       }
     }
   }

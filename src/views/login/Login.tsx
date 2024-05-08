@@ -8,11 +8,15 @@ import PhoneIcon from "../../asset/icon/PhoneIcon";
 import SignIn from "../../asset/image/login.png";
 import CustomInput_cp from "../../components/inputField/InputField";
 import "./Login.scss";
+import { useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit = async (data: any) => {
+    setIsSubmitting(true);
     const { username, password } = data;
     if (username && password) {
       try {
@@ -49,12 +53,18 @@ const Login = () => {
         }).showToast();
       }
     }
+    setIsSubmitting(false);
   };
   return (
     <div className="login">
       <div className="login-container">
         <div className="login-left">
-          <Form className="login-form" onFinish={onSubmit} form={form}>
+          <Form
+            className="login-form"
+            layout="vertical"
+            onFinish={onSubmit}
+            form={form}
+          >
             <Col span={22}>
               <CustomInput_cp name="username" label="Username" />
             </Col>
@@ -69,7 +79,9 @@ const Login = () => {
               <a href="/">Quên mật khẩu</a>
             </div>
             <div className="login-button-wrap">
-              <Button onClick={() => form.submit()}>Đăng nhập</Button>
+              <Button htmlType="submit" loading={isSubmitting}>
+                Đăng nhập
+              </Button>
               <Button>
                 <div className="login-btn">
                   <div className="login-lable">Đăng nhập bằng Google</div>

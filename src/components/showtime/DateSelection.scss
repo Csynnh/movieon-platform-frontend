@@ -18,11 +18,17 @@
         }
       }
     }
-  }
-
-  &-date {
-    .ant-radio.ant-wave-target {
-      display: none;
+    .showtime-date {
+      .ant-radio.ant-wave-target {
+        display: none;
+      }
+      .ant-radio-wrapper,
+      .ant-radio-wrapper-checked {
+        border-radius: 100rem;
+        p.checked {
+          border-radius: 100rem;
+        }
+      }
     }
   }
 }

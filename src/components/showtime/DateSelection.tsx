@@ -28,27 +28,28 @@ const DateSelection = (props: { dateSelected: any; setDateSelected: any }) => {
       <div className="showtime-selection">
         <label htmlFor="date">
           <Calendaricon></Calendaricon>
-          <span>Ngày chiếu</span>
         </label>
-      </div>
-      <div className="showtime-date">
-        <Radio.Group
-          defaultValue={dateSelected}
-          buttonStyle="solid"
-          options={dateData?.map((item) => ({
-            label: (
-              <p className={`${item.value === dateSelected ? "checked" : ""}`}>
-                <span className="day">{item.label.weekday}</span>
-                <br />
-                <span>{item.value}</span>
-              </p>
-            ),
-            value: item.value,
-          }))}
-          onChange={(e) => {
-            setDateSelected(e.target.value);
-          }}
-        ></Radio.Group>
+        <div className="showtime-date">
+          <Radio.Group
+            defaultValue={dateSelected}
+            buttonStyle="solid"
+            options={dateData?.map((item) => ({
+              label: (
+                <p
+                  className={`${item.value === dateSelected ? "checked" : ""}`}
+                >
+                  <span className="day">{item.label.weekday}</span>
+                  <br />
+                  <span>{item.value}</span>
+                </p>
+              ),
+              value: item.value,
+            }))}
+            onChange={(e) => {
+              setDateSelected(e.target.value);
+            }}
+          ></Radio.Group>
+        </div>
       </div>
     </>
   );

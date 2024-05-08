@@ -1,0 +1,58 @@
+@import "../../../../style.scss";
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  &-container {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    padding-block: 10px;
+    gap: 18px;
+  }
+
+  &-field {
+    width: 65%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 100rem;
+    .ant-input-wrapper {
+      padding: 10px 20px;
+      height: 100%;
+    }
+    .ant-btn {
+      &:hover {
+        outline: none;
+        border-color: transparent;
+      }
+    }
+
+    .ant-input,
+    .ant-input-outlined {
+      user-select: none;
+      height: 100%;
+      border: 0;
+      &:focus {
+        outline: none;
+        border: 0;
+        box-shadow: none;
+      }
+
+      &-search-button {
+        user-select: none;
+        height: 31px;
+        height: 100%;
+        border: 0;
+        &:hover {
+          outline: none;
+          border-color: transparent;
+        }
+      }
+    }
+  }
+
+  &-menu-icon {
+    display: none;
+    width: 24px;
+  }
+}

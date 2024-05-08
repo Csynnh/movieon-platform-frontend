@@ -1,9 +1,9 @@
-import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Dropdown, MenuProps } from "antd";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import getUser from "../../api/getUser";
-import { User } from "../../api/type";
+import getUser from "../../../../api/getUser";
+import { User } from "../../../../api/type";
+import { UserOutlined } from "@ant-design/icons";
 import "./User.scss";
 const UserPropType: React.FC = () => {
   const [user, setUser] = useState<User>();
@@ -43,13 +43,12 @@ const UserPropType: React.FC = () => {
     },
   ];
   return (
-    <div className={"search-auth flex items-center"}>
+    <div className={"user flex items-center"}>
       {!user ? (
         <>
-          <NavLink to={"/signin"}>Log in</NavLink>
-          <span>/</span>
-          <NavLink to={"/signup"}>Sign up</NavLink>
-          <Avatar size="large" icon={<UserOutlined />} />
+          <NavLink to={"/signin"}>
+            <Button>Đăng Nhập</Button>
+          </NavLink>
         </>
       ) : (
         <Dropdown
@@ -58,7 +57,7 @@ const UserPropType: React.FC = () => {
           arrow={{ pointAtCenter: true }}
         >
           <Button>
-            <Avatar size="large">{user?.firstName?.split(" ")[1]}</Avatar>
+            <Avatar size="large" icon={<UserOutlined />} />{" "}
           </Button>
         </Dropdown>
       )}

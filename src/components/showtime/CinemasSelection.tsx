@@ -18,7 +18,6 @@ const CinemasSelection = (props?: {
     <div className={"showtime-selection"}>
       <label htmlFor="cinemas">
         <LocaIcon></LocaIcon>
-        <span>Rạp Chiếu</span>
       </label>
       <Select
         defaultValue={props?.value}

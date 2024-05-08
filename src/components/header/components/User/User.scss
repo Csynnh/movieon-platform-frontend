@@ -1,0 +1,22 @@
+.user {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  a .ant-btn {
+    padding: 10px 20px;
+  }
+  .ant-btn {
+    height: 40px;
+    padding: 0;
+    border-radius: 100rem;
+    background: #5f6470;
+    color: white;
+    font-weight: 500;
+    .ant-avatar {
+      border: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

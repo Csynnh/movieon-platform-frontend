@@ -17,10 +17,19 @@
     .ant {
       &-btn {
         border: 0;
+        border-radius: 100rem;
+        &:hover {
+          transform: scale(1.02);
+          background-color: #bcf5ff3a !important;
+          color: $primary-color !important;
+        }
       }
       &-tabs {
         &-nav {
           margin: 0;
+          &-wrap {
+            overflow: unset !important;
+          }
           &::before {
             border-bottom: 0;
           }
@@ -41,6 +50,7 @@
           }
           &.ant-tabs-tab-active {
             .ant-btn {
+              pointer-events: none;
               background-color: $primary-color;
               color: white;
             }
@@ -53,73 +63,7 @@
     margin: 0;
   }
 }
-.search {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: $secondary-color;
 
-  &-container {
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    padding-block: 10px;
-    gap: 18px;
-  }
-
-  &-field {
-    width: 65%;
-    &::part(input-field) {
-      padding: 10px 20px;
-      background-color: white;
-      font-size: 18px;
-      outline: none;
-    }
-    .ant-input-wrapper {
-      overflow: hidden;
-      height: 100%;
-    }
-    .ant-btn {
-      &:hover {
-        outline: none;
-        border-color: transparent;
-      }
-    }
-
-    .ant-input,
-    .ant-input-outlined {
-      user-select: none;
-      height: 100%;
-      border: 0;
-      &:focus {
-        outline: none;
-        border: 0;
-        box-shadow: none;
-      }
-
-      &-search-button {
-        user-select: none;
-        height: 31px;
-        height: 100%;
-        border: 0;
-        &:hover {
-          outline: none;
-          border-color: transparent;
-        }
-      }
-    }
-  }
-
-  &-auth {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  &-menu-icon {
-    display: none;
-    width: 24px;
-  }
-}
 @media screen and (max-width: 425.98px) {
   .header {
     &-container {
