@@ -35,7 +35,6 @@ const Showtime = () => {
   const handleSelectCinema = (value: any) => {
     value && setCinemaSelected(value);
   };
-  console.log(calendarData, cinemaSelected);
   return (
     <section className={"showtime"} id="showtime">
       <div className="showtime-container">

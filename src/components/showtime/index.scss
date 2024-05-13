@@ -68,6 +68,9 @@
   .ant-select-item-option-active.ant-select-item-option-selected {
     background-color: $primary-color !important;
   }
+  span .ant-select-selection-item {
+    font-size: 16px;
+  }
   &-date {
     .ant-radio-wrapper {
       border-radius: 8px;

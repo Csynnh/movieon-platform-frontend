@@ -11,9 +11,11 @@
   transform: translateY(100%);
   transition: all ease 0.3s;
   left: 0;
+  height: 0;
   &.isOpen {
     transform: translateY(0);
     opacity: 1;
+    height: auto;
   }
   h4 {
     padding: 10px 0;
@@ -48,9 +50,18 @@
       transition: all ease 0.3s;
     }
   }
-
+  &-secondary {
+    .ant-btn {
+      background-color: $primary-color !important;
+      color: white;
+    }
+    :hover {
+      background-color: white !important;
+      color: $primary-color;
+    }
+  }
   &-title {
-    font-weight: 600;
+    font-weight: 700;
   }
   @media screen and (min-width: 425.98px) and (max-width: 768.98px) {
     &-container {

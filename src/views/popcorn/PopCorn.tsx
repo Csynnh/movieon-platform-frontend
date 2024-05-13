@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import comboPoster from "../../asset/image/combo-poster.png";
+import CheckoutBox from "../../components/checkoutBox/CheckoutBox";
 import Combo from "./Combo";
 import "./PopCorn.scss";
-import CheckoutBox from "../../components/checkoutBox/CheckoutBox";
 
 const PopCorn = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location?.state?.data) {
+      navigate("/");
+    }
+  }, [location, navigate]);
+
+  const data = location.state.data;
   const [isOpenBill, setIsOpenBill] = useState(true);
+  const [popcorn, setPopcorn] = useState<any>([]);
+  console.log("popcorn :>> ", popcorn);
   const handleCloseBill = () => {
     setIsOpenBill(false);
   };
@@ -51,15 +65,62 @@ const PopCorn = () => {
           <p>Combo</p>
         </div>
         <div className="popcorn-combo">
-          <Combo></Combo>
-          <Combo></Combo>
-          <Combo></Combo>
-          <Combo></Combo>
-          <Combo></Combo>
-          <Combo></Combo>
+          <Combo
+            setPopcorn={setPopcorn}
+            poster={comboPoster}
+            name="Combo 1"
+            price_orgin={90000}
+            price_discount={80000}
+            desc="Lorem + lorem"
+          ></Combo>
+          <Combo
+            setPopcorn={setPopcorn}
+            poster={comboPoster}
+            name="Combo 2"
+            price_orgin={90000}
+            price_discount={80000}
+            desc="Lorem + lorem"
+          ></Combo>
+          <Combo
+            setPopcorn={setPopcorn}
+            poster={comboPoster}
+            name="Combo 3"
+            price_orgin={90000}
+            price_discount={80000}
+            desc="Lorem + lorem"
+          ></Combo>
+          <Combo
+            setPopcorn={setPopcorn}
+            poster={comboPoster}
+            name="Combo 4"
+            price_orgin={90000}
+            price_discount={80000}
+            desc="Lorem + lorem"
+          ></Combo>
+          <Combo
+            setPopcorn={setPopcorn}
+            poster={comboPoster}
+            name="Combo 5"
+            price_orgin={90000}
+            price_discount={80000}
+            desc="Lorem + lorem"
+          ></Combo>
+          <Combo
+            setPopcorn={setPopcorn}
+            poster={comboPoster}
+            name="Combo 6"
+            price_orgin={90000}
+            price_discount={80000}
+            desc="Lorem + lorem"
+          ></Combo>
         </div>
       </div>
-      {isOpenBill && <CheckoutBox handle={handleCloseBill}></CheckoutBox>}
+      <CheckoutBox
+        open={isOpenBill}
+        handle={handleCloseBill}
+        data={data}
+        popcorn={["Combo 1", "Combo 2"]}
+      ></CheckoutBox>
     </div>
   );
 };
