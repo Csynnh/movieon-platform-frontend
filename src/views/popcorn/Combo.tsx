@@ -1,11 +1,17 @@
 import { useState } from "react";
-import comboPoster from "../../asset/image/combo-poster.png";
 import { AddBtn } from "../checkout/AddBtn";
 import { MinusBtn } from "../checkout/MinusBtn";
 import "./Combo.scss";
 import { Button } from "antd";
 
-const Combo = () => {
+const Combo = (props: {
+  poster: any;
+  name: string;
+  price_orgin: number;
+  price_discount: number;
+  desc: string;
+  setPopcorn: any;
+}) => {
   const [count, setCount] = useState(0); // khoi tao 1 state va 1 ham de thay doi trang thai
 
   const handleDecrease = () => {
@@ -19,17 +25,21 @@ const Combo = () => {
     <>
       <div className="combo">
         <div className="combo-container">
-          <img src={comboPoster} alt="comboPoster" />
+          <img src={props.poster} alt="comboPoster" />
           <div className="combo-content">
-            <span className="combo-name">Combo 1</span>
+            <span className="combo-name"> {props.name}</span>
             <div className="combo-price">
               <p>Đơn giá: </p>
-              <span className="combo-price discount">80000 đồng </span>
-              <span className="combo-price basic">90000 đồng</span>
+              <span className="combo-price discount">
+                {props.price_discount} đồng{" "}
+              </span>
+              <span className="combo-price basic">
+                {props.price_orgin} đồng
+              </span>
             </div>
             <div className="combo-desc">
               <p>Mô tả :</p>
-              <span>1 bắp caramel + 1 coca</span>
+              <span>{props.desc}</span>
             </div>
           </div>
           <div className="combo-interact">
@@ -39,7 +49,33 @@ const Combo = () => {
               <p>{count}</p>
               <AddBtn handle={handleIncrease} />
             </div>
-            <Button>Đặt combo này</Button>
+            <Button
+              onClick={() =>
+                count
+                  ? props.setPopcorn((pre: any) =>
+                      pre.find((item: any) => item.nameCombo === props.name)
+                        ? pre.map((item: any) =>
+                            item.nameCombo === props.name && item.count != count
+                              ? {
+                                  ...pre,
+                                  count,
+                                }
+                              : item
+                          )
+                        : [
+                            ...pre,
+                            {
+                              count,
+                              nameCombo: props.name,
+                              priceCombo: props.price_discount,
+                            },
+                          ]
+                    )
+                  : {}
+              }
+            >
+              Chọn combo này
+            </Button>
           </div>
         </div>
       </div>

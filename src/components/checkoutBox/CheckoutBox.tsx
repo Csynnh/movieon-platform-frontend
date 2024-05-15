@@ -1,15 +1,16 @@
-import { Movie, SeatRequest } from "../../api/type";
-import CloseIcon from "../../views/checkout/CloseIcon";
-import { NavLink, useNavigate } from "react-router-dom";
-import "./CheckoutBox.scss";
-import { formatDate } from "../../util/date";
-import { useCallback, useMemo } from "react";
 import { Button } from "antd";
+import { useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { Movie, SeatRequest } from "../../api/type";
+import { formatDate } from "../../util/date";
+import CloseIcon from "../../views/checkout/CloseIcon";
+import "./CheckoutBox.scss";
 
 const CheckoutBox = (props: {
   handle: any;
   open?: boolean;
   data?: { movie: Movie; seats: SeatRequest[]; showtime: string };
+  popcorn?: any[];
 }) => {
   const { handle, open, data } = props;
   const pathname = window.location.pathname;
@@ -43,12 +44,14 @@ const CheckoutBox = (props: {
               maxWidth: "60%",
             }}
           >
-            <span className="bill-title">Ghế đã đặt: </span>
+            <span className="bill-title">Ghế đang chọn: </span>
             <strong>{seatSelected()}</strong>
           </div>
           <div className="bill-desc">
             <span className="bill-title">Bắp nước: </span>
-            <span>Không</span>
+            <span>
+              {props.popcorn && props.popcorn?.map((item) => " " + item)}
+            </span>
           </div>
           <div className="bill-desc">
             <span className="bill-title">Tạm tính: </span>
@@ -56,15 +59,15 @@ const CheckoutBox = (props: {
           </div>
         </div>
         <div className="bill-link">
-          <NavLink
-            to="/popcorn"
-            className={`${pathname === "/movie" ? "secondary" : ""}`}
+          <div
+            onClick={() => navigate("/popcorn", { state: { data } })}
+            className={`${pathname.includes("movie") ? "bill-secondary" : ""}`}
           >
             <Button>Đặt bắp nước</Button>
-          </NavLink>
+          </div>
           <div
             onClick={() => navigate("/checkout", { state: { data } })}
-            className={`${pathname === "/popcorn" ? "secondary" : ""}`}
+            className={`${pathname.includes("movie") ? "bill-secondary" : ""}`}
           >
             <Button>Thanh toán</Button>
           </div>

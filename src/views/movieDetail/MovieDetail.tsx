@@ -3,26 +3,19 @@ import { useEffect, useState } from "react";
 import useMovieDetail from "../../api/getMovieData";
 import useListCalendars from "../../api/listCalendarByMovieAndCinema";
 import useCinemasData from "../../api/listCinemasData";
+import { useParams } from "react-router-dom";
 import useSeats from "../../api/listSeats";
 import { Cinema, Movie, SeatType } from "../../api/type";
-import {
-  basicHover,
-  basicSeat,
-  douHover,
-  douSeat,
-  vipHover,
-  vipSeat,
-} from "../../asset/image/";
+import { seat, seatActived, seatPlaced } from "../../asset/image/";
 import CheckoutBox from "../../components/checkoutBox/CheckoutBox";
 import Loading from "../../components/loading/Loading";
 import SeatGroup from "../../components/selects/seatSelection/SeatSelection";
 import CinemasSelection from "../../components/showtime/CinemasSelection";
 import DateSelection from "../../components/showtime/DateSelection";
 import TimeSelection from "../../components/showtime/TimeSelection";
+import "../../components/showtime/index.scss";
 import { seatsArray } from "../../mocks/seats";
 import { getSeat } from "../../util/seat";
-import { useParams } from "react-router-dom";
-import "../../components/showtime/index.scss";
 import { convertToDate } from "../admin/Dashboard";
 import "./MovieDatail.scss";
 export interface Seat {
@@ -212,7 +205,7 @@ const MovieDetail = () => {
           </div>
           <div className="movie-booking">
             <Loading spinning={isLoadingSeatPlaced || isLoading}>
-              {seatPlacedData && (
+              {seatPlacedData && data?.length ? (
                 <>
                   <svg
                     width="1154"
@@ -254,62 +247,34 @@ const MovieDetail = () => {
                     </div>
                   </div>
                   <div className="movie-seat-desc">
-                    <div className="movie-seat-group">
-                      <div className="movie-seat-desc-item">
-                        <div className="movie-seat-desc-wrap">
-                          <div className="movie-seat-desc-img">
-                            <img src={basicSeat} alt="basicSeat" />
-                          </div>
-                          <p>Ghế đơn trống</p>
-                        </div>
+                    <div className="movie-seat-desc-wrap">
+                      <div className="movie-seat-desc-img">
+                        <img src={seat} alt="basicSeat" />
                       </div>
-                      <div className="movie-seat-desc-item">
-                        <div className="movie-seat-desc-wrap">
-                          <div className="movie-seat-desc-img">
-                            <img src={basicHover} alt="basicSeat" />
-                          </div>
-                          <p>Ghế đơn đã được đặt</p>
-                        </div>
-                      </div>
+                      <p>Ghế chưa được đặt</p>
                     </div>
-                    <div className="movie-seat-group">
-                      <div className="movie-seat-desc-item">
-                        <div className="movie-seat-desc-wrap">
-                          <div className="movie-seat-desc-img">
-                            <img src={vipSeat} alt="basicSeat" />
-                          </div>
-                          <p>Ghế vip trống</p>
-                        </div>
+                    <div className="movie-seat-desc-wrap">
+                      <div className="movie-seat-desc-img">
+                        <img src={seatActived} alt="basicSeat" />
                       </div>
-                      <div className="movie-seat-desc-item">
-                        <div className="movie-seat-desc-wrap">
-                          <div className="movie-seat-desc-img">
-                            <img src={vipHover} alt="basicSeat" />
-                          </div>
-                          <p>Ghế vip đã được đặt</p>
-                        </div>
-                      </div>
+                      <p>Ghế đang chọn</p>
                     </div>
-                    <div className="movie-seat-group">
-                      <div className="movie-seat-desc-item">
-                        <div className="movie-seat-desc-wrap">
-                          <div className="movie-seat-desc-img">
-                            <img src={douSeat} alt="basicSeat" />
-                          </div>
-                          <p>Ghế đôi trống</p>
-                        </div>
+                    <div className="movie-seat-desc-wrap">
+                      <div className="movie-seat-desc-img">
+                        <img src={seatPlaced} alt="basicSeat" />
                       </div>
-                      <div className="movie-seat-desc-item">
-                        <div className="movie-seat-desc-wrap">
-                          <div className="movie-seat-desc-img">
-                            <img src={douHover} alt="basicSeat" />
-                          </div>
-                          <p>Ghế đôi đã được đặt</p>
-                        </div>
-                      </div>
+                      <p>Ghế đã được đặt</p>
                     </div>
                   </div>
                 </>
+              ) : (
+                <div className="movie-loading">
+                  <p>Chưa có suất chiếu này</p>
+                  <img
+                    src="/src/asset/image/uploading-calender.png"
+                    alt="upload image"
+                  />
+                </div>
               )}
             </Loading>
           </div>
