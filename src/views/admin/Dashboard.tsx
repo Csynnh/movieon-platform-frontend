@@ -119,7 +119,7 @@ const Dashboard = () => {
         values.movieId,
         values.theaterId
       );
-      if (res?.calendarId) {
+      if (res?._id) {
         Toastify({
           text: `Thêm lịch chiếu thành công`,
           duration: 3000,
@@ -140,7 +140,7 @@ const Dashboard = () => {
         values.theaterId,
         values.calendarId
       );
-      if (res?.calendarId) {
+      if (res?._id) {
         refetch();
         Toastify({
           text: `Cập nhật lịch chiếu thành công`,

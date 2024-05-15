@@ -66,8 +66,8 @@ const CheckOut = () => {
       };
     });
     await addSeat(seatsData);
-    setIsOpenOverlay(true);
     navigate("/");
+    setIsOpenOverlay(true);
   };
 
   return (

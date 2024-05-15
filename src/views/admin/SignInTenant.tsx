@@ -5,14 +5,16 @@ import { signInAdmin } from "../../api/signInAdmin";
 import Logo from "../../asset/icon/Logo";
 import SignInAdminImage from "../../asset/icon/SignInAdminImage";
 import "./SignInTenant.scss";
+import { useState } from "react";
 const SignInTenant = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
   const onSubmit = async (values: any) => {
-    console.log("data :>> ", values);
     const { username, password } = values;
     if (username && password) {
       try {
+        setLoading(true);
         const response = await signInAdmin(username, password);
         if (response.data.status) {
           Toastify({
@@ -40,6 +42,7 @@ const SignInTenant = () => {
         }).showToast();
       }
     }
+    setLoading(false);
   };
   return (
     <div className="tenant_signin-container">
@@ -63,7 +66,7 @@ const SignInTenant = () => {
                 },
               ]}
             >
-              <Input></Input>
+              <Input disabled={loading}></Input>
             </Form.Item>
           </Col>
           <Col>
@@ -78,13 +81,15 @@ const SignInTenant = () => {
                 },
               ]}
             >
-              <Input.Password></Input.Password>
+              <Input.Password disabled={loading}></Input.Password>
             </Form.Item>
           </Col>
           <Button
             htmlType="submit"
             className="tenant__schema-button"
             type="primary"
+            loading={loading}
+            disabled={loading}
           >
             Submit
           </Button>
