@@ -46,9 +46,9 @@
     }
   }
   &-interact {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: space-between;
     margin-top: 5px;
   }
   &-count {
@@ -95,6 +95,7 @@
     }
     &-count {
       gap: 10px;
+      align-items: center;
       span {
         font-size: 12px;
       }

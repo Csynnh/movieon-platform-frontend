@@ -4,7 +4,11 @@ import comboPoster from "../../asset/image/combo-poster.png";
 import CheckoutBox from "../../components/checkoutBox/CheckoutBox";
 import Combo from "./Combo";
 import "./PopCorn.scss";
-
+export type Combotype = {
+  name: string;
+  count: number;
+  price: number;
+};
 const PopCorn = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,8 +21,8 @@ const PopCorn = () => {
 
   const data = location.state.data;
   const [isOpenBill, setIsOpenBill] = useState(true);
-  const [popcorn, setPopcorn] = useState<any>([]);
-  console.log("popcorn :>> ", popcorn);
+  const [popcorn, setPopcorn] = useState<Combotype[]>([]);
+
   const handleCloseBill = () => {
     setIsOpenBill(false);
   };
@@ -119,7 +123,7 @@ const PopCorn = () => {
         open={isOpenBill}
         handle={handleCloseBill}
         data={data}
-        popcorn={["Combo 1", "Combo 2"]}
+        popcorn={popcorn}
       ></CheckoutBox>
     </div>
   );

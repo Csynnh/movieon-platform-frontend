@@ -1,5 +1,5 @@
-import { Input } from "antd";
-import { useState } from "react";
+import { Input, Select } from "antd";
+import { useEffect, useState } from "react";
 import Menu from "../Menu/Menu";
 import MenuTab from "../Menu/MenuTab";
 import "./styles.scss";
@@ -18,7 +18,7 @@ const Search = () => {
         </div>
         <Input.Search
           className={"search-field"}
-          placeholder="input search text"
+          placeholder="Tìm phim tại đây"
           // onSearch={onSearch}
         />
       </div>
