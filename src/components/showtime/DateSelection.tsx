@@ -28,6 +28,7 @@ const DateSelection = (props: { dateSelected: any; setDateSelected: any }) => {
       <div className="showtime-selection">
         <label htmlFor="date">
           <Calendaricon></Calendaricon>
+          <span className="label">Ngày Chiếu</span>
         </label>
         <div className="showtime-date">
           <Radio.Group

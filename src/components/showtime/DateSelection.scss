@@ -17,6 +17,13 @@
           width: 20px;
         }
       }
+      span {
+        &.label {
+          @media screen and (max-width: 1439.98px) {
+            display: none;
+          }
+        }
+      }
     }
     .showtime-date {
       .ant-radio.ant-wave-target {
@@ -29,6 +36,38 @@
           border-radius: 100rem;
         }
       }
+    }
+  }
+  &-date {
+    .ant-radio-wrapper {
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid $primary-color;
+      &-checked {
+        border-color: transparent;
+      }
+      span {
+        padding: 0;
+        p {
+          border-radius: 8px;
+          width: 100%;
+          padding: 5px 30px;
+          margin: 0;
+          &.checked {
+            background-color: $primary-color;
+            color: white;
+          }
+          .day {
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    .ant-radio-group {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
     }
   }
 }

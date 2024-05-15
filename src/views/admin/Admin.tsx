@@ -1,9 +1,8 @@
-import { Button, Card, Col, Form, Typography } from "antd";
+import { Button, Card, Col, Form, Input, Typography } from "antd";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { addTenant } from "../../api/addTenant";
 import "toastify-js/src/toastify.css";
-import CustomInput_cp from "../../components/inputField/InputField";
 import "./style.scss";
 
 export const responsiveSteps = [
@@ -50,30 +49,34 @@ const Admin = () => {
             </Typography.Title>
           </Col>
           <Col span={22}>
-            <CustomInput_cp
-              label="First Name"
-              name="firstName"
-            ></CustomInput_cp>
+            <Form.Item label="First Name" name="firstName">
+              <Input></Input>
+            </Form.Item>
           </Col>
           <Col span={22}>
-            <CustomInput_cp label="Last Name" name="lastName"></CustomInput_cp>
+            <Form.Item label="Last Name" name="lastName">
+              <Input></Input>
+            </Form.Item>
           </Col>
           <Col span={22}>
-            <CustomInput_cp label="Username" name="username"></CustomInput_cp>
+            <Form.Item label="Username" name="username">
+              <Input></Input>
+            </Form.Item>
           </Col>
           <Col span={22}>
-            <CustomInput_cp label="Email" name="email"></CustomInput_cp>
+            <Form.Item label="Email" name="email">
+              <Input></Input>
+            </Form.Item>
           </Col>
           <Col span={22}>
-            <CustomInput_cp
-              label="Password"
-              name="password"
-              type="password"
-            ></CustomInput_cp>
+            <Form.Item label="Password" name="password">
+              <Input.Password></Input.Password>
+            </Form.Item>
           </Col>
           <Col span={22}>
             <Button onClick={() => form.submit()}>Create Tenant</Button>
           </Col>
+          <Input></Input>
         </Form>
       </Card>
     </>

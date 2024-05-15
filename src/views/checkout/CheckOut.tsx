@@ -14,19 +14,16 @@ import Overlay from "./Overlay";
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    if (!location?.state?.data) {
-      navigate("/");
-    }
-  }, [location, navigate]);
-
+  const priceCombo = 60000;
+  const [count, setCount] = useState(1); // khoi tao 1 state va 1 ham de thay doi trang thai
+  const [tempCombo, setTemp] = useState(priceCombo * count);
+  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
+  const [form] = Form.useForm();
   const data: {
     movie: Movie;
     seats: SeatRequest[];
     showtime: string;
-  } = location.state.data;
-
+  } = location?.state?.data;
   const priceTicket = useMemo(() => {
     if (data?.seats)
       return (
@@ -34,13 +31,15 @@ const CheckOut = () => {
       );
     else return 0;
   }, [data?.seats]);
-  const priceCombo = 60000;
-
-  const [count, setCount] = useState(1); // khoi tao 1 state va 1 ham de thay doi trang thai
-  const [tempCombo, setTemp] = useState(priceCombo * count);
   const [total, setTotal] = useState(priceTicket + tempCombo);
-  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
-  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (!location?.state?.data) {
+      navigate("/");
+    }
+  }, [location, navigate]);
+  if (!location?.state?.data) return null;
+
   const handleIncrease = () => {
     setCount(count + 1); // re-render
     setTemp(priceCombo * (count + 1));
@@ -70,7 +69,6 @@ const CheckOut = () => {
     setIsOpenOverlay(true);
     navigate("/");
   };
-  if (!location?.state?.data) return null;
 
   return (
     <div>

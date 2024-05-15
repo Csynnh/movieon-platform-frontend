@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import getMovieById from "../../api/getMovieData";
-import listCalendars from "../../api/listCalendarByMovieAndCinema";
-import listCinemasData from "../../api/listCinemasData";
+import useMovieDetail from "../../api/getMovieData";
+import useListCalendars from "../../api/listCalendarByMovieAndCinema";
+import useCinemasData from "../../api/listCinemasData";
 import useSeats from "../../api/listSeats";
 import { Cinema, Movie, SeatType } from "../../api/type";
 import {
@@ -36,8 +36,8 @@ export interface Seat {
 
 const MovieDetail = () => {
   const { movieId, date, cinemaId } = useParams();
-  const cinemaData: Cinema[] = listCinemasData();
-  const movieDetail: Movie | undefined = getMovieById(movieId ?? "");
+  const cinemaData: Cinema[] = useCinemasData();
+  const movieDetail: Movie | undefined = useMovieDetail(movieId ?? "");
   const [isOpenBill, setIsOpenBill] = useState(false);
   const [dateSelected, setDateSelected] = useState(date ?? "");
   const [cinemaSelected, setCinemaSelected] = useState<string>(
@@ -45,7 +45,7 @@ const MovieDetail = () => {
   );
   const [seatSelected, setSeatSelected] = useState<Seat[]>([]);
   const [seatsArrayData, setSeatsArrayData] = useState<Seat[]>(seatsArray);
-  const { data, refetch, isLoading } = listCalendars({
+  const { data, refetch, isLoading } = useListCalendars({
     cinemaId: cinemaSelected,
     movieId,
     date: convertToDate(dateSelected),

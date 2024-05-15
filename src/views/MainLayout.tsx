@@ -7,12 +7,7 @@ import "../index.css";
 
 export default function MainLayout() {
   return (
-    <Layout
-      className="w-full "
-      style={{
-        background: "#f9f9f9",
-      }}
-    >
+    <Layout className="w-full ">
       <Header hasSearch={true} />
       <Suspense fallback={<div>Loading...</div>}>
         <Outlet />

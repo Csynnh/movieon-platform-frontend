@@ -8,7 +8,7 @@ const CinemasSelection = (props?: {
   value?: string;
 }) => {
   const items: any = props?.cinemas?.map((item) => ({
-    value: item?.cinemaId,
+    value: item?._id,
     label: item?.name,
   }));
   if (!props?.value) {
@@ -18,6 +18,7 @@ const CinemasSelection = (props?: {
     <div className={"showtime-selection"}>
       <label htmlFor="cinemas">
         <LocaIcon></LocaIcon>
+        <span className="label">Rạp Chiếu</span>
       </label>
       <Select
         defaultValue={props?.value}

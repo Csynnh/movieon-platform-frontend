@@ -73,11 +73,7 @@
       height: 18px;
     }
   }
-  vaadin-button {
-    padding: 20px;
-    background-color: $primary-color;
-    color: white;
-  }
+
   svg {
     width: 20px;
     height: 20px;
@@ -105,10 +101,6 @@
       p {
         font-size: 14px;
       }
-    }
-    vaadin-button {
-      padding: 10px;
-      font-size: 12px;
     }
   }
 }

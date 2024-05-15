@@ -68,38 +68,7 @@
   .ant-select-item-option-active.ant-select-item-option-selected {
     background-color: $primary-color !important;
   }
-  &-date {
-    .ant-radio-wrapper {
-      border-radius: 8px;
-      text-align: center;
-      border: 1px solid $primary-color;
-      &-checked {
-        border-color: transparent;
-      }
-      span {
-        padding: 0;
-        p {
-          border-radius: 8px;
-          width: 100%;
-          padding: 5px 30px;
-          margin: 0;
-          &.checked {
-            background-color: $primary-color;
-            color: white;
-          }
-          .day {
-            font-size: 14px;
-            font-weight: 600;
-          }
-        }
-      }
-    }
-    .ant-radio-group {
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-    }
-  }
+
   &-movies {
     margin-top: 50px;
     margin-bottom: 150px;
@@ -145,34 +114,6 @@
           width: 22px;
         }
       }
-    }
-  }
-}
-vaadin-radio-button::part(radio) {
-  display: none;
-}
-vaadin-radio-group {
-  width: 100%;
-  &::part(group-field) {
-    justify-content: space-between;
-  }
-}
-
-vaadin-button {
-  outline: $primary-color 1px solid;
-  padding: 30px 35px;
-  color: black;
-
-  &[theme~="primary"] {
-    background-color: $primary-color;
-    color: white;
-  }
-  @media screen and (max-width: 768.98px) {
-    padding: 20px;
-    p {
-      margin: 0;
-      font-size: 10px;
-      font-weight: 500;
     }
   }
 }

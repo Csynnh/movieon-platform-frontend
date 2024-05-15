@@ -1,7 +1,7 @@
 import { Avatar, Button, Dropdown, MenuProps } from "antd";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import getUser from "../../../../api/getUser";
+import useUserDetail from "../../../../api/getUser";
 import { User } from "../../../../api/type";
 import { UserOutlined } from "@ant-design/icons";
 import "./User.scss";
@@ -10,7 +10,7 @@ const UserPropType: React.FC = () => {
   const userInLocal = localStorage.getItem("user");
 
   const userData = userInLocal
-    ? getUser(JSON.parse(userInLocal).username)
+    ? useUserDetail(JSON.parse(userInLocal).username)
     : undefined;
   useEffect(() => {
     userData && setUser(userData);

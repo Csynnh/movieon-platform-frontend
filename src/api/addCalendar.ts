@@ -4,31 +4,22 @@ import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 
 export const addCalendar = async (
-  showTime: Date,
+  showTime: string,
   movieId: string,
   theaterId: string,
   calendarId?: string
 ): Promise<CalendarType | null> => {
   try {
-    const showTimeValue = new Date(showTime);
     if (calendarId) {
       const response = await api.put(`api/v1/calendars/${calendarId}`, {
-        _id: calendarId,
-        showTime: showTimeValue,
-        movie: {
-          _id: movieId,
-        },
-        theater: {
-          _id: theaterId,
-        },
+        showTime,
+        movieId,
+        theaterId,
       });
       return response.data;
     } else {
       const response = await api.post(
-        `api/v1/calendars?movieId=${movieId}&theaterId=${theaterId}`,
-        {
-          showTime: showTimeValue,
-        }
+        `api/v1/calendars?date=${showTime}&movieId=${movieId}&theaterId=${theaterId}`
       );
       return response.data;
     }

@@ -3,7 +3,6 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../asset/icon/Logo.tsx";
 import Search from "./components/Search/Search.tsx";
 import "./index.scss";
-import UserPropType from "./components/User/User.tsx";
 
 const Header = (props: { hasSearch?: boolean }) => {
   const nav = useNavigate();
@@ -31,11 +30,6 @@ const Header = (props: { hasSearch?: boolean }) => {
     {
       key: "contact",
       label: <Button>Liên hệ</Button>,
-    },
-    {
-      key: "user",
-      label: <UserPropType />,
-      disabled: true,
     },
   ];
   const onChangeTab = (key: string) => {

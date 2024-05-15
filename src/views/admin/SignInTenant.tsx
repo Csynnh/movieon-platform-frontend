@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Typography } from "antd";
+import { Button, Col, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import { signInAdmin } from "../../api/signInAdmin";
@@ -26,7 +26,7 @@ const SignInTenant = () => {
             "tenant",
             JSON.stringify({ username: username, password: password })
           );
-          navigate("/admin/dashboard");
+          navigate("/admin");
         } else {
           Toastify({
             text: `${response.data.message}`,
@@ -52,10 +52,10 @@ const SignInTenant = () => {
         </h1>
         <Form form={form} onFinish={onSubmit} autoFocus={false}>
           <Col>
-            {/* <CustomInput_cp label={"Username"} name="username"></CustomInput_cp> */}
             <Form.Item
               name={"username"}
               required
+              label={"Username"}
               rules={[
                 {
                   required: true,
@@ -64,16 +64,11 @@ const SignInTenant = () => {
               ]}
             >
               <Input></Input>
-              <Typography.Text>{"label"}</Typography.Text>
             </Form.Item>
           </Col>
           <Col>
-            {/* <CustomInput_cp
-              label={"Password"}
-              name="password"
-              type="password"
-            ></CustomInput_cp> */}
             <Form.Item
+              label={"Password"}
               name={"password"}
               required
               rules={[
@@ -84,7 +79,6 @@ const SignInTenant = () => {
               ]}
             >
               <Input.Password></Input.Password>
-              <Typography.Text>{"label"}</Typography.Text>
             </Form.Item>
           </Col>
           <Button

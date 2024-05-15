@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useCalendars from "../../api/listCalendar";
-import listCinemasData from "../../api/listCinemasData";
+import useCinemasData from "../../api/listCinemasData";
 import { Cinema } from "../../api/type";
 import DetailTicket from "../../asset/image/DetailTicket";
 import CinemasSelection from "../../components/showtime/CinemasSelection";
@@ -14,7 +14,7 @@ const Showtime = () => {
   const [listCinema, setListCinema] = useState<Cinema[]>([]);
   const [cinemaSelected, setCinemaSelected] = useState<string>();
   const [dateSelected, setDateSelected] = useState(dateData[0].value);
-  const cinemaData: Cinema[] = listCinemasData();
+  const cinemaData: Cinema[] = useCinemasData();
   const {
     data: calendarData,
     refetch,
@@ -29,13 +29,12 @@ const Showtime = () => {
   useEffect(() => {
     if (cinemaData) {
       setListCinema(cinemaData);
-      setCinemaSelected(cinemaData[0]?.cinemaId);
+      setCinemaSelected(cinemaData[0]?._id);
     }
   }, [cinemaData?.length]);
   const handleSelectCinema = (value: any) => {
     value && setCinemaSelected(value);
   };
-  console.log(calendarData, cinemaSelected);
   return (
     <section className={"showtime"} id="showtime">
       <div className="showtime-container">
