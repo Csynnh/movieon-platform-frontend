@@ -231,7 +231,10 @@ const CheckOut = () => {
                     label="Số điện thoại"
                     name="customerPhone"
                   >
-                    <Input placeholder="Nhap Số điện thoại"></Input>
+                    <Input
+                      maxLength={10}
+                      placeholder="Nhap Số điện thoại"
+                    ></Input>
                   </Form.Item>
                 </Col>
                 <Col>

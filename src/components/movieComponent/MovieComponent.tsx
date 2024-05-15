@@ -50,7 +50,7 @@ const MovieComponent = (props: {
             <Button type="primary">
               <NavLink
                 to={`/movie/${encodeURIComponent(
-                  props?.movie?.movieId
+                  props?.movie?._id
                 )}/${encodeURIComponent(
                   props?.selectedDate
                 )}/${encodeURIComponent(props?.selectedCinemaId)}`}

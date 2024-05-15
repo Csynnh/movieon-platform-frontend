@@ -13,10 +13,11 @@ const TimeSelection = (props: {
     value: item ?? "",
     label: (
       <TimeButton isActive={timeSelected === item}>
-        {item?.split(":")[0] + ":" + item?.split(":")[1]}
+        {item?.split(" ")[1]}
       </TimeButton>
     ),
   }));
+  console.log("timeSelected :>> ", timeSelected);
   return (
     <>
       <div className="showtime-selection time">

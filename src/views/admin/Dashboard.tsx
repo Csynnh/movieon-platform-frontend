@@ -15,9 +15,9 @@ import { useEffect, useState } from "react";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { addCalendar } from "../../api/addCalendar";
-import useTenantDetail from "../../api/getTenant";
+import getTenant from "../../api/getTenant";
 import useCalendars from "../../api/listCalendar";
-import useCinemasData from "../../api/listCinemasData";
+import listCinemasData from "../../api/listCinemasData";
 import useMoviesData from "../../api/listMoviesData";
 import useTheaters from "../../api/listTheaterByCinemaId";
 import { removeCalendar } from "../../api/removeCalendar";
@@ -38,7 +38,7 @@ export const convertToDate = (date: string) => {
   return result;
 };
 const convertToIOSDate = (date: string) => {
-  return dayjs(date).locale("vi").toISOString();
+  return new Date(date).toISOString();
 };
 const Dashboard = () => {
   const [tenant, setTenant] = useState<TenantType>();
@@ -54,7 +54,7 @@ const Dashboard = () => {
   const [selectedCalendar, setSelectedCalendar] = useState<any>();
   const [dialogOpened, setDialogOpened] = useState(false);
   const tenantInLocal = localStorage.getItem("tenant");
-  const cinemaData: Cinema[] = useCinemasData();
+  const cinemaData: Cinema[] = listCinemasData();
   const data = useMoviesData();
   useEffect(() => {
     if (cinemaData) {
@@ -82,9 +82,11 @@ const Dashboard = () => {
   }, [cinemaSelected]);
   const [form] = Form.useForm();
   const handleSelectCinema = (event: any) => {
-    event.detail?.value && setCinemaSelected(event.detail?.value?.cinemaId);
+    event.detail?.value && setCinemaSelected(event.detail?.value?._id);
   };
-  const tenantData = useTenantDetail(JSON.parse(tenantInLocal ?? "").username);
+  const tenantData = tenantInLocal
+    ? getTenant(JSON.parse(tenantInLocal).username)
+    : undefined;
   useEffect(() => {
     tenantData && setTenant(tenantData);
   }, [tenantData]);
@@ -117,7 +119,7 @@ const Dashboard = () => {
         values.movieId,
         values.theaterId
       );
-      if (res?._id) {
+      if (res?.calendarId) {
         Toastify({
           text: `Thêm lịch chiếu thành công`,
           duration: 3000,

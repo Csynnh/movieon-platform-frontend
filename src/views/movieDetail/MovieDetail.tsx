@@ -68,7 +68,7 @@ const MovieDetail = () => {
     refetch: refetchSeatPlaced,
     isLoading: isLoadingSeatPlaced,
   } = useSeats({
-    calendarId: calendarSelected?.calendarId,
+    calendarId: calendarSelected?._id,
   });
   useEffect(() => {
     const calendarSelected = data?.find((item) => item.time === timeSelected);
@@ -76,7 +76,7 @@ const MovieDetail = () => {
       refetchSeatPlaced();
       setSeatSelected([]);
     }
-  }, [timeSelected]);
+  }, [timeSelected, calendarSelected]);
   useEffect(() => {
     if (!isLoadingSeatPlaced && seatPlacedData?.length > 0) {
       setSeatsArrayData(
@@ -290,8 +290,7 @@ const MovieDetail = () => {
             seats: [...seatSelected].map((seat) => {
               return {
                 calendarId:
-                  data?.find((item) => item.time === timeSelected)
-                    ?.calendarId ?? "",
+                  data?.find((item) => item.time === timeSelected)?._id ?? "",
                 seatNumber: seat.column,
                 seatType: getSeat(seat.type, seat.number, seat?.price)
                   ?.type as SeatType,
