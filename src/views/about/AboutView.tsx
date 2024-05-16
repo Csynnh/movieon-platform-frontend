@@ -34,7 +34,7 @@ export default function AboutView() {
                 <p className="about-title">Địa điểm: </p>
                 <p>
                   Lê Văn Việt, Phường Tăng Nhơn Phú A, Thành Phố Thủ Đức, Hồ Chí
-                  MIinh
+                  Minh
                 </p>
               </div>
               <div className="about-cinema-content">

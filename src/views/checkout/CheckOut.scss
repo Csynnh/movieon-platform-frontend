@@ -142,6 +142,7 @@
     cursor: pointer;
   }
   &-overlay {
+    z-index: 5;
     position: fixed;
     background-color: #d9d9d9e5;
     top: 0;
@@ -159,7 +160,6 @@
       width: 400px;
       display: flex;
       flex-direction: column;
-      padding: 50px;
       position: relative;
       svg {
         position: absolute;
@@ -179,6 +179,7 @@
     border-radius: 5px;
     .checkout-item-content-title {
       justify-content: center;
+      margin-block: 5px;
     }
   }
   lable {

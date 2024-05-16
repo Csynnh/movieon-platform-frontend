@@ -34,6 +34,14 @@ const CheckoutBox = (props: {
       </span>
     ));
   }, [data?.seats]);
+
+  const dataCheckout = {
+    ...data,
+    popcorn: popcorn,
+  };
+
+  console.log(dataCheckout);
+
   return (
     <div className={`bill ${open ? "isOpen" : ""}`}>
       <h4>{data?.movie?.title}</h4>
@@ -76,7 +84,7 @@ const CheckoutBox = (props: {
             <Button>Đặt bắp nước</Button>
           </div>
           <div
-            onClick={() => navigate("/checkout", { state: { data } })}
+            onClick={() => navigate("/checkout", { state: { dataCheckout } })}
             className={`${pathname.includes("movie") ? "bill-secondary" : ""}`}
           >
             <Button>Thanh toán</Button>
