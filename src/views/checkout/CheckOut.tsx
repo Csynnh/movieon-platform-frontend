@@ -3,27 +3,29 @@ import combo from "../../asset/image/combo.png";
 import { Button, Col, Form, Input, Radio } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addSeat } from "../../api/addSeat";
 import { Movie, SeatRequest } from "../../api/type";
 import { formatDate } from "../../util/date";
 import { convertToVietnamese } from "../../util/language";
-import { AddBtn } from "./AddBtn";
+import { Combotype } from "../popcorn/PopCorn";
 import "./CheckOut.scss";
-import { MinusBtn } from "./MinusBtn";
 import Overlay from "./Overlay";
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const priceCombo = 60000;
-  const [count, setCount] = useState(1); // khoi tao 1 state va 1 ham de thay doi trang thai
-  const [tempCombo, setTemp] = useState(priceCombo * count);
+  // const [count, setCount] = useState(1); // khoi tao 1 state va 1 ham de thay doi trang thai
+
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
   const [form] = Form.useForm();
   const data: {
     movie: Movie;
     seats: SeatRequest[];
     showtime: string;
-  } = location?.state?.data;
+    popcorn: Combotype[];
+  } = location?.state?.dataCheckout;
+  console.log(data);
+  const priceCombo =
+    data?.popcorn?.reduce((acc, item) => acc + item.price * item.count, 0) ?? 0;
+
   const priceTicket = useMemo(() => {
     if (data?.seats)
       return (
@@ -31,26 +33,14 @@ const CheckOut = () => {
       );
     else return 0;
   }, [data?.seats]);
-  const [total, setTotal] = useState(priceTicket + tempCombo);
+  const [total, setTotal] = useState(priceTicket + priceCombo);
 
   useEffect(() => {
-    if (!location?.state?.data) {
+    if (!location?.state?.dataCheckout) {
       navigate("/");
     }
   }, [location, navigate]);
-  if (!location?.state?.data) return null;
-
-  const handleIncrease = () => {
-    setCount(count + 1); // re-render
-    setTemp(priceCombo * (count + 1));
-    setTotal(priceTicket + priceCombo * (count + 1));
-  };
-  const handleDecrease = () => {
-    if (count === 0) return;
-    setCount(count - 1);
-    setTemp(priceCombo * (count - 1));
-    setTotal(priceTicket + priceCombo * (count - 1));
-  };
+  if (!location?.state?.dataCheckout) return null;
 
   //Xu ly close Overlay
   const handleExit = () => {
@@ -59,14 +49,14 @@ const CheckOut = () => {
 
   const handleSubmitForm = async (values: any) => {
     console.log(values);
-    const seatsData = data?.seats?.map((seat) => {
-      return {
-        ...seat,
-        price: Number(seat.price) * 1000,
-      };
-    });
-    await addSeat(seatsData);
-    navigate("/");
+    // const seatsData = data?.seats?.map((seat) => {
+    //   return {
+    //     ...seat,
+    //     price: Number(seat.price) * 1000,
+    //   };
+    // });
+    // await addSeat(seatsData);
+    // navigate("/");
     setIsOpenOverlay(true);
   };
 
@@ -154,45 +144,45 @@ const CheckOut = () => {
                   </span>
                 </div>
               </div>
-              <div className="checkout-item combo">
-                <div className="checkout-image">
-                  <img src={combo} alt="combo" />
-                </div>
-                <div className="checkout-item-content">
-                  <div className="checkout-item-content-header">
-                    Combo bắp nước
-                  </div>
-                  <div className="checkout-item-content-title">
-                    <p>Đơn giá: </p>
-                    <span>{priceCombo}</span>
-                  </div>
-                  <div className="checkout-item-content-title">
-                    <p>Tên: </p>
-                    <span>Combo 1</span>
-                  </div>
-                  <div className="checkout-item-content-title">
-                    <p>Số lượng</p>
-                    <div className="checkout-count">
-                      <MinusBtn handle={handleDecrease} />
-                      <p>{count}</p>
-                      <AddBtn handle={handleIncrease} />
+              {priceCombo ? (
+                <>
+                  <div className="checkout-item combo">
+                    <div className="checkout-image">
+                      <img src={combo} alt="combo" />
+                    </div>
+                    <div className="checkout-item-content">
+                      <div className="checkout-item-content-header">
+                        Combo bắp nước
+                      </div>
+                      <div className="checkout-item-content-title">
+                        <p>Đơn giá: </p>
+                        <span>{priceCombo}</span>
+                      </div>
+                      <div className="checkout-item-content-title">
+                        <p>Tên: </p>
+                        <span>
+                          {data?.popcorn?.map(
+                            (item) => `${item.count} ${item.name} /`
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="checkout-temp">
-                <p>Tạm tính</p>
-                <div>
-                  <span className="checkout-price">{tempCombo} </span>
-                  <span>(Chín mươi nghìn đồng)</span>
-                </div>
-              </div>
+                  <div className="checkout-temp">
+                    <p>Tạm tính</p>
+                    <div>
+                      <span className="checkout-price">{priceCombo} </span>
+                      <span>({convertToVietnamese(priceCombo)})</span>
+                    </div>
+                  </div>
+                </>
+              ) : null}
               <div className="checkout-line"></div>
               <div className="checkout-temp">
                 <p>Tổng</p>
                 <div>
                   <span className="checkout-price">{total} </span>
-                  <span>(Chín mươi nghìn đồng)</span>
+                  <span>({convertToVietnamese(total)})</span>
                 </div>
               </div>
             </div>

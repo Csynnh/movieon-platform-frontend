@@ -4,6 +4,7 @@ import comboPoster from "../../asset/image/combo-poster.png";
 import CheckoutBox from "../../components/checkoutBox/CheckoutBox";
 import Combo from "./Combo";
 import "./PopCorn.scss";
+import useCombos from "../../api/listCombos";
 export type Combotype = {
   name: string;
   count: number;
@@ -23,6 +24,10 @@ const PopCorn = () => {
   const [isOpenBill, setIsOpenBill] = useState(true);
   const [popcorn, setPopcorn] = useState<Combotype[]>([]);
 
+  const { data: dataCombo, isLoading } = useCombos();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   const handleCloseBill = () => {
     setIsOpenBill(false);
   };
@@ -69,54 +74,17 @@ const PopCorn = () => {
           <p>Combo</p>
         </div>
         <div className="popcorn-combo">
-          <Combo
-            setPopcorn={setPopcorn}
-            poster={comboPoster}
-            name="Combo 1"
-            price_orgin={90000}
-            price_discount={80000}
-            desc="Lorem + lorem"
-          ></Combo>
-          <Combo
-            setPopcorn={setPopcorn}
-            poster={comboPoster}
-            name="Combo 2"
-            price_orgin={90000}
-            price_discount={80000}
-            desc="Lorem + lorem"
-          ></Combo>
-          <Combo
-            setPopcorn={setPopcorn}
-            poster={comboPoster}
-            name="Combo 3"
-            price_orgin={90000}
-            price_discount={80000}
-            desc="Lorem + lorem"
-          ></Combo>
-          <Combo
-            setPopcorn={setPopcorn}
-            poster={comboPoster}
-            name="Combo 4"
-            price_orgin={90000}
-            price_discount={80000}
-            desc="Lorem + lorem"
-          ></Combo>
-          <Combo
-            setPopcorn={setPopcorn}
-            poster={comboPoster}
-            name="Combo 5"
-            price_orgin={90000}
-            price_discount={80000}
-            desc="Lorem + lorem"
-          ></Combo>
-          <Combo
-            setPopcorn={setPopcorn}
-            poster={comboPoster}
-            name="Combo 6"
-            price_orgin={90000}
-            price_discount={80000}
-            desc="Lorem + lorem"
-          ></Combo>
+          {dataCombo?.map((item: any) => (
+            <Combo
+              desc={item.description}
+              poster={comboPoster}
+              name={item.name}
+              price_discount={item.discount}
+              price_orgin={item.price}
+              key={item._id}
+              setPopcorn={setPopcorn}
+            ></Combo>
+          ))}
         </div>
       </div>
       <CheckoutBox
