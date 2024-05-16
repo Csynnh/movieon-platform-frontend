@@ -52,7 +52,9 @@ export default function AboutView() {
               </div>
             </div>
             <div className="about-image">
-              <img src={lvvCinema} alt="" />
+              <img src={lvvCinema} alt="Movieon" />
+              <img src={tdCinema} alt="Movieon" />
+              <img src={tduCinema} alt="Movieon" />
             </div>
           </div>
         </div>
@@ -65,10 +67,7 @@ export default function AboutView() {
             <div className="about-wrapper">
               <div className="about-cinema-content">
                 <p className="about-title">Địa điểm: </p>
-                <p>
-                  Lê Văn Việt, Phường Tăng Nhơn Phú A, Thành Phố Thủ Đức, Hồ Chí
-                  MIinh
-                </p>
+                <p>8, 19, Bình Dương, Việt Nam</p>
               </div>
               <div className="about-cinema-content">
                 <p className="about-title">Ngày hoạt động: </p>
@@ -85,7 +84,9 @@ export default function AboutView() {
               </div>
             </div>
             <div className="about-image">
-              <img src={lvvCinema} alt="" />
+              <img src={lvvCinema} alt="Movieon" />
+              <img src={tdCinema} alt="Movieon" />
+              <img src={tduCinema} alt="Movieon" />
             </div>
           </div>
         </div>
@@ -99,8 +100,8 @@ export default function AboutView() {
               <div className="about-cinema-content">
                 <p className="about-title">Địa điểm: </p>
                 <p>
-                  Lê Văn Việt, Phường Tăng Nhơn Phú A, Thành Phố Thủ Đức, Hồ Chí
-                  MIinh
+                  Đ. Phạm Văn Đồng, Hiệp Bình Chánh, Thủ Đức, Thành phố Hồ Chí
+                  Minh 70000, Việt Nam
                 </p>
               </div>
               <div className="about-cinema-content">
@@ -118,7 +119,9 @@ export default function AboutView() {
               </div>
             </div>
             <div className="about-image">
-              <img src={tduCinema} alt="" />
+              <img src={lvvCinema} alt="Movieon" />
+              <img src={tdCinema} alt="Movieon" />
+              <img src={tduCinema} alt="Movieon" />
             </div>
           </div>
         </div>
@@ -148,7 +151,9 @@ export default function AboutView() {
               </div>
             </div>
             <div className="about-image">
-              <img src={tdCinema} alt="" />
+              <img src={lvvCinema} alt="Movieon" />
+              <img src={tdCinema} alt="Movieon" />
+              <img src={tduCinema} alt="Movieon" />
             </div>
           </div>
         </div>

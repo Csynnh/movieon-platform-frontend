@@ -43,7 +43,7 @@
     &-content {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 7px;
       padding: 5px 0;
       justify-content: center;
       &-header {
@@ -61,7 +61,7 @@
         font-size: 14px;
         white-space: nowrap;
         max-width: 100%;
-        overflow: auto;
+        // overflow: auto;
         text-overflow: ellipsis;
         p,
         span {

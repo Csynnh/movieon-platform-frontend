@@ -2,10 +2,7 @@ import { useState } from "react";
 import { AddBtn } from "../checkout/AddBtn";
 import { MinusBtn } from "../checkout/MinusBtn";
 import "./Combo.scss";
-import { Button } from "antd";
 import { Combotype } from "./PopCorn";
-import ColumnGroup from "antd/es/table/ColumnGroup";
-import { isHtmlElement } from "react-router-dom/dist/dom";
 
 const Combo = (props: {
   poster: any;

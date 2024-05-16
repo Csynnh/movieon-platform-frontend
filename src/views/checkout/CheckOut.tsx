@@ -11,6 +11,7 @@ import { AddBtn } from "./AddBtn";
 import "./CheckOut.scss";
 import { MinusBtn } from "./MinusBtn";
 import Overlay from "./Overlay";
+import { Combotype } from "../popcorn/PopCorn";
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -167,7 +168,7 @@ const CheckOut = () => {
                     <span>{priceCombo}</span>
                   </div>
                   <div className="checkout-item-content-title">
-                    <p>Loại: </p>
+                    <p>Tên: </p>
                     <span>Combo 1</span>
                   </div>
                   <div className="checkout-item-content-title">
