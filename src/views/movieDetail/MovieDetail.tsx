@@ -1,26 +1,21 @@
 import { useEffect, useState } from "react";
 
-import getMovieById from "../../api/getMovieData";
-import listCalendars from "../../api/listCalendarByMovieAndCinema";
-import listCinemasData from "../../api/listCinemasData";
+import useMovieDetail from "../../api/getMovieData";
+import useListCalendars from "../../api/listCalendarByMovieAndCinema";
+import useCinemasData from "../../api/listCinemasData";
+import { useParams } from "react-router-dom";
 import useSeats from "../../api/listSeats";
 import { Cinema, Movie, SeatType } from "../../api/type";
-import basicHover from "../../asset/image/basic-seat-hover.png";
-import basicSeat from "../../asset/image/basic-seat.png";
-import douHover from "../../asset/image/dou-seat-hover.png";
-import douSeat from "../../asset/image/dou-seat.png";
-import vipHover from "../../asset/image/vip-seat-hover.png";
-import vipSeat from "../../asset/image/vip-seat.png";
+import { seat, seatActived, seatPlaced } from "../../asset/image/";
 import CheckoutBox from "../../components/checkoutBox/CheckoutBox";
 import Loading from "../../components/loading/Loading";
 import SeatGroup from "../../components/selects/seatSelection/SeatSelection";
 import CinemasSelection from "../../components/showtime/CinemasSelection";
 import DateSelection from "../../components/showtime/DateSelection";
 import TimeSelection from "../../components/showtime/TimeSelection";
+import "../../components/showtime/index.scss";
 import { seatsArray } from "../../mocks/seats";
 import { getSeat } from "../../util/seat";
-import { useParams } from "react-router-dom";
-import "../../components/showtime/index.scss";
 import { convertToDate } from "../admin/Dashboard";
 import "./MovieDatail.scss";
 export interface Seat {
@@ -34,8 +29,8 @@ export interface Seat {
 
 const MovieDetail = () => {
   const { movieId, date, cinemaId } = useParams();
-  const cinemaData: Cinema[] = listCinemasData();
-  const movieDetail: Movie | undefined = getMovieById(movieId ?? "");
+  const cinemaData: Cinema[] = useCinemasData();
+  const movieDetail: Movie | undefined = useMovieDetail(movieId ?? "");
   const [isOpenBill, setIsOpenBill] = useState(false);
   const [dateSelected, setDateSelected] = useState(date ?? "");
   const [cinemaSelected, setCinemaSelected] = useState<string>(
@@ -43,12 +38,11 @@ const MovieDetail = () => {
   );
   const [seatSelected, setSeatSelected] = useState<Seat[]>([]);
   const [seatsArrayData, setSeatsArrayData] = useState<Seat[]>(seatsArray);
-  const { data, refetch, isLoading } = listCalendars({
+  const { data, refetch, isLoading } = useListCalendars({
     cinemaId: cinemaSelected,
     movieId,
     date: convertToDate(dateSelected),
   });
-
   useEffect(() => {
     if (cinemaSelected && dateSelected) {
       refetch();
@@ -74,7 +68,7 @@ const MovieDetail = () => {
     refetch: refetchSeatPlaced,
     isLoading: isLoadingSeatPlaced,
   } = useSeats({
-    calendarId: calendarSelected?.calendarId,
+    calendarId: calendarSelected?._id,
   });
   useEffect(() => {
     const calendarSelected = data?.find((item) => item.time === timeSelected);
@@ -82,7 +76,7 @@ const MovieDetail = () => {
       refetchSeatPlaced();
       setSeatSelected([]);
     }
-  }, [timeSelected]);
+  }, [timeSelected, calendarSelected]);
   useEffect(() => {
     if (!isLoadingSeatPlaced && seatPlacedData?.length > 0) {
       setSeatsArrayData(
@@ -110,7 +104,7 @@ const MovieDetail = () => {
     setIsOpenBill(false);
   };
   const handleSelectCinema = (event: any) => {
-    event.detail?.value && setCinemaSelected(event.detail?.value?.cinemaId);
+    event && setCinemaSelected(event);
   };
   const handleChangeSeat = (id: string) => {
     const seatIndex = seatSelected.findIndex((seat) => seat.id === id);
@@ -122,12 +116,18 @@ const MovieDetail = () => {
     }
   };
   return (
-    <Loading spinning={!movieDetail || isLoading || isLoadingSeatPlaced}>
+    <>
       {movieDetail && (
         <div className={"movie"}>
           <div className="movie-container">
+            <div className="movie-poster">
+              <img src={movieDetail?.poster} alt="poster" />
+            </div>
             <div className="movie-detail">
-              <h2 className="movie-title">{movieDetail?.title}</h2>
+              <div className="movie-title">
+                <h3>{movieDetail?.title}</h3>
+                <div className="line"></div>
+              </div>
               <div className="movie-detail-desc">
                 <div className="movie-detail-top">
                   <div className="movie-desc-top">
@@ -162,7 +162,7 @@ const MovieDetail = () => {
                   <div className="movie-desc-top">
                     <strong>Khởi chiếu: </strong>
                     <span>
-                      {new Date(movieDetail?.released).toDateString()}
+                      {new Date(movieDetail?.released ?? "").toDateString()}
                     </span>
                   </div>
                   <div className="movie-desc-top">
@@ -184,11 +184,7 @@ const MovieDetail = () => {
                     <span>{movieDetail?.fullplot}</span>
                   </div>
                 </div>
-                <button>Đặt phim</button>
               </div>
-            </div>
-            <div className="movie-poster">
-              <img src={movieDetail?.poster} alt="poster" />
             </div>
           </div>
           <div className="movie-wrap">
@@ -208,126 +204,104 @@ const MovieDetail = () => {
             ></TimeSelection>
           </div>
           <div className="movie-booking">
-            <svg
-              width="1154"
-              height="79"
-              viewBox="0 0 1154 79"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M1 76C1 76 333.252 3.44686 564.874 3.00207C799.162 2.55217 1153 76 1153 76"
-                stroke="#0B2447"
-                strokeWidth="5"
-              />
-            </svg>
-            <p className="note">Màn hình</p>
-            <div className="movie-booking seat">
-              <div className="movie-seat-row">
-                <p>Dãy A</p>
-                <p>Dãy B</p>
-                <p>Dãy C</p>
-                <p>Dãy VIP-1</p>
-                <p>Dãy VIP-2</p>
-                <p>Dãy Đôi</p>
-              </div>
-              <div className="movie-seat-area">
-                <SeatGroup
-                  data={seatsArrayData}
-                  onChangeSeat={handleChangeSeat}
-                  seatSelected={seatSelected}
-                />
-              </div>
-              <div className="movie-seat-row">
-                <p>Dãy A</p>
-                <p>Dãy B</p>
-                <p>Dãy C</p>
-                <p>Dãy VIP-1</p>
-                <p>Dãy VIP-2</p>
-                <p>Dãy Đôi</p>
-              </div>
-            </div>
-            <div className="movie-seat-desc">
-              <div className="movie-seat-group">
-                <div className="movie-seat-desc-item">
-                  <div className="movie-seat-desc-wrap">
-                    <div className="movie-seat-desc-img">
-                      <img src={basicSeat} alt="basicSeat" />
+            <Loading spinning={isLoadingSeatPlaced || isLoading}>
+              {seatPlacedData && data?.length ? (
+                <>
+                  <svg
+                    width="1154"
+                    height="79"
+                    viewBox="0 0 1154 79"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1 76C1 76 333.252 3.44686 564.874 3.00207C799.162 2.55217 1153 76 1153 76"
+                      stroke="#0B2447"
+                      strokeWidth="5"
+                    />
+                  </svg>
+                  <p className="note">Màn hình</p>
+                  <div className="movie-booking seat">
+                    <div className="movie-seat-row">
+                      <p>Dãy A</p>
+                      <p>Dãy B</p>
+                      <p>Dãy C</p>
+                      <p>Dãy VIP-1</p>
+                      <p>Dãy VIP-2</p>
+                      <p>Dãy Đôi</p>
                     </div>
-                    <p>Ghế đơn trống</p>
-                  </div>
-                </div>
-                <div className="movie-seat-desc-item">
-                  <div className="movie-seat-desc-wrap">
-                    <div className="movie-seat-desc-img">
-                      <img src={basicHover} alt="basicSeat" />
+                    <div className="movie-seat-area">
+                      <SeatGroup
+                        data={seatsArrayData}
+                        onChangeSeat={handleChangeSeat}
+                        seatSelected={seatSelected}
+                      />
                     </div>
-                    <p>Ghế đơn đã được đặt</p>
-                  </div>
-                </div>
-              </div>
-              <div className="movie-seat-group">
-                <div className="movie-seat-desc-item">
-                  <div className="movie-seat-desc-wrap">
-                    <div className="movie-seat-desc-img">
-                      <img src={vipSeat} alt="basicSeat" />
+                    <div className="movie-seat-row">
+                      <p>Dãy A</p>
+                      <p>Dãy B</p>
+                      <p>Dãy C</p>
+                      <p>Dãy VIP-1</p>
+                      <p>Dãy VIP-2</p>
+                      <p>Dãy Đôi</p>
                     </div>
-                    <p>Ghế vip trống</p>
                   </div>
-                </div>
-                <div className="movie-seat-desc-item">
-                  <div className="movie-seat-desc-wrap">
-                    <div className="movie-seat-desc-img">
-                      <img src={vipHover} alt="basicSeat" />
+                  <div className="movie-seat-desc">
+                    <div className="movie-seat-desc-wrap">
+                      <div className="movie-seat-desc-img">
+                        <img src={seat} alt="basicSeat" />
+                      </div>
+                      <p>Ghế chưa được đặt</p>
                     </div>
-                    <p>Ghế vip đã được đặt</p>
-                  </div>
-                </div>
-              </div>
-              <div className="movie-seat-group">
-                <div className="movie-seat-desc-item">
-                  <div className="movie-seat-desc-wrap">
-                    <div className="movie-seat-desc-img">
-                      <img src={douSeat} alt="basicSeat" />
+                    <div className="movie-seat-desc-wrap">
+                      <div className="movie-seat-desc-img">
+                        <img src={seatActived} alt="basicSeat" />
+                      </div>
+                      <p>Ghế đang chọn</p>
                     </div>
-                    <p>Ghế đôi trống</p>
-                  </div>
-                </div>
-                <div className="movie-seat-desc-item">
-                  <div className="movie-seat-desc-wrap">
-                    <div className="movie-seat-desc-img">
-                      <img src={douHover} alt="basicSeat" />
+                    <div className="movie-seat-desc-wrap">
+                      <div className="movie-seat-desc-img">
+                        <img src={seatPlaced} alt="basicSeat" />
+                      </div>
+                      <p>Ghế đã được đặt</p>
                     </div>
-                    <p>Ghế đôi đã được đặt</p>
                   </div>
+                </>
+              ) : (
+                <div className="movie-loading">
+                  <p>Chưa có suất chiếu này</p>
+                  <img
+                    src="/src/asset/image/uploading-calender.png"
+                    alt="upload image"
+                  />
                 </div>
-              </div>
-            </div>
+              )}
+            </Loading>
           </div>
-          <CheckoutBox
-            open={isOpenBill}
-            data={{
-              showtime:
-                data?.find((item) => item.time === timeSelected)?.showTime ??
-                "",
-              movie: movieDetail,
-              seats: [...seatSelected].map((seat) => {
-                return {
-                  calendarId:
-                    data?.find((item) => item.time === timeSelected)
-                      ?.calendarId ?? "",
-                  seatNumber: seat.column,
-                  seatType: getSeat(seat.type, seat.number, seat?.price)
-                    ?.type as SeatType,
-                  price: getSeat(seat.type, seat.number, seat?.price)?.price,
-                };
-              }),
-            }}
-            handle={handleCloseBill}
-          ></CheckoutBox>
         </div>
       )}
-    </Loading>
+      {movieDetail && (
+        <CheckoutBox
+          open={isOpenBill}
+          data={{
+            showtime:
+              data?.find((item) => item.time === timeSelected)?.showTime ?? "",
+            movie: movieDetail,
+            seats: [...seatSelected].map((seat) => {
+              return {
+                calendarId:
+                  data?.find((item) => item.time === timeSelected)?._id ?? "",
+                seatNumber: seat.column,
+                seatType: getSeat(seat.type, seat.number, seat?.price)
+                  ?.type as SeatType,
+                price: getSeat(seat.type, seat.number, seat?.price)?.price,
+              };
+            }),
+          }}
+          handle={handleCloseBill}
+        ></CheckoutBox>
+      )}
+    </>
   );
 };
 

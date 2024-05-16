@@ -1,4 +1,7 @@
 import "./AboutView.scss";
+import lvvCinema from "../../asset/image/lvv-cinema.jpg";
+import tduCinema from "../../asset/image/tdu-cinema.jpg";
+import tdCinema from "../../asset/image/td-cinema.jpg";
 export default function AboutView() {
   return (
     <div className="about">
@@ -26,25 +29,32 @@ export default function AboutView() {
             <h3>MOVIEON LÊ VĂN VIỆT</h3>
           </div>
           <div className="about-cinema-container">
-            <div className="about-cinema-content">
-              <p className="about-title">Địa điểm: </p>
-              <p>
-                Lê Văn Việt, Phường Tăng Nhơn Phú A, Thành Phố Thủ Đức, Hồ Chí
-                MIinh
-              </p>
+            <div className="about-wrapper">
+              <div className="about-cinema-content">
+                <p className="about-title">Địa điểm: </p>
+                <p>
+                  Lê Văn Việt, Phường Tăng Nhơn Phú A, Thành Phố Thủ Đức, Hồ Chí
+                  Minh
+                </p>
+              </div>
+              <div className="about-cinema-content">
+                <p className="about-title">Ngày hoạt động: </p>
+                <p>
+                  Mở cửa từ thứ Hai đến Chủ Nhật, từ 10 giờ sáng đến 11 giờ tối.
+                </p>
+              </div>
+              <div className="about-cinema-content">
+                <p className="about-title">Sức chứa: </p>
+                <p>
+                   Rạp có thể chứa đến 300 khán giả, với ghế ngồi thoải mái và
+                  góc nhìn tốt từ mọi vị trí.
+                </p>
+              </div>
             </div>
-            <div className="about-cinema-content">
-              <p className="about-title">Ngày hoạt động: </p>
-              <p>
-                Mở cửa từ thứ Hai đến Chủ Nhật, từ 10 giờ sáng đến 11 giờ tối.
-              </p>
-            </div>
-            <div className="about-cinema-content">
-              <p className="about-title">Sức chứa: </p>
-              <p>
-                 Rạp có thể chứa đến 300 khán giả, với ghế ngồi thoải mái và góc
-                nhìn tốt từ mọi vị trí.
-              </p>
+            <div className="about-image">
+              <img src={lvvCinema} alt="Movieon" />
+              <img src={tdCinema} alt="Movieon" />
+              <img src={tduCinema} alt="Movieon" />
             </div>
           </div>
         </div>
@@ -54,25 +64,29 @@ export default function AboutView() {
             <h3>MOVIEON BÌNH DƯƠNG</h3>
           </div>
           <div className="about-cinema-container">
-            <div className="about-cinema-content">
-              <p className="about-title">Địa điểm: </p>
-              <p>
-                Lê Văn Việt, Phường Tăng Nhơn Phú A, Thành Phố Thủ Đức, Hồ Chí
-                MIinh
-              </p>
+            <div className="about-wrapper">
+              <div className="about-cinema-content">
+                <p className="about-title">Địa điểm: </p>
+                <p>8, 19, Bình Dương, Việt Nam</p>
+              </div>
+              <div className="about-cinema-content">
+                <p className="about-title">Ngày hoạt động: </p>
+                <p>
+                  Mở cửa từ thứ Hai đến Chủ Nhật, từ 10 giờ sáng đến 11 giờ tối.
+                </p>
+              </div>
+              <div className="about-cinema-content">
+                <p className="about-title">Sức chứa: </p>
+                <p>
+                   Rạp có thể chứa đến 300 khán giả, với ghế ngồi thoải mái và
+                  góc nhìn tốt từ mọi vị trí.
+                </p>
+              </div>
             </div>
-            <div className="about-cinema-content">
-              <p className="about-title">Ngày hoạt động: </p>
-              <p>
-                Mở cửa từ thứ Hai đến Chủ Nhật, từ 10 giờ sáng đến 11 giờ tối.
-              </p>
-            </div>
-            <div className="about-cinema-content">
-              <p className="about-title">Sức chứa: </p>
-              <p>
-                 Rạp có thể chứa đến 300 khán giả, với ghế ngồi thoải mái và góc
-                nhìn tốt từ mọi vị trí.
-              </p>
+            <div className="about-image">
+              <img src={lvvCinema} alt="Movieon" />
+              <img src={tdCinema} alt="Movieon" />
+              <img src={tduCinema} alt="Movieon" />
             </div>
           </div>
         </div>
@@ -82,25 +96,64 @@ export default function AboutView() {
             <h3>MOVIEON THỦ ĐỨC</h3>
           </div>
           <div className="about-cinema-container">
-            <div className="about-cinema-content">
-              <p className="about-title">Địa điểm: </p>
-              <p>
-                Lê Văn Việt, Phường Tăng Nhơn Phú A, Thành Phố Thủ Đức, Hồ Chí
-                MIinh
-              </p>
+            <div className="about-wrapper">
+              <div className="about-cinema-content">
+                <p className="about-title">Địa điểm: </p>
+                <p>
+                  Đ. Phạm Văn Đồng, Hiệp Bình Chánh, Thủ Đức, Thành phố Hồ Chí
+                  Minh 70000, Việt Nam
+                </p>
+              </div>
+              <div className="about-cinema-content">
+                <p className="about-title">Ngày hoạt động: </p>
+                <p>
+                  Mở cửa từ thứ Hai đến Chủ Nhật, từ 10 giờ sáng đến 11 giờ tối.
+                </p>
+              </div>
+              <div className="about-cinema-content">
+                <p className="about-title">Sức chứa: </p>
+                <p>
+                   Rạp có thể chứa đến 300 khán giả, với ghế ngồi thoải mái và
+                  góc nhìn tốt từ mọi vị trí.
+                </p>
+              </div>
             </div>
-            <div className="about-cinema-content">
-              <p className="about-title">Ngày hoạt động: </p>
-              <p>
-                Mở cửa từ thứ Hai đến Chủ Nhật, từ 10 giờ sáng đến 11 giờ tối.
-              </p>
+            <div className="about-image">
+              <img src={lvvCinema} alt="Movieon" />
+              <img src={tdCinema} alt="Movieon" />
+              <img src={tduCinema} alt="Movieon" />
             </div>
-            <div className="about-cinema-content">
-              <p className="about-title">Sức chứa: </p>
-              <p>
-                 Rạp có thể chứa đến 300 khán giả, với ghế ngồi thoải mái và góc
-                nhìn tốt từ mọi vị trí.
-              </p>
+          </div>
+        </div>
+        <div className="about-cinema">
+          <div className="about-cinema-title">
+            <div className="about-cinema-line"></div>
+            <h3>MOVIEON THẢO ĐIỀN</h3>
+          </div>
+          <div className="about-cinema-container">
+            <div className="about-wrapper">
+              <div className="about-cinema-content">
+                <p className="about-title">Địa điểm: </p>
+                <p>Quốc Hương, Thảo Điền, Quận 2, Thành phố Hồ Chí Minh</p>
+              </div>
+              <div className="about-cinema-content">
+                <p className="about-title">Ngày hoạt động: </p>
+                <p>
+                  Mở cửa từ thứ Hai đến Chủ Nhật, từ 10 giờ sáng đến 11 giờ tối.
+                </p>
+              </div>
+              <div className="about-cinema-content">
+                <p className="about-title">Sức chứa: </p>
+                <p>
+                   Rạp có thể chứa đến 300 khán giả, với ghế ngồi thoải mái và
+                  góc nhìn tốt từ mọi vị trí.
+                </p>
+              </div>
+            </div>
+            <div className="about-image">
+              <img src={lvvCinema} alt="Movieon" />
+              <img src={tdCinema} alt="Movieon" />
+              <img src={tduCinema} alt="Movieon" />
             </div>
           </div>
         </div>

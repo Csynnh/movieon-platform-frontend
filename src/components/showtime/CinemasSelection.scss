@@ -1,20 +1,62 @@
+@import "../../style.scss";
 .showtime {
-   &-selection {
+  &-selection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    label {
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-      label {
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         gap: 3px;
-         font-weight: 600;
-         @media screen and (max-width: 425.98px) {
-            svg {
-               width: 20px;
-            }
-         }
+      gap: 3px;
+      font-weight: 600;
+      @media screen and (max-width: 425.98px) {
+        svg {
+          width: 20px;
+        }
       }
-   }
+    }
+    .ant-select-dropdown {
+      .ant-select-item {
+        background-color: red;
+      }
+    }
+  }
+}
+
+.ant-select.ant-select-outlined {
+  min-width: 300px;
+  height: 44px;
+  .ant-select-selector {
+    height: 100%;
+    padding: 14px 18px;
+    border-radius: 100rem;
+  }
+}
+.ant-select-dropdown {
+  border-radius: 18px;
+  padding: 8px;
+  // @Overwrite
+  .rc-virtual-list-holder-inner {
+    gap: 4px;
+  }
+  .ant-select-item {
+    height: 44px;
+    border-radius: 52px;
+    &.ant-select-item-option {
+      &.ant-select-item-option-active {
+        background-color: $secondary-color;
+      }
+      &.ant-select-item-option-selected {
+        background-color: $primary-color;
+        color: white;
+      }
+      .ant-select-item-option-content {
+        padding-left: 4px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
 }

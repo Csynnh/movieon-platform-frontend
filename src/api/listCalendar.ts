@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import api from "./axiosConfig";
 import { CalendarType } from "./type";
 import { useQuery } from "react-query";
@@ -21,7 +22,7 @@ const listCalendar = async ({
       });
       return response.data.map((calendar: CalendarType) => ({
         ...calendar,
-        showTime: new Date(calendar.showTime).toTimeString().split(" ")[0],
+        time: dayjs(calendar.showTime).locale("vi").format("DD/MM/YYYY HH:mm"),
       }));
     }
     return [];

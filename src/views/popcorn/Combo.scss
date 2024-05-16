@@ -46,9 +46,9 @@
     }
   }
   &-interact {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: space-between;
     margin-top: 5px;
   }
   &-count {
@@ -73,11 +73,7 @@
       height: 18px;
     }
   }
-  vaadin-button {
-    padding: 20px;
-    background-color: $primary-color;
-    color: white;
-  }
+
   svg {
     width: 20px;
     height: 20px;
@@ -99,16 +95,13 @@
     }
     &-count {
       gap: 10px;
+      align-items: center;
       span {
         font-size: 12px;
       }
       p {
         font-size: 14px;
       }
-    }
-    vaadin-button {
-      padding: 10px;
-      font-size: 12px;
     }
   }
 }

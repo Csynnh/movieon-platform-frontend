@@ -1,9 +1,6 @@
 export interface Movie {
   title: string;
-  _id: {
-    timestamp: number;
-    date: Date;
-  };
+  _id: string;
   genres: string[];
   poster: string;
   imdb: {
@@ -11,7 +8,6 @@ export interface Movie {
     votes: number;
     id: number;
   };
-  movieId: string;
   imdbId: number;
   runtime: number;
   released: Date;
@@ -29,10 +25,19 @@ export interface CalendarType {
   time?: string;
   calendarId: string;
 }
+export interface CalendarColumnType {
+  key: React.Key;
+  movie: Movie;
+  theater: TheaterType;
+  showTime: string;
+  time?: string;
+  calendarId: string;
+}
 export interface TheaterType {
   _id: string;
   name: string;
   cinemaId: string;
+  theaterId: string;
 }
 export interface MovieDetail {
   title: string;
@@ -48,13 +53,15 @@ export interface MovieDetail {
   rated: string;
 }
 export interface TenantType {
-  _id: string;
+  _id?: string;
   username: string;
   password: string;
   email: string;
+  firstName: string;
+  lastname: string;
 }
 export interface User {
-  _id: string;
+  _id?: string;
   username: string;
   password: string;
   email: string;

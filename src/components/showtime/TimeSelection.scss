@@ -1,15 +1,10 @@
 .showtime-time {
-  vaadin-radio-group::part(group-field) {
-    justify-content: flex-start;
+  .ant-radio {
+    display: none;
   }
-  vaadin-radio-group {
-    padding: 0;
-  }
-  vaadin-button,
-  vaadin-button[theme~="primary"] {
-    padding: 16px;
-    cursor: pointer;
-    min-width: unset;
+  .ant-btn {
+    width: fit-content;
+    font-size: 14px;
   }
 }
 .showtime-selection.time {

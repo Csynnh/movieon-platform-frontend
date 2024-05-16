@@ -1,10 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import comboPoster from "../../asset/image/combo-poster.png";
+import CheckoutBox from "../../components/checkoutBox/CheckoutBox";
 import Combo from "./Combo";
 import "./PopCorn.scss";
-import CheckoutBox from "../../components/checkoutBox/CheckoutBox";
-
+import useCombos from "../../api/listCombos";
+export type Combotype = {
+  name: string;
+  count: number;
+  price: number;
+};
 const PopCorn = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location?.state?.data) {
+      navigate("/");
+    }
+  }, [location, navigate]);
+
+  const data = location.state.data;
   const [isOpenBill, setIsOpenBill] = useState(true);
+  const [popcorn, setPopcorn] = useState<Combotype[]>([]);
+
+  const { data: dataCombo, isLoading } = useCombos();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   const handleCloseBill = () => {
     setIsOpenBill(false);
   };
@@ -51,15 +74,25 @@ const PopCorn = () => {
           <p>Combo</p>
         </div>
         <div className="popcorn-combo">
-          <Combo></Combo>
-          <Combo></Combo>
-          <Combo></Combo>
-          <Combo></Combo>
-          <Combo></Combo>
-          <Combo></Combo>
+          {dataCombo?.map((item: any) => (
+            <Combo
+              desc={item.description}
+              poster={comboPoster}
+              name={item.name}
+              price_discount={item.discount}
+              price_orgin={item.price}
+              key={item._id}
+              setPopcorn={setPopcorn}
+            ></Combo>
+          ))}
         </div>
       </div>
-      {isOpenBill && <CheckoutBox handle={handleCloseBill}></CheckoutBox>}
+      <CheckoutBox
+        open={isOpenBill}
+        handle={handleCloseBill}
+        data={data}
+        popcorn={popcorn}
+      ></CheckoutBox>
     </div>
   );
 };

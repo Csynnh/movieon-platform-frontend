@@ -16,17 +16,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-block: 60px;
+    margin-block: 25px;
     @media screen and (max-width: 768.98px) {
       margin-block: 50px 30px;
     }
     h2 {
-      font-size: 35px;
+      font-size: 25px;
       font-weight: 800;
       line-height: 42.36px;
       text-align: center;
       padding-inline: 20px;
-      background-color: white;
       z-index: 2;
       position: relative;
       display: inline-block;
@@ -34,18 +33,9 @@
       @media screen and (max-width: 768.98px) {
         font-size: 24px;
       }
-    }
-    position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: 1px;
-      background-color: $primary-color;
-      z-index: 1;
+      padding: 14px 28px;
+      border-radius: 100rem;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     }
   }
   &-selection {
@@ -53,6 +43,9 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 16px;
+    svg {
+      width: 25px;
+    }
     label {
       display: flex;
       justify-content: center;
@@ -65,13 +58,50 @@
         }
       }
     }
+    .ant-select {
+      &-selector {
+        box-shadow: unset !important;
+        border-color: $primary-color;
+      }
+    }
   }
-
-  .day {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 18.15px;
-    text-align: center;
+  .ant-select-item-option-active.ant-select-item-option-selected {
+    background-color: $primary-color !important;
+  }
+  span .ant-select-selection-item {
+    font-size: 16px;
+  }
+  &-date {
+    .ant-radio-wrapper {
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid $primary-color;
+      &-checked {
+        border-color: transparent;
+      }
+      span {
+        padding: 0;
+        p {
+          border-radius: 8px;
+          width: 100%;
+          padding: 5px 30px;
+          margin: 0;
+          &.checked {
+            background-color: $primary-color;
+            color: white;
+          }
+          .day {
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    .ant-radio-group {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
   }
   &-movies {
     margin-top: 50px;
@@ -90,7 +120,8 @@
     }
   }
   &-tickets {
-    display: flex;
+    display: grid;
+    grid-template-columns: 5fr 7fr;
     justify-content: center;
     align-items: center;
     span {
@@ -117,34 +148,6 @@
           width: 22px;
         }
       }
-    }
-  }
-}
-vaadin-radio-button::part(radio) {
-  display: none;
-}
-vaadin-radio-group {
-  width: 100%;
-  &::part(group-field) {
-    justify-content: space-between;
-  }
-}
-
-vaadin-button {
-  outline: $primary-color 1px solid;
-  padding: 30px 35px;
-  color: black;
-
-  &[theme~="primary"] {
-    background-color: $primary-color;
-    color: white;
-  }
-  @media screen and (max-width: 768.98px) {
-    padding: 20px;
-    p {
-      margin: 0;
-      font-size: 10px;
-      font-weight: 500;
     }
   }
 }

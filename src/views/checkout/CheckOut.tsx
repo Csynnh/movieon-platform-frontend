@@ -1,61 +1,30 @@
 import combo from "../../asset/image/combo.png";
 
-import { Button } from "@hilla/react-components/Button.js";
-import { RadioButton } from "@hilla/react-components/RadioButton";
-import { RadioGroup } from "@hilla/react-components/RadioGroup";
+import { Button, Col, Form, Input, Radio } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Movie, SeatRequest } from "../../api/type";
-import { AddBtn } from "./AddBtn";
-import "./CheckOut.scss";
-import { MinusBtn } from "./MinusBtn";
-import Overlay from "./Overlay";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { FormLayout } from "@hilla/react-components/FormLayout.js";
-import { responsiveSteps } from "../admin/Admin";
-import Input from "./Input";
-import { addSeat } from "../../api/addSeat";
-import { useNavigate, useLocation } from "react-router-dom";
 import { formatDate } from "../../util/date";
 import { convertToVietnamese } from "../../util/language";
-import { useForm } from "react-hook-form";
-import { useEffect, useMemo, useState } from "react";
-const schema = yup.object({
-  customerName: yup.string().required("Customer name is required"),
-  customerPhone: yup
-    .string()
-    .required("Phone number is required")
-    .test("startsWithZero", "Phone number must start with 0", (val) => {
-      return val.charAt(0) === "0";
-    })
-    .test("len", "Must be exactly 10 characters", (val) => {
-      return val.length === 10;
-    }),
-  customerEmail: yup
-    .string()
-    .email("Email is invalid")
-    .required("Email is required"),
-});
+import { Combotype } from "../popcorn/PopCorn";
+import "./CheckOut.scss";
+import Overlay from "./Overlay";
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-  useEffect(() => {
-    if (!location?.state?.data) {
-      navigate("/");
-    }
-  }, [location, navigate]);
+  // const [count, setCount] = useState(1); // khoi tao 1 state va 1 ham de thay doi trang thai
 
+  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
+  const [form] = Form.useForm();
   const data: {
     movie: Movie;
     seats: SeatRequest[];
     showtime: string;
-  } = location.state.data;
+    popcorn: Combotype[];
+  } = location?.state?.dataCheckout;
+  console.log(data);
+  const priceCombo =
+    data?.popcorn?.reduce((acc, item) => acc + item.price * item.count, 0) ?? 0;
 
   const priceTicket = useMemo(() => {
     if (data?.seats)
@@ -64,42 +33,32 @@ const CheckOut = () => {
       );
     else return 0;
   }, [data?.seats]);
-  const priceCombo = 60000;
+  const [total, setTotal] = useState(priceTicket + priceCombo);
 
-  const [count, setCount] = useState(1); // khoi tao 1 state va 1 ham de thay doi trang thai
-  const [tempCombo, setTemp] = useState(priceCombo * count);
-  const [total, setTotal] = useState(priceTicket + tempCombo);
-  const [isOpenOverlay, setIsOpenOverlay] = useState(false);
-
-  const handleIncrease = () => {
-    setCount(count + 1); // re-render
-    setTemp(priceCombo * (count + 1));
-    setTotal(priceTicket + priceCombo * (count + 1));
-  };
-  const handleDecrease = () => {
-    if (count === 0) return;
-    setCount(count - 1);
-    setTemp(priceCombo * (count - 1));
-    setTotal(priceTicket + priceCombo * (count - 1));
-  };
+  useEffect(() => {
+    if (!location?.state?.dataCheckout) {
+      navigate("/");
+    }
+  }, [location, navigate]);
+  if (!location?.state?.dataCheckout) return null;
 
   //Xu ly close Overlay
   const handleExit = () => {
     setIsOpenOverlay(false);
   };
 
-  const handleSubmitForm = async () => {
-    const seatsData = data?.seats?.map((seat) => {
-      return {
-        ...seat,
-        price: Number(seat.price) * 1000,
-      };
-    });
-    await addSeat(seatsData);
+  const handleSubmitForm = async (values: any) => {
+    console.log(values);
+    // const seatsData = data?.seats?.map((seat) => {
+    //   return {
+    //     ...seat,
+    //     price: Number(seat.price) * 1000,
+    //   };
+    // });
+    // await addSeat(seatsData);
+    // navigate("/");
     setIsOpenOverlay(true);
-    navigate("/");
   };
-  if (!location?.state?.data) return null;
 
   return (
     <div>
@@ -185,90 +144,137 @@ const CheckOut = () => {
                   </span>
                 </div>
               </div>
-              <div className="checkout-item combo">
-                <div className="checkout-image">
-                  <img src={combo} alt="combo" />
-                </div>
-                <div className="checkout-item-content">
-                  <div className="checkout-item-content-header">
-                    Combo bắp nước
-                  </div>
-                  <div className="checkout-item-content-title">
-                    <p>Đơn giá: </p>
-                    <span>{priceCombo}</span>
-                  </div>
-                  <div className="checkout-item-content-title">
-                    <p>Loại: </p>
-                    <span>Combo 1</span>
-                  </div>
-                  <div className="checkout-item-content-title">
-                    <p>Số lượng</p>
-                    <div className="checkout-count">
-                      <MinusBtn handle={handleDecrease} />
-                      <p>{count}</p>
-                      <AddBtn handle={handleIncrease} />
+              {priceCombo ? (
+                <>
+                  <div className="checkout-item combo">
+                    <div className="checkout-image">
+                      <img src={combo} alt="combo" />
+                    </div>
+                    <div className="checkout-item-content">
+                      <div className="checkout-item-content-header">
+                        Combo bắp nước
+                      </div>
+                      <div className="checkout-item-content-title">
+                        <p>Đơn giá: </p>
+                        <span>{priceCombo}</span>
+                      </div>
+                      <div className="checkout-item-content-title">
+                        <p>Tên: </p>
+                        <span>
+                          {data?.popcorn?.map(
+                            (item) => `${item.count} ${item.name} /`
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="checkout-temp">
-                <p>Tạm tính</p>
-                <div>
-                  <span className="checkout-price">{tempCombo} </span>
-                  <span>(Chín mươi nghìn đồng)</span>
-                </div>
-              </div>
+                  <div className="checkout-temp">
+                    <p>Tạm tính</p>
+                    <div>
+                      <span className="checkout-price">{priceCombo} </span>
+                      <span>({convertToVietnamese(priceCombo)})</span>
+                    </div>
+                  </div>
+                </>
+              ) : null}
               <div className="checkout-line"></div>
               <div className="checkout-temp">
                 <p>Tổng</p>
                 <div>
                   <span className="checkout-price">{total} </span>
-                  <span>(Chín mươi nghìn đồng)</span>
+                  <span>({convertToVietnamese(total)})</span>
                 </div>
               </div>
             </div>
             <div className="checkout-right">
-              <FormLayout responsiveSteps={responsiveSteps} autoFocus={false}>
-                <Input
-                  errors={errors}
-                  colSpan={2}
-                  label="Tên Khách hàng"
-                  name="customerName"
-                  register={register}
-                />
-                <Input
-                  errors={errors}
-                  colSpan={2}
-                  label="Số điện thoại"
-                  name="customerPhone"
-                  register={register}
-                />
-                <Input
-                  errors={errors}
-                  colSpan={2}
-                  label="Email"
-                  name="customerEmail"
-                  register={register}
-                />
-                <div className="checkout-payment">
-                  <p>Phương thức thanh toán</p>
-                  <div className="radio">
-                    <RadioGroup theme="vertical">
-                      <RadioButton value="bank" label="Ngân hàng" />
-                      <RadioButton value="momo" label="Momo" />
-                      <RadioButton value="vnpay" label="VnPay" />
-                    </RadioGroup>
-                  </div>
-                </div>
+              <Form
+                autoFocus={false}
+                layout="vertical"
+                form={form}
+                onFinish={handleSubmitForm}
+              >
+                <Col>
+                  <Form.Item
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập trường này",
+                      },
+                    ]}
+                    label="Tên Khách hàng"
+                    name="customerName"
+                  >
+                    <Input placeholder="Nhap Tên Khách hàng"></Input>
+                  </Form.Item>
+                </Col>
+
+                <Col>
+                  <Form.Item
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập trường này",
+                      },
+                    ]}
+                    label="Số điện thoại"
+                    name="customerPhone"
+                  >
+                    <Input
+                      maxLength={10}
+                      placeholder="Nhap Số điện thoại"
+                    ></Input>
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập trường này",
+                      },
+                    ]}
+                    label="Email"
+                    name="customerEmail"
+                  >
+                    <Input placeholder="Nhap Email"></Input>
+                  </Form.Item>
+                </Col>
+                <Col className="checkout-payment">
+                  <Form.Item
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập trường này",
+                      },
+                    ]}
+                    label="Phương thức thanh toán"
+                    name={"paymentMethod"}
+                    className="radio"
+                    initialValue={"bank"}
+                    style={{
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Radio.Group buttonStyle="solid">
+                      <Radio.Button value="bank">Ngân hàng</Radio.Button>
+                      <Radio.Button value="momo">Momo</Radio.Button>
+                      <Radio.Button value="vnpay">VnPay</Radio.Button>
+                    </Radio.Group>
+                  </Form.Item>
+                </Col>
 
                 <Button
-                  theme="primary"
-                  onClick={handleSubmit(handleSubmitForm)}
-                  disabled={isSubmitting}
+                  type="primary"
+                  htmlType="submit"
+                  // disabled={isSubmitting}
                 >
                   Xác nhận
                 </Button>
-              </FormLayout>
+              </Form>
             </div>
           </div>
         </div>

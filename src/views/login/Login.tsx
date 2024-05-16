@@ -1,33 +1,22 @@
-import { Button } from "@hilla/react-components/Button.js";
-import { FormLayout } from "@hilla/react-components/FormLayout.js";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Button, Col, Form } from "antd";
 import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-import * as yup from "yup";
 import { signInUser } from "../../api/signInUser";
 import GoogleIcon from "../../asset/icon/GoogleIcon";
 import PhoneIcon from "../../asset/icon/PhoneIcon";
 import SignIn from "../../asset/image/login.png";
-import Input from "../checkout/Input";
+import CustomInput_cp from "../../components/inputField/InputField";
 import "./Login.scss";
+import { useState } from "react";
 
-const schema = yup.object({
-  username: yup.string().required("Username is required"),
-  password: yup.string().required("Password is required"),
-});
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit = async (data: any) => {
+    setIsSubmitting(true);
     const { username, password } = data;
     if (username && password) {
       try {
@@ -47,19 +36,15 @@ const Login = () => {
           navigate("/");
         } else {
           if (response.data.message === "Password not match")
-            setError("password", {
-              type: "manual",
-              message: "Password not match!",
-            });
-          Toastify({
-            text: `${response.data.message}`,
-            duration: 3000,
-            style: {
-              background: "linear-gradient(to right, #ff416c, #ff4b2b)",
-              color: "#fff",
-              fontWeight: "500",
-            },
-          }).showToast();
+            Toastify({
+              text: `${response.data.message}`,
+              duration: 3000,
+              style: {
+                background: "linear-gradient(to right, #ff416c, #ff4b2b)",
+                color: "#fff",
+                fontWeight: "500",
+              },
+            }).showToast();
         }
       } catch (error) {
         Toastify({
@@ -68,39 +53,42 @@ const Login = () => {
         }).showToast();
       }
     }
+    setIsSubmitting(false);
   };
   return (
     <div className="login">
       <div className="login-container">
         <div className="login-left">
-          <FormLayout className="login-form">
-            <Input
-              register={register}
-              errors={errors}
-              name="username"
-              label="Username"
-            ></Input>
-            <Input
-              register={register}
-              errors={errors}
-              name="password"
-              type="password"
-              label="Password"
-            ></Input>
+          <Form
+            className="login-form"
+            layout="vertical"
+            onFinish={onSubmit}
+            form={form}
+          >
+            <Col span={22}>
+              <CustomInput_cp name="username" label="Username" />
+            </Col>
+            <Col span={22}>
+              <CustomInput_cp
+                name="password"
+                label="Password"
+                type="password"
+              />
+            </Col>
             <div className="login-forgot">
               <a href="/">Quên mật khẩu</a>
             </div>
             <div className="login-button-wrap">
-              <Button onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+              <Button htmlType="submit" loading={isSubmitting}>
                 Đăng nhập
               </Button>
-              <Button disabled={isSubmitting}>
+              <Button>
                 <div className="login-btn">
                   <div className="login-lable">Đăng nhập bằng Google</div>
                   <GoogleIcon />
                 </div>
               </Button>
-              <Button disabled={isSubmitting}>
+              <Button>
                 <div className="login-btn">
                   <div className="login-lable">Đăng nhập bằng điện thoại</div>
                   <PhoneIcon />
@@ -110,7 +98,7 @@ const Login = () => {
             <div className="login-signup">
               <a href="/">Đăng ký</a>
             </div>
-          </FormLayout>
+          </Form>
         </div>
         <div className="login-right">
           <img src={SignIn} alt="SigninImg" />

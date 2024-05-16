@@ -1,33 +1,20 @@
-import { Button } from "@hilla/react-components/Button.js";
-import { FormLayout } from "@hilla/react-components/FormLayout.js";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, Col, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
+import Toastify from "toastify-js";
 import { signInAdmin } from "../../api/signInAdmin";
 import Logo from "../../asset/icon/Logo";
 import SignInAdminImage from "../../asset/icon/SignInAdminImage";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import Toastify from "toastify-js";
-import * as yup from "yup";
-import Input from "../checkout/Input";
-import { responsiveSteps } from "./Admin";
 import "./SignInTenant.scss";
-const schema = yup.object({
-  username: yup.string().required("Username is required"),
-  password: yup.string().required("Password is required"),
-});
+import { useState } from "react";
 const SignInTenant = () => {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-  const onSubmit = async (data: any) => {
-    const { username, password } = data;
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const onSubmit = async (values: any) => {
+    const { username, password } = values;
     if (username && password) {
       try {
+        setLoading(true);
         const response = await signInAdmin(username, password);
         if (response.data.status) {
           Toastify({
@@ -41,7 +28,7 @@ const SignInTenant = () => {
             "tenant",
             JSON.stringify({ username: username, password: password })
           );
-          navigate("/admin/dashboard");
+          navigate("/admin");
         } else {
           Toastify({
             text: `${response.data.message}`,
@@ -55,6 +42,7 @@ const SignInTenant = () => {
         }).showToast();
       }
     }
+    setLoading(false);
   };
   return (
     <div className="tenant_signin-container">
@@ -65,31 +53,47 @@ const SignInTenant = () => {
         <h1>
           <Logo />
         </h1>
-        <FormLayout responsiveSteps={responsiveSteps}>
-          <Input
-            errors={errors}
-            colSpan={2}
-            label="Username"
-            name="username"
-            register={register}
-          />
-          <Input
-            errors={errors}
-            colSpan={2}
-            label="Password"
-            name="password"
-            register={register}
-            type={"password"}
-          />
+        <Form form={form} onFinish={onSubmit} autoFocus={false}>
+          <Col>
+            <Form.Item
+              name={"username"}
+              required
+              label={"Username"}
+              rules={[
+                {
+                  required: true,
+                  message: `Please input your username!`,
+                },
+              ]}
+            >
+              <Input disabled={loading}></Input>
+            </Form.Item>
+          </Col>
+          <Col>
+            <Form.Item
+              label={"Password"}
+              name={"password"}
+              required
+              rules={[
+                {
+                  required: true,
+                  message: `Please input your password!`,
+                },
+              ]}
+            >
+              <Input.Password disabled={loading}></Input.Password>
+            </Form.Item>
+          </Col>
           <Button
+            htmlType="submit"
             className="tenant__schema-button"
-            theme="primary"
-            onClick={handleSubmit(onSubmit)}
-            disabled={isSubmitting}
+            type="primary"
+            loading={loading}
+            disabled={loading}
           >
             Submit
           </Button>
-        </FormLayout>
+        </Form>
       </div>
     </div>
   );

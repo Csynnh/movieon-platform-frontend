@@ -97,7 +97,7 @@ const Footer = () => {
         </div>
         <div className="footer-wrapper">
           <div className="footer-title">Giáo viên hướng dẫn</div>
-          <div className="footer-desc">Nguyễn Văn Dự</div>
+          <div className="footer-desc">Nguyễn Văn Dũ</div>
         </div>
         <div className="footer-wrapper">
           <div className="footer-title">Về chúng tôi</div>

@@ -1,5 +1,4 @@
-import { ProgressBar } from '@hilla/react-components/ProgressBar.js';
-
+import { Progress } from "antd";
 export default function Placeholder() {
-  return <ProgressBar indeterminate={true} className="m-0" />;
+  return <Progress className="m-0" />;
 }

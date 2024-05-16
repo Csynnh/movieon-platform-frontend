@@ -51,7 +51,7 @@ export const routes = [
       },
 
       {
-        path: "/admin",
+        path: "/admin/login",
         element: (
           <ProtectedRoute>
             <Admin />
@@ -76,13 +76,9 @@ export const routes = [
         element: <Login />,
         handle: { title: "Login Movieon" },
       },
+
       {
-        path: "/admin/signin",
-        element: <SignInAdmin />,
-        handle: { title: "Sign In" },
-      },
-      {
-        path: "/admin/dashboard",
+        path: "/admin",
         element: (
           <ProtectedRoute>
             <Dashboard />
@@ -91,6 +87,11 @@ export const routes = [
         handle: { title: "Dashboard" },
       },
     ],
+  },
+  {
+    path: "/admin/signin",
+    element: <SignInAdmin />,
+    handle: { title: "Sign In" },
   },
 ] as any;
 

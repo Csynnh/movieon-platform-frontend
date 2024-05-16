@@ -1,14 +1,11 @@
-import { Button } from "@hilla/react-components/Button.js";
+import { Button } from "antd";
 import "./style.scss";
-import { RadioButton } from "@hilla/react-components/RadioButton.js";
 
-const TimeButton = (props: { children: any, isActive?: boolean }) => {
+const TimeButton = (props: { children: any; isActive?: boolean }) => {
   return (
-    <RadioButton>
-      <label slot="label">
-        <Button theme={`${props?.isActive ? 'primary': 'secondary'}`} color="#0B2447">{props?.children}</Button>
-      </label>
-    </RadioButton>
+    <Button type={`${props?.isActive ? "primary" : "default"}`} color="#0B2447">
+      {props?.children}
+    </Button>
   );
 };
 

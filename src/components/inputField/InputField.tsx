@@ -1,32 +1,30 @@
-import { TextField } from "@hilla/react-components/TextField.js";
+import { Form, Input } from "antd";
 import "./style.scss";
-import { PasswordField } from "@hilla/react-components/PasswordField.js";
-import { EmailField } from "@hilla/react-components/EmailField.js";
-const InputField = (props: {
-   register: any;
-   errors: any;
-   name: string;
-   label: string;
-   type?: string;
-   colSpan?: any;
+const CustomInput_cp = (props: {
+  name: string;
+  label: string;
+  type?: string;
 }) => {
-   const { register, errors, name, label, type, colSpan } = props;
-   return (
-      <>
-         <div className="input_field-container" {...{ colSpan: colSpan }}>
-            {type === "password" ? (
-               <PasswordField {...props} label={label} {...register(name)} />
-            ) : type === "email" ? (
-               <EmailField {...props} label={label} {...register(name)} />
-            ) : (
-               <TextField {...props} label={label} {...register(name)} />
-            )}
-            {errors[name] && (
-               <span className="input_field-error">{errors[name].message}</span>
-            )}
-         </div>
-      </>
-   );
+  const { name, label, type } = props;
+  return (
+    <Form.Item
+      name={name}
+      label={label}
+      required
+      rules={[
+        {
+          required: true,
+          message: `Please input your ${label}!`,
+        },
+      ]}
+    >
+      {type && type === "password" ? (
+        <Input.Password></Input.Password>
+      ) : (
+        <Input></Input>
+      )}
+    </Form.Item>
+  );
 };
 
-export default InputField;
+export default CustomInput_cp;

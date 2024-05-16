@@ -2,6 +2,7 @@ import { CalendarParams } from "./listCalendar";
 import { CalendarType } from "./type";
 import api from "./axiosConfig";
 import { useQuery } from "react-query";
+import dayjs from "dayjs";
 
 const listCalendar = async ({
   cinemaId,
@@ -19,7 +20,7 @@ const listCalendar = async ({
       });
       return response.data.map((calendar: CalendarType) => ({
         ...calendar,
-        time: new Date(calendar.showTime).toTimeString().split(" ")[0],
+        time: dayjs(calendar.showTime).locale("vi").format("DD/MM/YYYY HH:mm"),
       }));
     }
     return [];
@@ -27,11 +28,11 @@ const listCalendar = async ({
     throw new Error("Failed to fetch calendars");
   }
 };
-const listCalendars = ({ cinemaId, movieId, date }: CalendarParams) => {
+const useListCalendars = ({ cinemaId, movieId, date }: CalendarParams) => {
   // Use the useQuery hook with the listCalendar function
   return useQuery(["calendars", cinemaId, movieId, date], () =>
     listCalendar({ cinemaId, movieId, date })
   );
 };
 
-export default listCalendars;
+export default useListCalendars;

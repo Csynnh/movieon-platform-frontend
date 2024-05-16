@@ -43,7 +43,7 @@
     &-content {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 7px;
       padding: 5px 0;
       justify-content: center;
       &-header {
@@ -61,7 +61,7 @@
         font-size: 14px;
         white-space: nowrap;
         max-width: 100%;
-        overflow: auto;
+        // overflow: auto;
         text-overflow: ellipsis;
         p,
         span {
@@ -126,71 +126,23 @@
     border-radius: 5px;
     height: fit-content;
     font-size: 20px;
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 60px;
-      .input {
-        position: relative;
-        border-bottom: 1px solid $primary-color;
-        // max-width: 400px;
-        width: 100%;
-        span {
-          position: absolute;
-          user-select: none;
-          top: 0;
-          left: 0;
-          transition: all ease 0.3s;
-          font-style: italic;
-          color: $primary-color;
-          font-size: 16px;
-          font-weight: 500;
-          &.ontop {
-            top: -100%;
-          }
-        }
-        input {
-          outline: none;
-          border: none;
-          cursor: pointer;
-          width: 100%;
-        }
-        input:focus {
-          & + span,
-          & + span.ontop {
-            top: -100%;
-          }
-        }
-      }
-    }
   }
   &-payment {
     display: flex;
     flex-direction: column;
     margin-top: -20px;
+    width: 100%;
     p {
       font-weight: 700;
       margin-bottom: 0;
     }
-    vaadin-radio-button[checked] {
-      &::part(radio) {
-        background-color: $primary-color;
-        outline: $primary-color;
-      }
-    }
   }
 
-  vaadin-button {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: -30px;
-    width: 75%;
-    background: $primary-color;
-  }
   .action-btn {
     cursor: pointer;
   }
   &-overlay {
+    z-index: 5;
     position: fixed;
     background-color: #d9d9d9e5;
     top: 0;
@@ -208,7 +160,6 @@
       width: 400px;
       display: flex;
       flex-direction: column;
-      padding: 50px;
       position: relative;
       svg {
         position: absolute;
@@ -228,6 +179,7 @@
     border-radius: 5px;
     .checkout-item-content-title {
       justify-content: center;
+      margin-block: 5px;
     }
   }
   lable {
@@ -324,15 +276,8 @@
         margin-top: 20px;
         font-size: 14px;
       }
-      vaadin-radio-button {
-        font-size: 12px;
-        font-weight: 500;
-      }
     }
-    vaadin-button {
-      margin-top: -10px;
-      width: 100%;
-    }
+
     &-overlay-container svg {
       top: 50px;
       right: 17px;

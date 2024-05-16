@@ -1,50 +1,36 @@
 @import "../../styles/var.scss";
 .sign_up {
-   &-container {
-      margin-top: 60px;
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      place-items: center;
-      gap: 58px;
-   }
+  &-container {
+    margin-top: 60px;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    gap: 58px;
+  }
 
-   &-form {
-      max-width: 564px;
-      box-shadow: 0px 0px 10px 0px #e3f2f7;
-      padding: 50px;
-      border-radius: 20px;
+  &-form {
+    max-width: 564px;
+    box-shadow: 0px 0px 10px 0px #e3f2f7;
+    padding: 50px;
+    border-radius: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24.2px;
+    }
+  }
+  &-image {
+    max-width: 650px;
+    width: 100%;
+    img {
       width: 100%;
-      box-sizing: border-box;
-      h2 {
-         text-align: center;
-         margin-bottom: 30px;
-         font-weight: 700;
-         font-size: 20px;
-         line-height: 24.2px;
-      }
-      vaadin-button {
-         cursor: pointer;
-         padding: 10px 20px;
-         border-radius: 5px;
-         background-color: $primary-color;
-
-         border: 1px solid $primary-color;
-         transition: all 0.3s ease;
-         &:hover {
-            background-color: $secondary-color;
-            color: $primary-color;
-            font-weight: 700;
-         }
-      }
-   }
-   &-image {
-      max-width: 650px;
-      width: 100%;
-      img {
-         width: 100%;
-         height: 100%;
-         object-fit: cover;
-      }
-   }
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 }

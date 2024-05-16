@@ -11,13 +11,18 @@
   transform: translateY(100%);
   transition: all ease 0.3s;
   left: 0;
+  height: 0;
   &.isOpen {
     transform: translateY(0);
     opacity: 1;
+    height: auto;
   }
   h4 {
-    padding: 10px 150px;
+    padding: 10px 0;
     font-weight: 700;
+    font-size: 18px;
+    width: 80%;
+    margin: 0 auto;
   }
   &-container {
     position: relative;
@@ -29,16 +34,13 @@
   &-content {
     display: flex;
     flex-direction: column;
+    line-height: 1.6;
+    font-size: 16px;
   }
-  vaadin-button {
-    width: 227px;
-    padding: 18px 21px;
-  }
-  &-link {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
+
+  .ant-btn {
+    width: 100%;
+    margin-bottom: 4px;
     a {
       display: inline-block;
       width: 100%;
@@ -46,32 +48,20 @@
       text-decoration: none;
       font-weight: 700;
       transition: all ease 0.3s;
-      vaadin-button {
-        background-color: $primary-color;
-        color: white;
-        padding: 10px 20px;
-        width: 100%;
-        border: 1px solid $primary-color;
-        cursor: pointer;
-      }
-      &.secondary {
-        vaadin-button {
-          background-color: #fff;
-          color: $primary-color;
-          font-weight: 700;
-        }
-        &:hover {
-          vaadin-button {
-            background-color: $primary-color;
-            color: #fff;
-          }
-        }
-      }
     }
   }
-
+  &-secondary {
+    .ant-btn {
+      background-color: $primary-color !important;
+      color: white;
+    }
+    :hover {
+      background-color: white !important;
+      color: $primary-color;
+    }
+  }
   &-title {
-    font-weight: 600;
+    font-weight: 700;
   }
   @media screen and (min-width: 425.98px) and (max-width: 768.98px) {
     &-container {
@@ -100,13 +90,6 @@
     &-desc {
       span {
         font-size: 12px;
-      }
-    }
-    &-link {
-      a {
-        vaadin-button {
-          font-size: 12px;
-        }
       }
     }
   }

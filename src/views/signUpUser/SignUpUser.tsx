@@ -1,44 +1,13 @@
-import { Button } from "@hilla/react-components/Button.js";
-import { FormLayout } from "@hilla/react-components/FormLayout.js";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Button, Col, Form } from "antd";
 import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
-import * as yup from "yup";
 import addUser from "../../api/addUser";
 import image from "../../asset/image/sign-up-image.png";
-import Loading from "../../components/loading/Loading";
-import { responsiveSteps } from "../admin/Admin";
-import Input from "../checkout/Input";
+import CustomInput_cp from "../../components/inputField/InputField";
 import "./style.scss";
-const schema = yup.object({
-  firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
-  phoneNumber: yup
-    .string()
-    .required("Phone number is required")
-    .test("startsWithZero", "Phone number must start with 0", (val) => {
-      return val.charAt(0) === "0";
-    })
-    .test("len", "Must be exactly 10 characters", (val) => {
-      return val.length === 10;
-    }),
-  username: yup.string().required("Username is required"),
-  email: yup.string().email("Email is invalid").required("Email is required"),
-  password: yup.string().required("Password is required"),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password")], "Passwords don't match"),
-});
+
 const SignUpUser = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const [form] = Form.useForm();
 
   const navigate = useNavigate();
 
@@ -61,15 +30,6 @@ const SignUpUser = () => {
             duration: 3000,
           }).showToast();
         } else {
-          reset({
-            firstName: "",
-            lastName: "",
-            username: "",
-            email: "",
-            phoneNumber: "",
-            password: "",
-            confirmPassword: "",
-          });
           navigate("/signin");
           Toastify({
             text: `Created new User: ${firstName}`,
@@ -88,76 +48,58 @@ const SignUpUser = () => {
     }
   };
   return (
-    <Loading spinning={isSubmitting}>
+    <>
       <div className="sign_up-container">
         <div className="sign_up-form">
           <h2>ĐĂNG KÝ</h2>
-          <FormLayout responsiveSteps={responsiveSteps} autoFocus={false}>
-            <Input
-              errors={errors}
-              colSpan={1}
-              label="Họ"
-              name="lastName"
-              register={register}
-            />
-            <Input
-              colSpan={1}
-              errors={errors}
-              label="Tên"
-              name="firstName"
-              register={register}
-            />
-            <Input
-              errors={errors}
-              colSpan={2}
-              label="Username"
-              name="username"
-              register={register}
-            />
-            <Input
-              errors={errors}
-              colSpan={2}
-              label="Số điện thoại"
-              name="phoneNumber"
-              type="number"
-              register={register}
-            />
-            <Input
-              errors={errors}
-              label="Email"
-              name="email"
-              type="email"
-              register={register}
-            />
-            <Input
-              errors={errors}
-              label="Mật khẩu"
-              name="password"
-              type="password"
-              register={register}
-            />
-            <Input
-              errors={errors}
-              label="Nhập lại mật khẩu"
-              name="confirmPassword"
-              type="password"
-              register={register}
-            />
+          <Form autoFocus={false} form={form} onFinish={onSubmit}>
+            <Col span={11}>
+              <CustomInput_cp label="Họ" name="lastName"></CustomInput_cp>
+            </Col>
+            <Col span={11}>
+              <CustomInput_cp label="Tên" name="firstName"></CustomInput_cp>
+            </Col>
+            <Col span={22}>
+              <CustomInput_cp label="Username" name="username"></CustomInput_cp>
+            </Col>
+            <Col span={22}>
+              <CustomInput_cp
+                label="Số điện thoại"
+                name="phoneNumber"
+              ></CustomInput_cp>
+            </Col>
+
+            <Col span={22}>
+              <CustomInput_cp label="Email" name="email"></CustomInput_cp>
+            </Col>
+            <Col span={22}>
+              <CustomInput_cp
+                label="Mật khẩu"
+                name="password"
+                type="password"
+              ></CustomInput_cp>
+            </Col>
+            <Col span={22}>
+              <CustomInput_cp
+                label="Nhập lại mật khẩu"
+                name="confirmPassword"
+                type="password"
+              ></CustomInput_cp>
+            </Col>
             <Button
               className="tenant__schema-button"
-              theme="primary"
-              onClick={handleSubmit(onSubmit)}
-              disabled={isSubmitting}
+              type="primary"
+              onClick={() => form.submit()}
             >
               Submit
             </Button>
-          </FormLayout>
+          </Form>
         </div>
         <div className="sign_up-image">
           <img src={image} alt="meta" />
         </div>
       </div>
-    </Loading>
+    </>
   );
 };
 

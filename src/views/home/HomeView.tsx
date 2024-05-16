@@ -1,12 +1,8 @@
-import SlickSlider from "../../components/silder/SlickSlider";
-import { BannerProps } from "../../components/banner/Banner";
 import poster from "../../asset/image/posterFilm.png";
-import "./index.scss";
+import { BannerProps } from "../../components/banner/Banner";
 import Showtime from "../../components/showtime/Showtime";
-import { useEffect, useState } from "react";
-import useMoviesData from "../../api/listMoviesData";
-import Loading from "../../components/loading/Loading";
-import { Movie } from "../../api/type";
+import SlickSlider from "../../components/silder/SlickSlider";
+import "./index.scss";
 const HomeView = () => {
   const dummy: {
     image: any;
@@ -27,20 +23,12 @@ const HomeView = () => {
       description: "This is description",
     },
   ];
-  const [movieData, setMovieData] = useState<Movie[]>([]);
-  const data = useMoviesData({ limit: 8 });
-  useEffect(() => {
-    if (data) {
-      setMovieData(data);
-    }
-  }, [data]);
+
   return (
-    <Loading spinning={!movieData.length}>
-      <div className="home">
-        <SlickSlider sliders={dummy as BannerProps[]} />
-        <Showtime />
-      </div>
-    </Loading>
+    <div className="home">
+      <SlickSlider sliders={dummy as BannerProps[]} />
+      <Showtime />
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { ComboBox } from "@hilla/react-components/ComboBox.js";
+import { Select, Skeleton } from "antd";
 import { Cinema } from "../../api/type";
 import LocaIcon from "../../asset/icon/LocaIcon";
 import "./CinemasSelection.scss";
@@ -7,19 +7,24 @@ const CinemasSelection = (props?: {
   handleSelect?: any;
   value?: string;
 }) => {
+  const items: any = props?.cinemas?.map((item) => ({
+    value: item?._id,
+    label: item?.name,
+  }));
+  if (!props?.value) {
+    return <Skeleton.Button active={true} size="large" />;
+  }
   return (
     <div className={"showtime-selection"}>
       <label htmlFor="cinemas">
         <LocaIcon></LocaIcon>
-        <span>Rạp Chiếu</span>
+        <span className="label">Rạp Chiếu</span>
       </label>
-      <ComboBox
-        id={"cinemas"}
-        itemLabelPath="name"
-        itemValuePath="cinemaId"
-        onSelectedItemChanged={props?.handleSelect}
-        items={props?.cinemas}
-        value={props?.value}
+      <Select
+        defaultValue={props?.value}
+        style={{ width: 220 }}
+        options={items}
+        onChange={props?.handleSelect}
       />
     </div>
   );

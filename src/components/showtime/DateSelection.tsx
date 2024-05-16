@@ -1,6 +1,4 @@
-import { Button } from "@hilla/react-components/Button.js";
-import { RadioButton } from "@hilla/react-components/RadioButton";
-import { RadioGroup } from "@hilla/react-components/RadioGroup";
+import { Radio } from "antd";
 import Calendaricon from "../../asset/icon/Calendaricon";
 import "./DateSelection.scss";
 export const dateData = Array.from({ length: 7 }, (_, index) => {
@@ -14,14 +12,13 @@ export const dateData = Array.from({ length: 7 }, (_, index) => {
     year: "numeric",
   });
   const [weekday, day] = formattedDate.split(", ");
-  const label = (
-    <p>
-      <span className="day">{weekday}</span>
-      <br />
-      <span>{day}</span>
-    </p>
-  );
-  return { label, value: day };
+
+  return {
+    label: {
+      weekday,
+    },
+    value: day,
+  };
 });
 const DateSelection = (props: { dateSelected: any; setDateSelected: any }) => {
   const { dateSelected, setDateSelected } = props;
@@ -31,34 +28,29 @@ const DateSelection = (props: { dateSelected: any; setDateSelected: any }) => {
       <div className="showtime-selection">
         <label htmlFor="date">
           <Calendaricon></Calendaricon>
-          <span>Ngày chiếu</span>
+          <span className="label">Ngày Chiếu</span>
         </label>
-      </div>
-      <div className="showtime-date">
-        <RadioGroup value={dateSelected}>
-          {dateData?.map((item) => {
-            return (
-              <RadioButton
-                value={item.value}
-                key={item.value}
-                onClick={(event: any) => {
-                  if (event.currentTarget.value) {
-                    setDateSelected(event.currentTarget.value);
-                  }
-                }}
-              >
-                <label slot="label">
-                  <Button
-                    theme={dateSelected == item.value ? "primary" : "tertiary"}
-                    color="#0B2447"
-                  >
-                    {item.label}
-                  </Button>
-                </label>
-              </RadioButton>
-            );
-          })}
-        </RadioGroup>
+        <div className="showtime-date">
+          <Radio.Group
+            defaultValue={dateSelected}
+            buttonStyle="solid"
+            options={dateData?.map((item) => ({
+              label: (
+                <p
+                  className={`${item.value === dateSelected ? "checked" : ""}`}
+                >
+                  <span className="day">{item.label.weekday}</span>
+                  <br />
+                  <span>{item.value}</span>
+                </p>
+              ),
+              value: item.value,
+            }))}
+            onChange={(e) => {
+              setDateSelected(e.target.value);
+            }}
+          ></Radio.Group>
+        </div>
       </div>
     </>
   );

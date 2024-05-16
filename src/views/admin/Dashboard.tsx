@@ -1,14 +1,19 @@
-import { Button } from "@hilla/react-components/Button";
-import { ComboBox } from "@hilla/react-components/ComboBox";
-import { ConfirmDialog } from "@hilla/react-components/ConfirmDialog";
-import { DateTimePicker } from "@hilla/react-components/DateTimePicker";
-import { Grid } from "@hilla/react-components/Grid.js";
-import { GridColumn } from "@hilla/react-components/GridColumn";
-import { GridSortColumn } from "@hilla/react-components/GridSortColumn";
-import { Icon } from "@hilla/react-components/Icon";
-import { TextField } from "@hilla/react-components/TextField";
-import { VerticalLayout } from "@hilla/react-components/VerticalLayout";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Layout,
+  Modal,
+  Select,
+  Space,
+  Table,
+  TableColumnsType,
+} from "antd";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 import { addCalendar } from "../../api/addCalendar";
 import getTenant from "../../api/getTenant";
 import useCalendars from "../../api/listCalendar";
@@ -16,64 +21,53 @@ import listCinemasData from "../../api/listCinemasData";
 import useMoviesData from "../../api/listMoviesData";
 import useTheaters from "../../api/listTheaterByCinemaId";
 import { removeCalendar } from "../../api/removeCalendar";
-import { Cinema, TenantType } from "../../api/type";
-import EditIcon from "../../asset/icon/EditIcon";
-import TrashIcon from "../../asset/icon/TrashIcon";
-import Loading from "../../components/loading/Loading";
+import { Cinema, Movie, TenantType, TheaterType } from "../../api/type";
+import Search from "../../components/header/components/Search/Search";
 import CinemasSelection from "../../components/showtime/CinemasSelection";
 import DateSelection, {
   dateData,
 } from "../../components/showtime/DateSelection";
-import { add, format, isBefore } from "date-fns";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Toastify from "toastify-js";
-import "toastify-js/src/toastify.css";
-import * as yup from "yup";
 import CloseForm from "./CloseForm";
 import "./Dashboard.scss";
-import DashboardAdd from "./DashboardAdd";
 import Tenant from "./Tenant";
-const schema = yup.object({
-  movieId: yup.string().required("Movie name is required"),
-  theaterId: yup.string().required("Theater is required"),
-  showTime: yup.string().required("Show time is required"),
-  calendarId: yup.string().required("Calendar is required"),
-});
+import { DeleteOutlined } from "@ant-design/icons";
+
 export const convertToDate = (date: string) => {
   const [day, month, year] = date.split("/");
   const result = new Date(`${year}-${month}-${day}`);
   return result;
 };
+const convertToIOSDate = (date: string) => {
+  return new Date(date).toISOString();
+};
 const Dashboard = () => {
   const [tenant, setTenant] = useState<TenantType>();
-  const [movieData, setMovieData] = useState<any[]>([]);
+  const [movieOptions, setMovieOptions] = useState<any[]>([]);
   const [cinemaSelected, setCinemaSelected] = useState<string>();
-  const [listCinema, setListCinema] = useState<Cinema[]>([]);
-  const [openForm, setOpenForm] = useState(false);
+  const [listCinemaWithAction, setListCinema] = useState<Cinema[]>([]);
+  const [openFormWithAction, setOpenFormWithAction] = useState<any>({
+    open: false,
+    action: "",
+  });
   const [submiting, setSubmiting] = useState<boolean>(false);
   const [dateSelected, setDateSelected] = useState(dateData[0].value);
-  const [dialogOpened, setDialogOpened] = useState(false);
   const [selectedCalendar, setSelectedCalendar] = useState<any>();
-  const [errorDate, setErrorDate] = useState<string>("");
-  const [minDate] = useState(new Date());
+  const [dialogOpened, setDialogOpened] = useState(false);
   const tenantInLocal = localStorage.getItem("tenant");
   const cinemaData: Cinema[] = listCinemasData();
   const data = useMoviesData();
   useEffect(() => {
     if (cinemaData) {
       setListCinema(cinemaData);
-      setCinemaSelected(cinemaData[0]?.cinemaId);
+      setCinemaSelected(cinemaData[0]?._id);
     }
   }, [cinemaData?.length]);
 
-  const [filteredItems, setFilteredItems] = useState<any[]>([]);
   const {
     data: theaterData,
     isLoading: isLoadingTheater,
     refetch: refetchListTheaterData,
   } = useTheaters(cinemaSelected);
-
   const {
     data: calendarData,
     refetch,
@@ -83,28 +77,12 @@ const Dashboard = () => {
     date: convertToDate(dateSelected),
   });
   useEffect(() => {
-    reset({
-      movieId: "",
-      theaterId: "",
-      showTime: "",
-    });
     refetch();
     refetchListTheaterData();
   }, [cinemaSelected]);
-  useEffect(() => {
-    calendarData && setFilteredItems(calendarData);
-  }, [calendarData]);
-  const {
-    register,
-    reset,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const [form] = Form.useForm();
   const handleSelectCinema = (event: any) => {
-    event.detail?.value && setCinemaSelected(event.detail?.value?.cinemaId);
+    event.detail?.value && setCinemaSelected(event.detail?.value?._id);
   };
   const tenantData = tenantInLocal
     ? getTenant(JSON.parse(tenantInLocal).username)
@@ -118,22 +96,30 @@ const Dashboard = () => {
         ...item,
         released: new Date(item.released).toLocaleDateString(),
       }));
-      setMovieData(movies);
+      setMovieOptions(
+        movies?.map((item) => ({
+          value: item?._id,
+          label: item?.title,
+        }))
+      );
     }
   }, [data.length]);
 
   const handleChangeOpenForm = () => {
-    setOpenForm(!openForm);
+    setOpenFormWithAction({
+      open: false,
+      action: "",
+    });
   };
   const handleSubmitForm = async (values: any) => {
     setSubmiting(true);
     if (!values.calendarId) {
       const res: any = await addCalendar(
-        values.showTime,
+        convertToIOSDate(values.showTime),
         values.movieId,
         values.theaterId
       );
-      if (res?.calendarId) {
+      if (res?._id) {
         Toastify({
           text: `Thêm lịch chiếu thành công`,
           duration: 3000,
@@ -141,22 +127,20 @@ const Dashboard = () => {
             background: "linear-gradient(to right, #00b09b, #96c93d)",
           },
         }).showToast();
-        reset({
-          movieId: "",
-          theaterId: "",
-          showTime: "",
+        setOpenFormWithAction({
+          open: false,
+          action: "",
         });
-        setOpenForm(false);
         refetch();
       }
     } else {
       const res: any = await addCalendar(
-        values.showTime,
+        convertToIOSDate(values.showTime),
         values.movieId,
         values.theaterId,
         values.calendarId
       );
-      if (res?.calendarId) {
+      if (res?._id) {
         refetch();
         Toastify({
           text: `Cập nhật lịch chiếu thành công`,
@@ -166,19 +150,16 @@ const Dashboard = () => {
           },
         }).showToast();
 
-        reset({
-          movieId: "",
-          theaterId: "",
-          showTime: "",
-          calendarId: "",
+        setOpenFormWithAction({
+          open: false,
+          action: "",
         });
-        setOpenForm(false);
       }
     }
     setSubmiting(false);
   };
-  const handleRemoveCalendar = async (calendarId: any) => {
-    const res: any = await removeCalendar(calendarId);
+  const handleRemoveCalendar = async () => {
+    const res: any = await removeCalendar(selectedCalendar?.calendarId);
     if (res?.status === 204) {
       Toastify({
         text: `Xóa lịch chiếu thành công`,
@@ -200,207 +181,200 @@ const Dashboard = () => {
     !dialogOpened && setDialogOpened(true);
   };
   const handleEditCalendar = async (calendar: any) => {
-    const [day, month, year] = dateSelected.split("/");
-    const timeS = new Date(`${month}/${parseInt(day) + 1}/${year}`);
-    const [hours, minutes, seconds] = calendar.showTime.split(":");
-    timeS.setHours(Number(hours) - 17);
-    timeS.setMinutes(Number(minutes));
-    timeS.setSeconds(Number(seconds));
-
-    await setValue("calendarId", calendar?.calendarId);
-    await setValue("movieId", calendar.movie?.movieId);
-    await setValue("theaterId", calendar.theater?.theaterId);
-    await setValue("showTime", timeS?.toISOString()?.slice(0, 16));
-
-    setOpenForm(true);
+    console.log(calendar?.showTime);
+    form.setFieldsValue({
+      movieId: calendar?.movie?._id,
+      theaterId: calendar?.theater?._id,
+      showTime: dayjs(calendar?.showTime),
+    });
+    setOpenFormWithAction({ open: true, action: "edit" });
+  };
+  const disabledDate = (current: any) => {
+    return current && (current < dayjs() || current > dayjs().add(30, "day"));
   };
 
-  return (
-    <Loading
-      spinning={
-        !tenant || !listCinema || isLoadingTheater || isLoading || submiting
-      }
-    >
-      <VerticalLayout theme="spacing" className="dashboard">
-        <div className="dashboard-search">
-          <div className="dashboard-admin">
-            <Tenant tenantData={tenant}></Tenant>
-            <div className="dashboard-admin-info">
-              <h4>Admin</h4>
-              <span>{tenant?.username}</span>
-            </div>
-          </div>
-          <TextField
-            placeholder="Search"
-            onValueChanged={(e) => {
-              const searchTerm = (e.detail.value || "").trim().toLowerCase();
-              setFilteredItems(
-                calendarData
-                  ? calendarData?.filter(
-                      ({ movie, theater, showTime }) =>
-                        !searchTerm ||
-                        movie.imdbId
-                          ?.toString()
-                          ?.toLowerCase()
-                          ?.includes(searchTerm) ||
-                        movie.title?.toLowerCase()?.includes(searchTerm) ||
-                        theater.name?.toLowerCase()?.includes(searchTerm) ||
-                        showTime?.includes(searchTerm)
-                    )
-                  : []
-              );
-            }}
-          >
-            <Icon slot="suffix" icon="vaadin:search"></Icon>
-          </TextField>
-        </div>
-        <div className="dashboard-container">
-          <CinemasSelection
-            cinemas={listCinema}
-            handleSelect={handleSelectCinema}
-            value={cinemaSelected}
-          ></CinemasSelection>
-          <DateSelection
-            dateSelected={dateSelected}
-            setDateSelected={setDateSelected}
-          ></DateSelection>
-        </div>
-        <div
-          className="dashboard-wrapper"
-          style={{
-            gridTemplateColumns: !openForm ? "12fr 0fr" : "9fr 3fr",
+  const columns: TableColumnsType<any> = [
+    {
+      title: "Movie name",
+      width: 100,
+      dataIndex: "movie",
+      key: "name",
+      fixed: "left",
+      render: (movie: Movie) => <span>{movie?.title}</span>,
+      sorter: true,
+    },
+    {
+      title: "Theater",
+      width: 100,
+      dataIndex: "theater",
+      key: "theater",
+      render: (theater: TheaterType) => <span>{theater?.name}</span>,
+      sorter: true,
+    },
+    {
+      title: "Show time",
+      width: 100,
+      dataIndex: "showTime",
+      key: "showTime",
+      render: (time: string) => (
+        <span>{dayjs(time).format("DD/MM/YYYY HH:mm")}</span>
+      ),
+      sorter: true,
+    },
+    {
+      title: (
+        <Button
+          disabled={isLoadingTheater || isLoading || !cinemaData?.length}
+          className="dashboard-action-btn"
+          type="primary"
+          onClick={() => {
+            setOpenFormWithAction({ open: true, action: "add" });
           }}
         >
-          <Grid items={filteredItems}>
-            <GridSortColumn
-              path="movie.imdbId"
-              header={"ID"}
-              footerRenderer={() => (
-                <span>{filteredItems?.length} total Movie</span>
-              )}
-            />
-            <GridSortColumn path="movie.title" header={"Tên Phim"} />
-            <GridSortColumn path="showTime" header={"Suất chiếu"} />
-            <GridSortColumn path="theater.name" header={"Phòng chiếu"} />
-            <GridColumn
-              frozenToEnd
-              autoWidth
-              flexGrow={0}
-              path="movie"
-              headerRenderer={() => (
-                <DashboardAdd handle={handleChangeOpenForm}></DashboardAdd>
-              )}
-            >
-              {(record) => (
-                <div className="dashboard-actions">
-                  <Button
-                    theme="tertiary-inline"
-                    onClick={() => {
-                      !dialogOpened && setDialogOpened(true);
-                      setSelectedCalendar(record.item?.calendarId);
-                    }}
-                  >
-                    <TrashIcon />
-                  </Button>
-                  <Button
-                    theme="tertiary-inline"
-                    onClick={() => {
-                      handleEditCalendar(record.item);
-                    }}
-                  >
-                    <EditIcon />
-                  </Button>
-                </div>
-              )}
-            </GridColumn>
-          </Grid>
-          {openForm && (
-            <div className="dashboard-form">
-              <div className="dashboard-form-container">
+          Add
+        </Button>
+      ),
+      width: 50,
+      align: "center",
+      key: "action",
+      className: "dashboard-action",
+      render: (_: any, record: any) => (
+        <Button
+          className="dashboard-action-btn"
+          onClick={() => {
+            handleEditCalendar(record);
+            setSelectedCalendar(record);
+          }}
+        >
+          Edit
+        </Button>
+      ),
+    },
+  ];
+
+  return (
+    <Layout className="dashboard">
+      <div className="dashboard-search">
+        <div className="dashboard-admin">
+          <Tenant tenantData={tenant}></Tenant>
+          <div className="dashboard-admin-info">
+            <h4>Admin</h4>
+            <span>{tenant?.username}</span>
+          </div>
+        </div>
+        <Search></Search>
+      </div>
+      <div className="dashboard-container">
+        <CinemasSelection
+          cinemas={listCinemaWithAction}
+          handleSelect={handleSelectCinema}
+          value={cinemaSelected}
+        ></CinemasSelection>
+        <DateSelection
+          dateSelected={dateSelected}
+          setDateSelected={setDateSelected}
+        ></DateSelection>
+      </div>
+      <div
+        className={`dashboard-wrapper ${
+          openFormWithAction?.open ? "open-form" : ""
+        }`}
+      >
+        <Table
+          loading={isLoadingTheater || isLoading}
+          columns={columns}
+          dataSource={calendarData}
+          // scroll={{ x: 767 }}
+          bordered
+        />
+        {openFormWithAction?.open && (
+          <div className="dashboard-form">
+            <div className="dashboard-form-container">
+              <Form form={form} onFinish={handleSubmitForm}>
                 <CloseForm handle={handleChangeOpenForm}></CloseForm>
                 <div className="dashboard-form-title">
                   <p>Thêm lịch chiếu</p>
                 </div>
                 <div className="dashboard-form-input">
                   <div className="dashboard-field">
-                    <ComboBox
-                      {...register("movieId")}
-                      label="Tên phim"
-                      itemLabelPath="title"
-                      itemValuePath="movieId"
-                      items={movieData}
-                    />
-                    {errors?.movieId && <p>{errors?.movieId?.message}</p>}
+                    <Col>
+                      <Form.Item name={"movieId"} label={"Tên phim"}>
+                        <Select options={movieOptions}></Select>
+                      </Form.Item>
+                    </Col>
                   </div>
                   <div className="dashboard-field">
-                    <ComboBox
-                      {...register("theaterId")}
-                      label="Phòng chiếu"
-                      itemLabelPath="name"
-                      itemValuePath="theaterId"
-                      items={theaterData}
-                    />
-                    {errors?.theaterId && <p>{errors?.theaterId?.message}</p>}
+                    <Col>
+                      <Form.Item name={"theaterId"} label={"Phòng chiếu"}>
+                        <Select
+                          options={theaterData?.map((item) => ({
+                            value: item?._id,
+                            label: item?.name,
+                          }))}
+                        ></Select>
+                      </Form.Item>
+                    </Col>
                   </div>
                   <div className="dashboard-field">
-                    <DateTimePicker
-                      {...register("showTime")}
-                      label="Lịch chiếu "
-                      datePlaceholder="Date"
-                      timePlaceholder="Time"
-                      step={60 * 20}
-                      min={format(
-                        add(new Date(), { minutes: 5 }),
-                        "yyyy-MM-dd'T'HH:mm"
-                      )}
-                      max={format(
-                        add(new Date(), { days: 30 }),
-                        "yyyy-MM-dd'T'HH:mm"
-                      )} // Convert maxValue to string if necessary
-                      autoOpenDisabled
-                      value={format(
-                        add(new Date(), { minutes: 30 }),
-                        "yyyy-MM-dd'T'HH:mm"
-                      )}
-                      errorMessage={errorDate}
-                      onValueChanged={({ detail: { value: newValue } }) => {
-                        const date = newValue ?? "";
-                        setValue("showTime", date);
-                        if (isBefore(date, minDate)) {
-                          setErrorDate(
-                            "Too early, choose another date and time"
-                          );
-                        } else {
-                          setErrorDate("");
-                        }
-                      }}
-                    />
-                    {errors?.showTime && <p>{errors?.showTime?.message}</p>}
+                    <Col>
+                      <Form.Item
+                        name={"showTime"}
+                        label={"Lịch chiếu"}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lý nhap thoi gian chieu phim",
+                          },
+                        ]}
+                      >
+                        <DatePicker
+                          format="YYYY-MM-DD HH:mm"
+                          showTime
+                          disabledDate={disabledDate}
+                        ></DatePicker>
+                      </Form.Item>
+                    </Col>
                   </div>
                 </div>
-                <Button onClick={handleSubmit(handleSubmitForm)}>Thêm</Button>
-              </div>
+                <Space.Compact style={{ width: "100%" }}>
+                  <Button
+                    loading={submiting}
+                    disabled={submiting}
+                    type="primary"
+                    htmlType="submit"
+                  >
+                    Submit
+                  </Button>
+                  {openFormWithAction?.action === "edit" && (
+                    <Button
+                      danger
+                      style={{
+                        width: "25%",
+                      }}
+                      loading={submiting}
+                      disabled={submiting}
+                      type="text"
+                      htmlType="submit"
+                      onClick={handleRemoveCalendar}
+                    >
+                      <DeleteOutlined />
+                    </Button>
+                  )}
+                </Space.Compact>
+              </Form>
             </div>
-          )}
-        </div>
-        <ConfirmDialog
-          header='Delete "Report Q4"?'
-          cancelButtonVisible
-          confirmText="Delete"
-          confirmTheme="error primary"
-          opened={dialogOpened}
-          onCancel={() => {
-            setDialogOpened(false);
-          }}
-          onConfirm={() => {
-            handleRemoveCalendar(selectedCalendar);
-            setDialogOpened(false);
-          }}
-        >
-          Are you sure you want to permanently delete this item?
-        </ConfirmDialog>
-      </VerticalLayout>
-    </Loading>
+          </div>
+        )}
+      </div>
+      <Modal
+        title="Remove calendar"
+        // open={isModalOpen}
+        // onOk={handleOk}
+        // onCancel={handleCancel}
+      >
+        <p>Some contents...</p>
+      </Modal>
+    </Layout>
   );
 };
 
