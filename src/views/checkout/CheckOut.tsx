@@ -1,6 +1,6 @@
 import combo from "../../asset/image/combo.png";
 
-import { Button, Col, Input, Radio, Form } from "antd";
+import { Button, Col, Form, Input, Radio } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addSeat } from "../../api/addSeat";
@@ -11,7 +11,6 @@ import { AddBtn } from "./AddBtn";
 import "./CheckOut.scss";
 import { MinusBtn } from "./MinusBtn";
 import Overlay from "./Overlay";
-import { Combotype } from "../popcorn/PopCorn";
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();

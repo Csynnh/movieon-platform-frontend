@@ -1,5 +1,5 @@
-import { Input, Select } from "antd";
-import { useEffect, useState } from "react";
+import { Input } from "antd";
+import { useState } from "react";
 import Menu from "../Menu/Menu";
 import MenuTab from "../Menu/MenuTab";
 import "./styles.scss";

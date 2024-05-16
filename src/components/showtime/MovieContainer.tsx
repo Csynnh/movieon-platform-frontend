@@ -19,18 +19,16 @@ const MovieContainer = ({
     <Loading spinning={loading}>
       {calendarData?.length ? (
         <div className="showtime-movies ">
-          {Array.from(new Set(calendarData.map((item) => item?.movie?.movieId)))
+          {Array.from(new Set(calendarData.map((item) => item?.movie?._id)))
             .map((movieId) => {
-              return calendarData.find(
-                (item) => item?.movie?.movieId === movieId
-              );
+              return calendarData.find((item) => item?.movie?._id === movieId);
             })
             ?.map(
               (item) =>
                 item &&
                 item?.movie && (
                   <MovieComponent
-                    key={item?.movie?.movieId}
+                    key={item?.movie?._id}
                     movie={item?.movie as Movie}
                     selectedDate={dateSelected}
                     selectedCinemaId={cinemaSelected ?? ""}
