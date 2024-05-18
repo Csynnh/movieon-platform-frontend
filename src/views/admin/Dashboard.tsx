@@ -34,11 +34,11 @@ import { DeleteOutlined } from "@ant-design/icons";
 
 export const convertToDate = (date: string) => {
   const [day, month, year] = date.split("/");
-  const result = new Date(`${year}-${month}-${day}`);
+  const result = `${year}/${month}/${day} 00:00:00`;
   return result;
 };
 const convertToIOSDate = (date: string) => {
-  return new Date(date).toISOString();
+  return dayjs(date).format("YYYY/MM/DD HH:mm:ss");
 };
 const Dashboard = () => {
   const [tenant, setTenant] = useState<TenantType>();
