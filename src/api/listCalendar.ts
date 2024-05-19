@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 export interface CalendarParams {
   cinemaId?: string;
   movieId?: string;
-  date?: Date;
+  date?: string;
 }
 
 const listCalendar = async ({
@@ -17,7 +17,7 @@ const listCalendar = async ({
     if (cinemaId && date) {
       const response = await api.get(`/api/v1/calendars/cinema/${cinemaId}`, {
         params: {
-          date: date.toISOString(),
+          date: date,
         },
       });
       return response.data.map((calendar: CalendarType) => ({

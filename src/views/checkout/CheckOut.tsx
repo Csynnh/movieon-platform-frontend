@@ -33,7 +33,7 @@ const CheckOut = () => {
       );
     else return 0;
   }, [data?.seats]);
-  const [total, setTotal] = useState(priceTicket + priceCombo);
+  const [total, _] = useState(priceTicket + priceCombo);
 
   useEffect(() => {
     if (!location?.state?.dataCheckout) {
