@@ -11,11 +11,9 @@ export const addCalendar = async (
 ): Promise<CalendarType | null> => {
   try {
     if (calendarId) {
-      const response = await api.put(`api/v1/calendars/${calendarId}`, {
-        showTime,
-        movieId,
-        theaterId,
-      });
+      const response = await api.put(
+        `api/v1/calendars/${calendarId}?date=${showTime}&movieId=${movieId}&theaterId=${theaterId}`
+      );
       return response.data;
     } else {
       const response = await api.post(

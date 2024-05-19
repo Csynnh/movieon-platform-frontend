@@ -40,7 +40,8 @@
       width: 100%;
       .ant-form-item-control-input-content {
         & > .ant-input,
-        & > .ant-input-password {
+        & > .ant-input-password,
+        & > .ant-input-number {
           box-shadow: unset;
           border-radius: 100rem;
           padding: 10px 20px;

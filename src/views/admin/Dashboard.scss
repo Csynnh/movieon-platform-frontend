@@ -17,7 +17,11 @@
     border-left: 0;
     width: 100%;
   }
-  &-wrap {
+  .ant-tabs-tab.ant-tabs-tab-active {
+    .dashboard-menu-wrap {
+      background-color: $primary-color;
+      color: white;
+    }
   }
   &-left {
     padding: 20px;
@@ -57,8 +61,33 @@
   &-right {
     background-color: #0b24470a;
     border-radius: 20px;
-    padding: 20px;
+    padding: 30px;
+    &.popcorn-header {
+      .popcorn-add-btn {
+        width: 182px;
+        width: 20%;
+        font-weight: 400;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px;
+        border-radius: 100rem;
+        padding: 15px 22px;
+        height: fit-content;
+        box-shadow: 0px 0px 9px 0px #c9e7f1;
+        border: 0;
+        &:hover {
+          background-color: $secondary-color;
+          box-shadow: 0px 2px 9px 0px #fff;
+        }
+      }
+      .dashboard-container {
+        flex-direction: row;
+      }
+    }
   }
+
   &-search {
     margin-block: 20px;
     box-sizing: border-box;
@@ -93,7 +122,15 @@
       }
     }
   }
+  &-popcorn-warrper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
   &-form {
+    background-color: #fff;
     border: 0.25px solid $primary-color;
     border-radius: 6px;
     box-sizing: border-box;
@@ -102,6 +139,9 @@
     align-items: center;
     position: relative;
     padding: 20px 0;
+    .ant-select.ant-select-outlined {
+      width: 100%;
+    }
     @media screen and (max-width: 1279.98px) {
       margin-left: auto;
       margin-right: auto;
@@ -175,30 +215,11 @@
       font-size: 14px;
     }
   }
-  .showtime-selection {
-    svg {
-      width: 20px;
-    }
-  }
-  .ant-radio-wrapper {
-    span {
-      padding: 0;
-      p {
-        font-size: 10px;
-        padding: 5px 20px;
 
-        .day {
-          font-size: 10px;
-          font-weight: 600;
-        }
-      }
-    }
-  }
   .ant-select-single .ant-select-selector {
     font-size: 12px;
   }
-  .ant-select.ant-select-outlined {
-    width: 200px;
-    height: 40px;
+  .ant-select-selector {
+    box-shadow: none !important;
   }
 }

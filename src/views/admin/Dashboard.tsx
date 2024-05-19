@@ -9,7 +9,7 @@ import Logo from "../../components/logo/Logo";
 import "./Dashboard.scss";
 import Tenant from "./Tenant";
 import { CalendarManagement } from "./components/CalendarManagement";
-import AddPopcorn from "./AddPopcorn";
+import PopcornManagement from "./components/PopcornManagement";
 
 export const convertToDate = (date: string) => {
   const [day, month, year] = date.split("/");
@@ -45,7 +45,7 @@ const Dashboard = () => {
         </div>
       ),
       key: "popcorn",
-      children: <AddPopcorn />,
+      children: <PopcornManagement />,
     },
   ];
   return (

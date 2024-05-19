@@ -10,7 +10,6 @@ import {
   TableColumnsType,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-
 import CinemasSelection from "../../../../components/showtime/CinemasSelection";
 import DateSelection, {
   dateData,
@@ -28,6 +27,7 @@ import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { removeCalendar } from "../../../../api/removeCalendar";
 import useMoviesData from "../../../../api/listMoviesData";
+
 export const CalendarManagement = () => {
   const [listCinemaWithAction, setListCinema] = useState<Cinema[]>([]);
   const [cinemaSelected, setCinemaSelected] = useState<string>();
@@ -119,6 +119,7 @@ export const CalendarManagement = () => {
           className="dashboard-action-btn"
           type="primary"
           onClick={() => {
+            form.resetFields(["movieId", "theaterId", "showTime"]);
             setOpenFormWithAction({ open: true, action: "add" });
           }}
         >
@@ -144,53 +145,67 @@ export const CalendarManagement = () => {
   ];
   const handleSubmitForm = async (values: any) => {
     setSubmiting(true);
-    if (!values.calendarId) {
-      const res: any = await addCalendar(
-        convertToIOSDate(values.showTime),
-        values.movieId,
-        values.theaterId
-      );
-      if (res?._id) {
-        Toastify({
-          text: `Thêm lịch chiếu thành công`,
-          duration: 3000,
-          style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
-          },
-        }).showToast();
-        setOpenFormWithAction({
-          open: false,
-          action: "",
-        });
-        refetch();
+    if (!selectedCalendar?._id) {
+      try {
+        const res: any = await addCalendar(
+          convertToIOSDate(values.showTime),
+          values.movieId,
+          values.theaterId
+        );
+        if (res?._id) {
+          Toastify({
+            text: `Thêm lịch chiếu thành công`,
+            duration: 3000,
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+          }).showToast();
+          setOpenFormWithAction({
+            open: false,
+            action: "",
+          });
+          refetch();
+        }
+      } catch (error) {
+        //
       }
     } else {
-      const res: any = await addCalendar(
-        convertToIOSDate(values.showTime),
-        values.movieId,
-        values.theaterId,
-        values.calendarId
-      );
-      if (res?._id) {
-        refetch();
-        Toastify({
-          text: `Cập nhật lịch chiếu thành công`,
-          duration: 3000,
-          style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
-          },
-        }).showToast();
+      try {
+        const res: any = await addCalendar(
+          convertToIOSDate(values.showTime),
+          values.movieId,
+          values.theaterId,
+          selectedCalendar?._id
+        );
+        if (res?._id) {
+          refetch();
+          Toastify({
+            text: `Cập nhật lịch chiếu thành công`,
+            duration: 3000,
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+          }).showToast();
 
-        setOpenFormWithAction({
-          open: false,
-          action: "",
-        });
+          setOpenFormWithAction({
+            open: false,
+            action: "",
+          });
+        }
+      } catch (error) {
+        //
       }
     }
+    form.resetFields(["movieId", "theaterId", "showTime"]);
+    setOpenFormWithAction({
+      open: false,
+      action: "",
+    });
     setSubmiting(false);
   };
   const handleRemoveCalendar = async () => {
-    const res: any = await removeCalendar(selectedCalendar?.calendarId);
+    setSubmiting(true);
+    const res: any = await removeCalendar(selectedCalendar?._id);
     if (res?.status === 204) {
       Toastify({
         text: `Xóa lịch chiếu thành công`,
@@ -209,7 +224,13 @@ export const CalendarManagement = () => {
         },
       }).showToast();
     }
-    !dialogOpened && setDialogOpened(true);
+    setOpenFormWithAction({
+      open: false,
+      action: "",
+    });
+    setDialogOpened(false);
+    setSubmiting(false);
+    form.resetFields(["movieId", "theaterId", "showTime"]);
   };
   const handleEditCalendar = async (calendar: any) => {
     form.setFieldsValue({
@@ -224,9 +245,13 @@ export const CalendarManagement = () => {
       open: false,
       action: "",
     });
+    form.resetFields(["movieId", "theaterId", "showTime"]);
   };
   const disabledDate = (current: any) => {
-    return current && (current < dayjs() || current > dayjs().add(30, "day"));
+    return (
+      current &&
+      (current < dayjs().add(-1, "day") || current > dayjs().add(30, "day"))
+    );
   };
   return (
     <div className="dashboard-right">
@@ -247,7 +272,7 @@ export const CalendarManagement = () => {
         }`}
       >
         <Table
-          loading={isLoadingTheater || isLoading}
+          loading={isLoadingTheater || isLoading || submiting}
           columns={columns}
           dataSource={calendarData}
           // scroll={{ x: 767 }}
@@ -320,8 +345,7 @@ export const CalendarManagement = () => {
                       loading={submiting}
                       disabled={submiting}
                       type="text"
-                      htmlType="submit"
-                      onClick={handleRemoveCalendar}
+                      onClick={() => !dialogOpened && setDialogOpened(true)}
                     >
                       <DeleteOutlined />
                     </Button>
@@ -334,11 +358,28 @@ export const CalendarManagement = () => {
       </div>
       <Modal
         title="Remove calendar"
-        // open={isModalOpen}
-        // onOk={handleOk}
-        // onCancel={handleCancel}
+        open={dialogOpened}
+        onOk={handleRemoveCalendar}
+        onCancel={() => setDialogOpened(false)}
       >
-        <p>Some contents...</p>
+        <p
+          style={{
+            fontStyle: "italic",
+            textAlign: "center",
+          }}
+        >
+          Bạn có chắc chắn muốn xóa lịch chiếu{" "}
+          <strong>{selectedCalendar?.movie?.title}</strong> tại{" "}
+          <strong>
+            {selectedCalendar?.theater?.name} -{" "}
+            {selectedCalendar?.theater?.cinema?.name}
+          </strong>{" "}
+          vào lúc{" "}
+          <strong>
+            {dayjs(selectedCalendar?.showTime).format("DD/MM/YYYY HH:mm")}
+          </strong>
+          ?
+        </p>
       </Modal>
     </div>
   );
