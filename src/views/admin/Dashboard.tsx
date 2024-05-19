@@ -67,6 +67,7 @@ const Dashboard = () => {
           </div>
           <Tabs tabPosition={"left"} items={itemsTab} />
         </div>
+        <div className="dashboard-right"></div>
       </div>
     </Layout>
   );

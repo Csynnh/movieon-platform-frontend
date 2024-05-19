@@ -1,15 +1,22 @@
-import { useEffect, useState } from "react";
-import CinemasSelection from "@/components/showtime/CinemasSelection";
-import { Cinema } from "@/api/type";
 import useCinemasData from "@/api/listCinemasData";
-import PopcornComponent from "./PopcornComponent";
-import "./styles.scss";
-import { Button, Col, Form, Input, Modal, UploadProps, message } from "antd";
+import { Cinema } from "@/api/type";
 import PlusIcon from "@/asset/icon/PlusIcon";
+import CinemasSelection from "@/components/showtime/CinemasSelection";
+import { InboxOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Input, Modal, UploadProps, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Dragger from "antd/es/upload/Dragger";
+import AWS from "aws-sdk";
+import { useEffect, useState } from "react";
+import PopcornComponent from "./PopcornComponent";
+import "./styles.scss";
+AWS.config.update({
+  region: process.env.REACT_APP_AWS_REGION,
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+});
+const s3 = new AWS.S3();
 
-import { InboxOutlined } from "@ant-design/icons";
 const PopcornManagement = () => {
   const [listCinemaWithAction, setListCinemaWithAction] = useState<Cinema[]>(
     []
@@ -26,24 +33,33 @@ const PopcornManagement = () => {
       setCinemaSelected(cinemaData[0]?._id);
     }
   }, [cinemaData]);
+
   const props: UploadProps = {
     maxCount: 1,
     name: "file",
-    action: "https://open.larksuite.com/open-apis/im/v1/images",
-    onChange(info) {
-      console.log(info);
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
+    beforeUpload: async (file) => {
+      const params = {
+        Bucket: "movieonplatformbucket",
+        Key: file.name,
+        Body: file,
+      };
+      let result: any = null;
+      const res: any = s3.upload(params, function (err: any, data: any) {
+        if (err) {
+          console.error(err);
+        }
+        result = data;
+        message.success("upload successfully.");
+      });
+      return false;
     },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
+    progress: {
+      strokeColor: {
+        "0%": "#108ee9",
+        "100%": "#87d068",
+      },
+      strokeWidth: 3,
+      format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
     },
   };
   return (
@@ -78,7 +94,7 @@ const PopcornManagement = () => {
         <Form className="popcorn-form">
           <Col span={22}>
             <Form.Item name={"image"} label="Hình Ảnh">
-              <Dragger {...props}>
+              <Dragger {...props} listType="picture">
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined />
                 </p>
