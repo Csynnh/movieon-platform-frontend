@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import AuthLayout from "./views/AuthLayout";
 import Login from "./views/login/Login";
 import MainLayout from "./views/MainLayout.js";
+import AddPopcorn from "./views/admin/AddPopcorn.js";
 
 const AboutView = lazy(async () => import("./views/about/AboutView"));
 const HomeView = lazy(async () => import("./views/home/HomeView"));
@@ -92,6 +93,11 @@ export const routes = [
     path: "/admin/signin",
     element: <SignInAdmin />,
     handle: { title: "Sign In" },
+  },
+  {
+    path: "/admin/addpopcorn",
+    element: <AddPopcorn />,
+    handle: { title: "AddPopcorn" },
   },
 ] as any;
 

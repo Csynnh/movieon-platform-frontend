@@ -40,7 +40,6 @@ const DateSelection = (props: { dateSelected: any; setDateSelected: any }) => {
                   className={`${item.value === dateSelected ? "checked" : ""}`}
                 >
                   <span className="day">{item.label.weekday}</span>
-                  <br />
                   <span>{item.value}</span>
                 </p>
               ),
