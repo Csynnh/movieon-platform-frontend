@@ -1,16 +1,64 @@
 @import "../../styles/var.scss";
 .dashboard {
-  width: 80%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 20px;
+
+  &-wrap {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    gap: 10px;
+  }
+  &-left {
+    padding: 20px;
+    background-color: #0b24470a;
+    border-radius: 20px;
+  }
+  &-logo {
+    svg {
+      width: 150px;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+  &-menu {
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      list-style: none;
+    }
+    &-wrap {
+      margin-block: 20px;
+      width: 200px;
+      height: 40px;
+      background-color: #fff;
+      box-shadow: 0px 1px 4px 0px #00000040;
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      a {
+        font-weight: 600;
+      }
+    }
+  }
+  &-right {
+    background-color: #0b24470a;
+    border-radius: 20px;
+    padding: 20px;
+  }
   &-search {
-    padding: 0 50px 0 0px;
+    margin-block: 20px;
     box-sizing: border-box;
-    margin-top: 50px;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 2fr 10fr;
     width: 100%;
+    .search-field {
+      width: 100%;
+    }
     .search {
       flex: 1;
     }
@@ -19,6 +67,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-bottom: 20px;
   }
   &-wrapper {
     width: 100%;
@@ -116,5 +165,31 @@
       padding: 8px 16px;
       font-size: 14px;
     }
+  }
+  .showtime-selection {
+    svg {
+      width: 20px;
+    }
+  }
+  .ant-radio-wrapper {
+    span {
+      padding: 0;
+      p {
+        font-size: 10px;
+        padding: 5px 20px;
+
+        .day {
+          font-size: 10px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  .ant-select-single .ant-select-selector {
+    font-size: 12px;
+  }
+  .ant-select.ant-select-outlined {
+    width: 200px;
+    height: 40px;
   }
 }
