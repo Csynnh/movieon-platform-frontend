@@ -1,7 +1,5 @@
-import React from "react";
-
 const AddPopcorn = () => {
-  return <div>sda</div>;
+  return <div>Popcorn</div>;
 };
 
 export default AddPopcorn;

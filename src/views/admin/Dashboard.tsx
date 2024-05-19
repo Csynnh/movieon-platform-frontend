@@ -1,3 +1,4 @@
+import { DeleteOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -23,6 +24,7 @@ import useTheaters from "../../api/listTheaterByCinemaId";
 import { removeCalendar } from "../../api/removeCalendar";
 import { Cinema, Movie, TenantType, TheaterType } from "../../api/type";
 import Search from "../../components/header/components/Search/Search";
+import Logo from "../../components/logo/Logo";
 import CinemasSelection from "../../components/showtime/CinemasSelection";
 import DateSelection, {
   dateData,
@@ -30,9 +32,6 @@ import DateSelection, {
 import CloseForm from "./CloseForm";
 import "./Dashboard.scss";
 import Tenant from "./Tenant";
-import { DeleteOutlined } from "@ant-design/icons";
-import Logo from "../../components/logo/Logo";
-import { NavLink } from "react-router-dom";
 
 export const convertToDate = (date: string) => {
   const [day, month, year] = date.split("/");
