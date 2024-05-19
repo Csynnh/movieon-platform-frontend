@@ -181,7 +181,6 @@ const Dashboard = () => {
     !dialogOpened && setDialogOpened(true);
   };
   const handleEditCalendar = async (calendar: any) => {
-    console.log(calendar?.showTime);
     form.setFieldsValue({
       movieId: calendar?.movie?._id,
       theaterId: calendar?.theater?._id,

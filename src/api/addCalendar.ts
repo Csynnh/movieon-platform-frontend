@@ -26,11 +26,13 @@ export const addCalendar = async (
   } catch (error: any) {
     const errorMessage = error?.response?.data?.detail;
     const errorStatus = error?.response?.data?.status_code;
-    Toastify({
-      text: `${errorStatus}: ${errorMessage}`,
-      duration: 6000,
-      backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
-    }).showToast();
-    return null;
+    if (errorMessage && errorStatus) {
+      Toastify({
+        text: `${errorStatus}: ${errorMessage}`,
+        duration: 6000,
+        backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
+      }).showToast();
+    }
+    throw new Error(error);
   }
 };
