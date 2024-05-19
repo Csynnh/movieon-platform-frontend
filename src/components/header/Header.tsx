@@ -1,8 +1,8 @@
 import { Button, Tabs, TabsProps } from "antd";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import Logo from "../../asset/icon/Logo.tsx";
-import Search from "./components/Search/Search.tsx";
 import "./index.scss";
+import Logo from "../logo/Logo";
+import Search from "./components/Search/Search";
 
 const Header = (props: { hasSearch?: boolean }) => {
   const nav = useNavigate();

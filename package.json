@@ -37,6 +37,7 @@
     "uuid": "^9.0.1",
     "vite-plugin-css": "^1.0.4",
     "vite-plugin-svgr": "^4.2.0",
+    "vitest": "^1.6.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
