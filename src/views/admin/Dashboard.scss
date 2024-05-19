@@ -4,11 +4,20 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
-
+  .ant-tabs-left > .ant-tabs-nav .ant-tabs-tab {
+    padding: 0;
+  }
+  .ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab {
+    margin: 0;
+  }
+  .ant-tabs-ink-bar {
+    display: none;
+  }
+  .ant-tabs-left > .ant-tabs-content-holder {
+    border-left: 0;
+    width: 100%;
+  }
   &-wrap {
-    display: grid;
-    grid-template-columns: 2fr 10fr;
-    gap: 10px;
   }
   &-left {
     padding: 20px;
@@ -31,7 +40,7 @@
       list-style: none;
     }
     &-wrap {
-      margin-block: 20px;
+      margin-block: 10px;
       width: 200px;
       height: 40px;
       background-color: #fff;
