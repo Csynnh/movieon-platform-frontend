@@ -31,6 +31,8 @@ import CloseForm from "./CloseForm";
 import "./Dashboard.scss";
 import Tenant from "./Tenant";
 import { DeleteOutlined } from "@ant-design/icons";
+import Logo from "../../components/logo/Logo";
+import { NavLink } from "react-router-dom";
 
 export const convertToDate = (date: string) => {
   const [day, month, year] = date.split("/");
@@ -255,125 +257,148 @@ const Dashboard = () => {
   return (
     <Layout className="dashboard">
       <div className="dashboard-search">
-        <div className="dashboard-admin">
-          <Tenant tenantData={tenant}></Tenant>
-          <div className="dashboard-admin-info">
-            <h4>Admin</h4>
-            <span>{tenant?.username}</span>
-          </div>
+        <div className="dashboard-logo">
+          <Logo></Logo>
         </div>
         <Search></Search>
       </div>
-      <div className="dashboard-container">
-        <CinemasSelection
-          cinemas={listCinemaWithAction}
-          handleSelect={handleSelectCinema}
-          value={cinemaSelected}
-        ></CinemasSelection>
-        <DateSelection
-          dateSelected={dateSelected}
-          setDateSelected={setDateSelected}
-        ></DateSelection>
-      </div>
-      <div
-        className={`dashboard-wrapper ${
-          openFormWithAction?.open ? "open-form" : ""
-        }`}
-      >
-        <Table
-          loading={isLoadingTheater || isLoading}
-          columns={columns}
-          dataSource={calendarData}
-          // scroll={{ x: 767 }}
-          bordered
-        />
-        {openFormWithAction?.open && (
-          <div className="dashboard-form">
-            <div className="dashboard-form-container">
-              <Form form={form} onFinish={handleSubmitForm}>
-                <CloseForm handle={handleChangeOpenForm}></CloseForm>
-                <div className="dashboard-form-title">
-                  <p>Thêm lịch chiếu</p>
-                </div>
-                <div className="dashboard-form-input">
-                  <div className="dashboard-field">
-                    <Col>
-                      <Form.Item name={"movieId"} label={"Tên phim"}>
-                        <Select options={movieOptions}></Select>
-                      </Form.Item>
-                    </Col>
-                  </div>
-                  <div className="dashboard-field">
-                    <Col>
-                      <Form.Item name={"theaterId"} label={"Phòng chiếu"}>
-                        <Select
-                          options={theaterData?.map((item) => ({
-                            value: item?._id,
-                            label: item?.name,
-                          }))}
-                        ></Select>
-                      </Form.Item>
-                    </Col>
-                  </div>
-                  <div className="dashboard-field">
-                    <Col>
-                      <Form.Item
-                        name={"showTime"}
-                        label={"Lịch chiếu"}
-                        rules={[
-                          {
-                            required: true,
-                            message: "Vui lý nhap thoi gian chieu phim",
-                          },
-                        ]}
-                      >
-                        <DatePicker
-                          format="YYYY-MM-DD HH:mm"
-                          showTime
-                          disabledDate={disabledDate}
-                        ></DatePicker>
-                      </Form.Item>
-                    </Col>
-                  </div>
-                </div>
-                <Space.Compact style={{ width: "100%" }}>
-                  <Button
-                    loading={submiting}
-                    disabled={submiting}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    Submit
-                  </Button>
-                  {openFormWithAction?.action === "edit" && (
-                    <Button
-                      danger
-                      style={{
-                        width: "25%",
-                      }}
-                      loading={submiting}
-                      disabled={submiting}
-                      type="text"
-                      htmlType="submit"
-                      onClick={handleRemoveCalendar}
-                    >
-                      <DeleteOutlined />
-                    </Button>
-                  )}
-                </Space.Compact>
-              </Form>
+      <div className="dashboard-wrap">
+        <div className="dashboard-left">
+          <div className="dashboard-admin">
+            <Tenant tenantData={tenant}></Tenant>
+            <div className="dashboard-admin-info">
+              <h4>Admin</h4>
+              <span>{tenant?.username}</span>
             </div>
           </div>
-        )}
+          <div className="dashboard-menu">
+            <ul>
+              <li>
+                <div className="dashboard-menu-wrap">
+                  <a href="#">Lịch chiếu</a>
+                </div>
+              </li>
+              <li>
+                <div className="dashboard-menu-wrap">
+                  <a href="/admin/addpopcorn">Bắp nước</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="dashboard-right">
+          <div className="dashboard-container">
+            <CinemasSelection
+              cinemas={listCinemaWithAction}
+              handleSelect={handleSelectCinema}
+              value={cinemaSelected}
+            ></CinemasSelection>
+            <DateSelection
+              dateSelected={dateSelected}
+              setDateSelected={setDateSelected}
+            ></DateSelection>
+          </div>
+          <div
+            className={`dashboard-wrapper ${
+              openFormWithAction?.open ? "open-form" : ""
+            }`}
+          >
+            <Table
+              loading={isLoadingTheater || isLoading}
+              columns={columns}
+              dataSource={calendarData}
+              // scroll={{ x: 767 }}
+              bordered
+            />
+            {openFormWithAction?.open && (
+              <div className="dashboard-form">
+                <div className="dashboard-form-container">
+                  <Form form={form} onFinish={handleSubmitForm}>
+                    <CloseForm handle={handleChangeOpenForm}></CloseForm>
+                    <div className="dashboard-form-title">
+                      <p>Thêm lịch chiếu</p>
+                    </div>
+                    <div className="dashboard-form-input">
+                      <div className="dashboard-field">
+                        <Col>
+                          <Form.Item name={"movieId"} label={"Tên phim"}>
+                            <Select options={movieOptions}></Select>
+                          </Form.Item>
+                        </Col>
+                      </div>
+                      <div className="dashboard-field">
+                        <Col>
+                          <Form.Item name={"theaterId"} label={"Phòng chiếu"}>
+                            <Select
+                              options={theaterData?.map((item) => ({
+                                value: item?._id,
+                                label: item?.name,
+                              }))}
+                            ></Select>
+                          </Form.Item>
+                        </Col>
+                      </div>
+                      <div className="dashboard-field">
+                        <Col>
+                          <Form.Item
+                            name={"showTime"}
+                            label={"Lịch chiếu"}
+                            rules={[
+                              {
+                                required: true,
+                                message: "Vui lý nhap thoi gian chieu phim",
+                              },
+                            ]}
+                          >
+                            <DatePicker
+                              format="YYYY-MM-DD HH:mm"
+                              showTime
+                              disabledDate={disabledDate}
+                            ></DatePicker>
+                          </Form.Item>
+                        </Col>
+                      </div>
+                    </div>
+                    <Space.Compact style={{ width: "100%" }}>
+                      <Button
+                        loading={submiting}
+                        disabled={submiting}
+                        type="primary"
+                        htmlType="submit"
+                      >
+                        Submit
+                      </Button>
+                      {openFormWithAction?.action === "edit" && (
+                        <Button
+                          danger
+                          style={{
+                            width: "25%",
+                          }}
+                          loading={submiting}
+                          disabled={submiting}
+                          type="text"
+                          htmlType="submit"
+                          onClick={handleRemoveCalendar}
+                        >
+                          <DeleteOutlined />
+                        </Button>
+                      )}
+                    </Space.Compact>
+                  </Form>
+                </div>
+              </div>
+            )}
+          </div>
+          <Modal
+            title="Remove calendar"
+            // open={isModalOpen}
+            // onOk={handleOk}
+            // onCancel={handleCancel}
+          >
+            <p>Some contents...</p>
+          </Modal>
+        </div>
       </div>
-      <Modal
-        title="Remove calendar"
-        // open={isModalOpen}
-        // onOk={handleOk}
-        // onCancel={handleCancel}
-      >
-        <p>Some contents...</p>
-      </Modal>
     </Layout>
   );
 };
