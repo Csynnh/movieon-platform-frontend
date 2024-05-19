@@ -82,6 +82,14 @@ export interface SeatRequest {
   calendarId: string;
 }
 
+export interface comboType {
+  name: String;
+  price: int;
+  description: String;
+  image: String;
+  discount: int;
+}
+
 enum SeatType {
   A = "A",
   B = "B",
