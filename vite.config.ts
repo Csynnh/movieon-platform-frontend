@@ -5,6 +5,10 @@ import svgr from "vite-plugin-svgr";
 import dotenv from "dotenv";
 
 dotenv.config();
+const envVariables = Object.keys(process.env).reduce((env, key) => {
+  env[`process.env.${key}`] = JSON.stringify(process.env[key]);
+  return env;
+}, {});
 export default defineConfig({
   plugins: [react(), svgr()],
   resolve: {
@@ -15,14 +19,6 @@ export default defineConfig({
   },
   define: {
     global: {},
-    "process.env.REACT_APP_AWS_REGION": JSON.stringify(
-      process.env.REACT_APP_AWS_REGION
-    ),
-    "process.env.REACT_APP_AWS_ACCESS_KEY_ID": JSON.stringify(
-      process.env.REACT_APP_AWS_ACCESS_KEY_ID
-    ),
-    "process.env.REACT_APP_AWS_SECRET_ACCESS_KEY": JSON.stringify(
-      process.env.REACT_APP_AWS_SECRET_ACCESS_KEY
-    ),
+    ...envVariables,
   },
 });
