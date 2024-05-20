@@ -6,7 +6,6 @@ import PlusIcon from "@/asset/icon/PlusIcon";
 import Loading from "@/components/loading/Loading";
 import CinemasSelection from "@/components/showtime/CinemasSelection";
 import { Button, Form, message } from "antd";
-import AWS from "aws-sdk";
 import { useEffect, useState } from "react";
 import PopcornComponent from "./PopcornComponent";
 import PopcornSchema from "./PopcornSchema";
