@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import PopcornComponent from "./PopcornComponent";
 import PopcornSchema from "./PopcornSchema";
 import "./styles.scss";
+import { a } from "vitest/dist/suite-IbNSsUWN";
 const PopcornManagement = () => {
   const [listCinemaWithAction, setListCinemaWithAction] = useState<Cinema[]>(
     []
@@ -18,8 +19,14 @@ const PopcornManagement = () => {
   const [form] = Form.useForm<ComboFormType>();
   const cinemaData: Cinema[] = useCinemasData();
   const [cinemaSelected, setCinemaSelected] = useState<string>();
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<any>({
+    open: false,
+    action: "",
+  });
   const [uploadedImage, setUploadedImage] = useState<string>("");
+  const [selectedCombo, setSelectedCombo] = useState<ComboFormType | null>(
+    null
+  );
   const handleSelectCinema = (event: any) => {
     event.detail?.value && setCinemaSelected(event.detail?.value?._id);
   };
@@ -31,13 +38,13 @@ const PopcornManagement = () => {
     }
   }, [cinemaData]);
 
-  const hanldeCreatePopcorn = async (values: ComboFormType) => {
+  const hanldeSubmitForm = async (values: ComboFormType) => {
     form.resetFields();
-    setUploadedImage("");
     setLoading(true);
     const data: ComboFormType = {
       ...values,
       image: uploadedImage,
+      _id: isModalVisible.action === "edit" ? selectedCombo?._id : undefined,
     };
     const res = await addCombo(data);
     if (res?.name) {
@@ -45,7 +52,7 @@ const PopcornManagement = () => {
     } else {
       message.error("Thêm bắp nước thất bại");
     }
-    setIsModalVisible(false);
+    setIsModalVisible({ open: false, action: "" });
     refetch();
     setLoading(false);
   };
@@ -60,13 +67,14 @@ const PopcornManagement = () => {
         discount: data?.discount,
       });
       setUploadedImage(data?.image);
-      setIsModalVisible(true);
+      setSelectedCombo(data);
+      setIsModalVisible({ open: true, action: "edit" });
     }
   };
   const onCloseModal = () => {
     form.resetFields();
     setUploadedImage("");
-    setIsModalVisible(false);
+    setIsModalVisible({ open: false, action: "" });
   };
   return (
     <div className="dashboard-right popcorn-header">
@@ -78,7 +86,7 @@ const PopcornManagement = () => {
         ></CinemasSelection>
         <Button
           className="popcorn-add-btn"
-          onClick={() => setIsModalVisible(true)}
+          onClick={() => setIsModalVisible({ open: true, action: "add" })}
         >
           Thêm bắp nước
           <PlusIcon />
@@ -103,13 +111,15 @@ const PopcornManagement = () => {
       {/* Modal create a new popcorn */}
       <PopcornSchema
         form={form}
-        open={isModalVisible}
+        open={isModalVisible.open}
         loading={loading}
         onOk={() => form.submit()}
         onCancel={() => onCloseModal()}
-        onFinish={hanldeCreatePopcorn}
+        onFinish={hanldeSubmitForm}
         onUpload={setUploadedImage}
         imageURL={uploadedImage}
+        uploadedImage={uploadedImage}
+        action={isModalVisible.action}
       />
     </div>
   );

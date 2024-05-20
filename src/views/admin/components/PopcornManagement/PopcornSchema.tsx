@@ -14,6 +14,8 @@ export type PopcornFormType = {
   onFinish: (values: ComboFormType) => void;
   onUpload: (file: any) => void;
   imageURL?: string;
+  action?: string;
+  uploadedImage?: string;
 };
 try {
   const awsAccessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
@@ -30,6 +32,7 @@ try {
   console.error("Error updating AWS config:", error);
 }
 const PopcornSchema = ({
+  action,
   open,
   form,
   loading,
@@ -38,21 +41,33 @@ const PopcornSchema = ({
   onFinish,
   onUpload,
   imageURL,
+  uploadedImage,
 }: PopcornFormType) => {
   const s3 = new AWS.S3();
   const props: UploadProps = {
     maxCount: 1,
+    listType: "picture",
     name: "file",
-    defaultFileList: imageURL
-      ? [
-          {
-            uid: "-1",
-            name: "combo.png",
-            status: "done",
-            url: imageURL,
-          },
-        ]
-      : [],
+    fileList:
+      action === "edit" && imageURL
+        ? [
+            {
+              uid: "-1",
+              name: new URL(imageURL).pathname.slice(1),
+              status: "done",
+              url: imageURL,
+            },
+          ]
+        : uploadedImage
+        ? [
+            {
+              uid: "-1",
+              name: new URL(uploadedImage).pathname.slice(1),
+              status: "done",
+              url: uploadedImage,
+            },
+          ]
+        : [],
     beforeUpload: async (file) => {
       const params = {
         Bucket: "movieonplatformbucket",
