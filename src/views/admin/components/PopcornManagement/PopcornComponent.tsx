@@ -1,6 +1,6 @@
 import { ComboFormType } from "@/api/type";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Card } from "antd";
+import { Button, Card } from "antd";
 type PopcornComponentProps = {
   data?: ComboFormType;
   onEdit: (data?: ComboFormType) => void;
@@ -17,8 +17,22 @@ const PopcornComponent = ({
       <Card
         cover={<img alt="example" src={data?.image} />}
         actions={[
-          <EditOutlined key="edit" onClick={() => onEdit(data)} />,
-          <DeleteOutlined key="delete" onClick={onDelete} />,
+          <Button>
+            <EditOutlined
+              className="popcorn-edit"
+              key="edit"
+              onClick={() => onEdit(data)}
+            />
+            <span className="popcorn-edit">Chỉnh sửa</span>
+          </Button>,
+          <Button>
+            <DeleteOutlined
+              className="popcorn-delete"
+              key="delete"
+              onClick={onDelete}
+            />
+            <span className="popcorn-delete">Xóa</span>
+          </Button>,
         ]}
         title={data?.name}
       >
