@@ -17,20 +17,12 @@ const PopcornComponent = ({
       <Card
         cover={<img alt="example" src={data?.image} />}
         actions={[
-          <Button>
-            <EditOutlined
-              className="popcorn-edit"
-              key="edit"
-              onClick={() => onEdit(data)}
-            />
+          <Button onClick={() => onEdit(data)}>
+            <EditOutlined className="popcorn-edit" key="edit" />
             <span className="popcorn-edit">Chỉnh sửa</span>
           </Button>,
-          <Button>
-            <DeleteOutlined
-              className="popcorn-delete"
-              key="delete"
-              onClick={onDelete}
-            />
+          <Button onClick={onDelete}>
+            <DeleteOutlined className="popcorn-delete" key="delete" />
             <span className="popcorn-delete">Xóa</span>
           </Button>,
         ]}
