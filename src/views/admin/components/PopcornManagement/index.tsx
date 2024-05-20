@@ -1,27 +1,16 @@
+import { addCombo } from "@/api/addCombo";
 import useCinemasData from "@/api/listCinemasData";
+import useCombos from "@/api/listCombos";
 import { Cinema, ComboFormType } from "@/api/type";
 import PlusIcon from "@/asset/icon/PlusIcon";
+import Loading from "@/components/loading/Loading";
 import CinemasSelection from "@/components/showtime/CinemasSelection";
-import { InboxOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Input, Modal, UploadProps, message } from "antd";
-import TextArea from "antd/es/input/TextArea";
-import Dragger from "antd/es/upload/Dragger";
+import { Button, Form, message } from "antd";
 import AWS from "aws-sdk";
 import { useEffect, useState } from "react";
 import PopcornComponent from "./PopcornComponent";
-import "./styles.scss";
-import { addCombo } from "@/api/addCombo";
-import useCombos from "@/api/listCombos";
 import PopcornSchema from "./PopcornSchema";
-import Loading from "@/components/loading/Loading";
-import { s } from "vite/dist/node/types.d-aGj9QkWt";
-AWS?.config?.update({
-  region: import.meta.env.VITE_AWS_REGION,
-  accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
-  secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
-});
-const s3 = new AWS.S3();
-
+import "./styles.scss";
 const PopcornManagement = () => {
   const [listCinemaWithAction, setListCinemaWithAction] = useState<Cinema[]>(
     []

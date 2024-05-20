@@ -4,7 +4,6 @@ import { Col, Form, Input, Modal, UploadProps, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Dragger from "antd/es/upload/Dragger";
 import AWS from "aws-sdk";
-import { useEffect, useState } from "react";
 
 export type PopcornFormType = {
   open: boolean;
@@ -16,11 +15,16 @@ export type PopcornFormType = {
   onUpload: (file: any) => void;
   imageURL?: string;
 };
-AWS?.config?.update({
-  region: import.meta.env.VITE_AWS_REGION,
-  accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
-  secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
-});
+try {
+  AWS?.config?.update({
+    region: import.meta.env.VITE_AWS_REGION,
+    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
+    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
+  });
+} catch (error) {
+  // Handle the exception here
+  console.error("Error updating AWS config:", error);
+}
 const PopcornSchema = ({
   open,
   form,
