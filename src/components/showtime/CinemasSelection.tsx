@@ -7,10 +7,12 @@ const CinemasSelection = (props?: {
   handleSelect?: any;
   value?: string;
 }) => {
-  const items: any = props?.cinemas?.map((item) => ({
-    value: item?._id,
-    label: item?.name,
-  }));
+  const items: any =
+    props?.cinemas.length &&
+    [...props?.cinemas]?.map((item) => ({
+      value: item?._id,
+      label: item?.name,
+    }));
   if (!props?.value) {
     return <Skeleton.Button active={true} size="large" />;
   }
