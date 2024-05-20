@@ -40,7 +40,6 @@ const PopcornSchema = ({
   imageURL,
 }: PopcornFormType) => {
   const s3 = new AWS.S3();
-  console.log("imageURL", imageURL);
   const props: UploadProps = {
     maxCount: 1,
     name: "file",
@@ -60,7 +59,8 @@ const PopcornSchema = ({
         Key: file.name,
         Body: file,
       };
-      const res: any = s3.upload(params, function (err: any, data: any) {
+      if (!s3) return false;
+      const res: any = s3?.upload(params, function (err: any, data: any) {
         if (err) {
           console.error(err);
         }
