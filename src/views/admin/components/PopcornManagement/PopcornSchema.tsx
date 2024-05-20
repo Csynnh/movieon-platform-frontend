@@ -16,11 +16,15 @@ export type PopcornFormType = {
   imageURL?: string;
 };
 try {
-  AWS?.config?.update({
-    region: "ap-southeast-2",
-    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
-    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
-  });
+  const awsAccessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
+  const awsSecretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
+  if (awsAccessKeyId && awsSecretAccessKey && AWS && AWS.config) {
+    AWS?.config?.update({
+      region: "ap-southeast-2",
+      accessKeyId: awsAccessKeyId,
+      secretAccessKey: awsSecretAccessKey,
+    });
+  }
 } catch (error) {
   // Handle the exception here
   console.error("Error updating AWS config:", error);
