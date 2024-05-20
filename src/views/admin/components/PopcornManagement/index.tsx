@@ -11,9 +11,9 @@ import { useEffect, useState } from "react";
 import PopcornComponent from "./PopcornComponent";
 import "./styles.scss";
 AWS.config.update({
-  region: process.env.REACT_APP_AWS_REGION,
-  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  region: import.meta.env.VITE_AWS_REGION,
+  accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
+  secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
 });
 const s3 = new AWS.S3();
 
