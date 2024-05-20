@@ -1,9 +1,9 @@
-import { ComboFormType } from "@/api/type";
-import { InboxOutlined } from "@ant-design/icons";
-import { Col, Form, Input, Modal, UploadProps, message } from "antd";
-import TextArea from "antd/es/input/TextArea";
-import Dragger from "antd/es/upload/Dragger";
-import AWS from "aws-sdk";
+import { ComboFormType } from '@/api/type';
+import { InboxOutlined } from '@ant-design/icons';
+import { Col, Form, Input, Modal, UploadProps, message } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
+import Dragger from 'antd/es/upload/Dragger';
+import AWS from 'aws-sdk';
 
 export type PopcornFormType = {
   open: boolean;
@@ -22,14 +22,14 @@ try {
   const awsSecretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
   if (awsAccessKeyId && awsSecretAccessKey && AWS && AWS.config) {
     AWS?.config?.update({
-      region: "ap-southeast-2",
+      region: 'ap-southeast-2',
       accessKeyId: awsAccessKeyId,
       secretAccessKey: awsSecretAccessKey,
     });
   }
 } catch (error) {
   // Handle the exception here
-  console.error("Error updating AWS config:", error);
+  console.error('Error updating AWS config:', error);
 }
 const PopcornSchema = ({
   action,
@@ -46,31 +46,31 @@ const PopcornSchema = ({
   const s3 = new AWS.S3();
   const props: UploadProps = {
     maxCount: 1,
-    listType: "picture",
-    name: "file",
+    listType: 'picture',
+    name: 'file',
     fileList:
-      action === "edit" && imageURL
+      action === 'edit' && imageURL
         ? [
             {
-              uid: "-1",
+              uid: '-1',
               name: new URL(imageURL).pathname.slice(1),
-              status: "done",
+              status: 'done',
               url: imageURL,
             },
           ]
         : uploadedImage
         ? [
             {
-              uid: "-1",
+              uid: '-1',
               name: new URL(uploadedImage).pathname.slice(1),
-              status: "done",
+              status: 'done',
               url: uploadedImage,
             },
           ]
         : [],
     beforeUpload: async (file) => {
       const params = {
-        Bucket: "movieonplatformbucket",
+        Bucket: 'movieonplatformbucket',
         Key: file.name,
         Body: file,
       };
@@ -80,14 +80,14 @@ const PopcornSchema = ({
           console.error(err);
         }
         onUpload(data.Location);
-        message.success("upload successfully.");
+        message.success('upload successfully.');
       });
       return false;
     },
     progress: {
       strokeColor: {
-        "0%": "#108ee9",
-        "100%": "#87d068",
+        '0%': '#108ee9',
+        '100%': '#87d068',
       },
       strokeWidth: 3,
       format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
@@ -95,58 +95,48 @@ const PopcornSchema = ({
   };
   return (
     <Modal
-      title="THÊM BẮP NƯỚC"
+      title='THÊM BẮP NƯỚC'
       open={open}
       onOk={onOk}
       onCancel={onCancel}
-      okText="Thêm"
-      cancelText="Hủy"
+      okText='Thêm'
+      cancelText='Hủy'
       confirmLoading={loading}
     >
-      <Form className="popcorn-form" form={form} onFinish={onFinish}>
+      <Form className='popcorn-form' form={form} onFinish={onFinish}>
         <Col span={22}>
-          <Form.Item name={"image"} label="Hình Ảnh">
-            <Dragger {...props} listType="picture">
-              <p className="ant-upload-drag-icon">
+          <Form.Item name={'image'} label='Hình Ảnh'>
+            <Dragger {...props} listType='picture'>
+              <p className='ant-upload-drag-icon'>
                 <InboxOutlined />
               </p>
-              <p className="ant-upload-text">
+              <p className='ant-upload-text'>
                 Nhấp chọn hoặc kéo hình ảnh vào khu vực này để tải lên
               </p>
-              <p className="ant-upload-hint">
-                Hỗ trợ tải lên một lần. Nghiêm cấm tải lên dữ liệu công ty hoặc
-                tập tin bị cấm khác.
+              <p className='ant-upload-hint'>
+                Hỗ trợ tải lên một lần. Nghiêm cấm tải lên dữ liệu công ty hoặc tập tin bị cấm khác.
               </p>
             </Dragger>
           </Form.Item>
         </Col>
         <Col span={22}>
-          <Form.Item name={"name"} label="Tên Combo">
-            <Input placeholder="Nhập tên combo"></Input>
+          <Form.Item name={'name'} label='Tên Combo'>
+            <Input placeholder='Nhập tên combo'></Input>
           </Form.Item>
         </Col>
         <Col span={22}>
-          <Form.Item name={"price"} label="Giá">
-            <Input
-              type="number"
-              placeholder="Nhập giá"
-              addonAfter="VND"
-              maxLength={9}
-            ></Input>
+          <Form.Item name={'price'} label='Giá'>
+            <Input type='number' placeholder='Nhập giá' addonAfter='VND' maxLength={9}></Input>
           </Form.Item>
         </Col>
         <Col span={22}>
-          <Form.Item name={"discount"} label="Giảm Giá">
-            <Input
-              type="number"
-              placeholder="Nhập giảm giá"
-              addonAfter="%"
-            ></Input>
+          <Form.Item name={'discount'} label='Giảm Giá'>
+            <Input type='number' placeholder='Nhập giảm giá' addonAfter='%'></Input>
           </Form.Item>
         </Col>
         <Col span={22}>
-          <Form.Item name={"description"} label="Mô tả">
-            <TextArea placeholder="Nhập mô tả cho combo"></TextArea>
+          <Form.Item name={'description'} label='Mô tả'>
+            <TextArea placeholder='Nhập mô tả cho combo'></TextArea>
           </Form.Item>
         </Col>
       </Form>
