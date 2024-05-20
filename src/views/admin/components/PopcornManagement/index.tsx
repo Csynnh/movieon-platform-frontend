@@ -5,12 +5,13 @@ import { Cinema, ComboFormType } from "@/api/type";
 import PlusIcon from "@/asset/icon/PlusIcon";
 import Loading from "@/components/loading/Loading";
 import CinemasSelection from "@/components/showtime/CinemasSelection";
-import { Button, Form, message } from "antd";
+import { Button, Form, Modal, message } from "antd";
 import { useEffect, useState } from "react";
 import PopcornComponent from "./PopcornComponent";
 import PopcornSchema from "./PopcornSchema";
 import "./styles.scss";
 import { a } from "vitest/dist/suite-IbNSsUWN";
+import { removeCombo } from "@/api/removeCombo";
 const PopcornManagement = () => {
   const [listCinemaWithAction, setListCinemaWithAction] = useState<Cinema[]>(
     []
@@ -76,6 +77,21 @@ const PopcornManagement = () => {
     setUploadedImage("");
     setIsModalVisible({ open: false, action: "" });
   };
+  const handleDeletePopcorn = async () => {
+    if (selectedCombo?._id) {
+      setLoading(true);
+      const res = await removeCombo(selectedCombo?._id);
+      console.log("res", res);
+      // if (res) {
+      message.success("Xóa bắp nước thành công");
+      // } else {
+      //   message.error("Xóa bắp nước thất bại");
+      // }
+      refetch();
+      setLoading(false);
+      setIsModalVisible({ open: false, action: "" });
+    }
+  };
   return (
     <div className="dashboard-right popcorn-header">
       <div className="dashboard-container">
@@ -104,6 +120,10 @@ const PopcornManagement = () => {
               key={item.name}
               data={item}
               onEdit={handleEditPopcorn}
+              onDelete={(data) => {
+                if (data) setSelectedCombo(data);
+                setIsModalVisible({ open: false, action: "remove" });
+              }}
             />
           ))}
         </div>
@@ -121,6 +141,19 @@ const PopcornManagement = () => {
         uploadedImage={uploadedImage}
         action={isModalVisible.action}
       />
+      <Modal
+        title="Bạn chắc hông"
+        open={isModalVisible?.action === "remove"}
+        onOk={handleDeletePopcorn}
+        onCancel={() =>
+          setIsModalVisible({
+            open: false,
+            action: "",
+          })
+        }
+      >
+        <p>Some contents...</p>
+      </Modal>
     </div>
   );
 };

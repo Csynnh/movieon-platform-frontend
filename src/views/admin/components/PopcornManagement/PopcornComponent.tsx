@@ -4,7 +4,7 @@ import { Button, Card } from "antd";
 type PopcornComponentProps = {
   data?: ComboFormType;
   onEdit: (data?: ComboFormType) => void;
-  onDelete?: () => void;
+  onDelete: (data?: ComboFormType) => void;
 };
 const PopcornComponent = ({
   data,
@@ -21,7 +21,7 @@ const PopcornComponent = ({
             <EditOutlined className="popcorn-edit" key="edit" />
             <span className="popcorn-edit">Chỉnh sửa</span>
           </Button>,
-          <Button onClick={onDelete}>
+          <Button onClick={() => onDelete(data)}>
             <DeleteOutlined className="popcorn-delete" key="delete" />
             <span className="popcorn-delete">Xóa</span>
           </Button>,
