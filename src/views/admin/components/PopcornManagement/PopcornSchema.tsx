@@ -131,6 +131,7 @@ const PopcornSchema = ({
               type="number"
               placeholder="Nhập giá"
               addonAfter="VND"
+              maxLength={9}
             ></Input>
           </Form.Item>
         </Col>
