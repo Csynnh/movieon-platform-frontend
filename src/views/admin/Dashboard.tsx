@@ -1,6 +1,6 @@
 import { Layout, Tabs } from "antd";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
 import "toastify-js/src/toastify.css";
 import getTenant from "../../api/getTenant";
 import { TenantType } from "../../api/type";
@@ -10,6 +10,7 @@ import "./Dashboard.scss";
 import Tenant from "./Tenant";
 import { CalendarManagement } from "./components/CalendarManagement";
 import PopcornManagement from "./components/PopcornManagement";
+import { styleText } from "util";
 
 export const convertToDate = (date: string) => {
   const [day, month, year] = date.split("/");
@@ -29,6 +30,20 @@ const Dashboard = () => {
     tenantData && setTenant(tenantData);
   }, [tenantData]);
   const itemsTab = [
+    {
+      label: (
+        <div className="dashboard-admin">
+          <Tenant tenantData={tenant}></Tenant>
+          <div className="dashboard-admin-info">
+            <h4>Admin</h4>
+            <span>{tenant?.username}</span>
+          </div>
+        </div>
+      ),
+      key: "admin",
+      children: null,
+      disabled: true,
+    },
     {
       label: (
         <div className="dashboard-menu-wrap">
@@ -58,16 +73,12 @@ const Dashboard = () => {
       </div>
       <div className="dashboard-wrap">
         <div className="dashboard-left">
-          <div className="dashboard-admin">
-            <Tenant tenantData={tenant}></Tenant>
-            <div className="dashboard-admin-info">
-              <h4>Admin</h4>
-              <span>{tenant?.username}</span>
-            </div>
-          </div>
-          <Tabs tabPosition={"left"} items={itemsTab} />
+          <Tabs
+            defaultActiveKey={"calendar"}
+            tabPosition={"left"}
+            items={itemsTab}
+          />
         </div>
-        <div className="dashboard-right"></div>
       </div>
     </Layout>
   );

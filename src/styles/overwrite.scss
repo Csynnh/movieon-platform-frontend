@@ -15,6 +15,9 @@
     color: white;
     background-color: $primary-color;
   }
+  span {
+    font-size: 14px;
+  }
 }
 .ant-form {
   display: flex;
@@ -43,15 +46,15 @@
         & > .ant-input-password,
         & > .ant-input-number {
           box-shadow: unset;
-          border-radius: 40px;
-          padding: 10px 20px;
+          border-radius: 6px;
+          padding: 5px 10px;
         }
       }
     }
     .ant-form-item-label {
-      font-size: 16px;
+      font-size: 12px;
       color: $primary-color;
-      font-style: italic;
+      font-style: normal;
       font-weight: 500;
       label.ant-form-item-required::before {
         content: "";
@@ -92,5 +95,10 @@
 .ant-select {
   &.ant-select-outlined {
     min-width: 200px !important;
+  }
+}
+.ant-upload-drag-container {
+  p.ant-upload-text {
+    font-size: 14px !important;
   }
 }
