@@ -294,7 +294,9 @@ const MovieDetail = () => {
                 seatNumber: seat.column,
                 seatType: getSeat(seat.type, seat.number, seat?.price)
                   ?.type as SeatType,
-                price: getSeat(seat.type, seat.number, seat?.price)?.price,
+                price: parseInt(
+                  getSeat(seat.type, seat.number, seat?.price)?.price
+                ),
               };
             }),
           }}

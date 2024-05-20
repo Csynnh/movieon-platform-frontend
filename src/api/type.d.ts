@@ -78,16 +78,17 @@ export interface Cinema {
 export interface SeatRequest {
   seatNumber: number;
   seatType: SeatType;
-  price: int;
+  price: number;
   calendarId: string;
 }
 
-export interface comboType {
-  name: String;
-  price: int;
-  description: String;
-  image: String;
-  discount: int;
+export interface ComboFormType {
+  _id?: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  discount: number;
 }
 
 enum SeatType {

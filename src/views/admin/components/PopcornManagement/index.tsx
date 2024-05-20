@@ -1,5 +1,5 @@
 import useCinemasData from "@/api/listCinemasData";
-import { Cinema } from "@/api/type";
+import { Cinema, ComboFormType } from "@/api/type";
 import PlusIcon from "@/asset/icon/PlusIcon";
 import CinemasSelection from "@/components/showtime/CinemasSelection";
 import { InboxOutlined } from "@ant-design/icons";
@@ -10,7 +10,12 @@ import AWS from "aws-sdk";
 import { useEffect, useState } from "react";
 import PopcornComponent from "./PopcornComponent";
 import "./styles.scss";
-AWS.config.update({
+import { addCombo } from "@/api/addCombo";
+import useCombos from "@/api/listCombos";
+import PopcornSchema from "./PopcornSchema";
+import Loading from "@/components/loading/Loading";
+import { s } from "vite/dist/node/types.d-aGj9QkWt";
+AWS?.config?.update({
   region: import.meta.env.VITE_AWS_REGION,
   accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
   secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
@@ -21,12 +26,16 @@ const PopcornManagement = () => {
   const [listCinemaWithAction, setListCinemaWithAction] = useState<Cinema[]>(
     []
   );
+  const [loading, setLoading] = useState<boolean>(false);
+  const [form] = Form.useForm<ComboFormType>();
   const cinemaData: Cinema[] = useCinemasData();
   const [cinemaSelected, setCinemaSelected] = useState<string>();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [uploadedImage, setUploadedImage] = useState<string>("");
   const handleSelectCinema = (event: any) => {
     event.detail?.value && setCinemaSelected(event.detail?.value?._id);
   };
-
+  const { data, isLoading, isFetching, refetch } = useCombos();
   useEffect(() => {
     if (cinemaData) {
       setListCinemaWithAction(cinemaData);
@@ -34,33 +43,42 @@ const PopcornManagement = () => {
     }
   }, [cinemaData]);
 
-  const props: UploadProps = {
-    maxCount: 1,
-    name: "file",
-    beforeUpload: async (file) => {
-      const params = {
-        Bucket: "movieonplatformbucket",
-        Key: file.name,
-        Body: file,
-      };
-      let result: any = null;
-      const res: any = s3.upload(params, function (err: any, data: any) {
-        if (err) {
-          console.error(err);
-        }
-        result = data;
-        message.success("upload successfully.");
+  const hanldeCreatePopcorn = async (values: ComboFormType) => {
+    form.resetFields();
+    setUploadedImage("");
+    setLoading(true);
+    const data: ComboFormType = {
+      ...values,
+      image: uploadedImage,
+    };
+    const res = await addCombo(data);
+    if (res?.name) {
+      message.success("Thêm bắp nước thành công");
+    } else {
+      message.error("Thêm bắp nước thất bại");
+    }
+    setIsModalVisible(false);
+    refetch();
+    setLoading(false);
+  };
+  const handleEditPopcorn = (data?: ComboFormType) => {
+    form.resetFields();
+
+    if (data) {
+      form.setFieldsValue({
+        name: data?.name,
+        price: data?.price,
+        description: data?.description,
+        discount: data?.discount,
       });
-      return false;
-    },
-    progress: {
-      strokeColor: {
-        "0%": "#108ee9",
-        "100%": "#87d068",
-      },
-      strokeWidth: 3,
-      format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
-    },
+      setUploadedImage(data?.image);
+      setIsModalVisible(true);
+    }
+  };
+  const onCloseModal = () => {
+    form.resetFields();
+    setUploadedImage("");
+    setIsModalVisible(false);
   };
   return (
     <div className="dashboard-right popcorn-header">
@@ -70,66 +88,41 @@ const PopcornManagement = () => {
           handleSelect={handleSelectCinema}
           value={cinemaSelected}
         ></CinemasSelection>
-        <Button className="popcorn-add-btn">
+        <Button
+          className="popcorn-add-btn"
+          onClick={() => setIsModalVisible(true)}
+        >
           Thêm bắp nước
           <PlusIcon />
         </Button>
       </div>
-      <div className={`dashboard-popcorn-warrper `}>
-        <PopcornComponent />
-        <PopcornComponent />
-        <PopcornComponent />
-        <PopcornComponent />
-        <PopcornComponent isForm />
-      </div>
-      {/* Modal create a new popcorn */}
-      <Modal
-        title="Thêm bắp nước"
-        open={true}
-        onOk={() => {}}
-        onCancel={() => {}}
-        okText="Thêm"
-        cancelText="Hủy"
+      <Loading
+        spinning={isLoading || isFetching}
+        style={{
+          minHeight: "150px",
+        }}
       >
-        <Form className="popcorn-form">
-          <Col span={22}>
-            <Form.Item name={"image"} label="Hình Ảnh">
-              <Dragger {...props} listType="picture">
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single upload. Strictly prohibited from
-                  uploading company data or other banned file.
-                </p>
-              </Dragger>
-            </Form.Item>
-          </Col>
-          <Col span={22}>
-            <Form.Item name={"name"} label="Tên Combo">
-              <Input></Input>
-            </Form.Item>
-          </Col>
-          <Col span={22}>
-            <Form.Item name={"price"} label="Giá">
-              <Input type="number"></Input>
-            </Form.Item>
-          </Col>
-          <Col span={22}>
-            <Form.Item name={"discount"} label="Giảm Giá">
-              <Input type="number"></Input>
-            </Form.Item>
-          </Col>
-          <Col span={22}>
-            <Form.Item name={"desc"} label="Mô tả">
-              <TextArea></TextArea>
-            </Form.Item>
-          </Col>
-        </Form>
-      </Modal>
+        <div className={`dashboard-popcorn-warrper `}>
+          {data?.map((item) => (
+            <PopcornComponent
+              key={item.name}
+              data={item}
+              onEdit={handleEditPopcorn}
+            />
+          ))}
+        </div>
+      </Loading>
+      {/* Modal create a new popcorn */}
+      <PopcornSchema
+        form={form}
+        open={isModalVisible}
+        loading={loading}
+        onOk={() => form.submit()}
+        onCancel={() => onCloseModal()}
+        onFinish={hanldeCreatePopcorn}
+        onUpload={setUploadedImage}
+        imageURL={uploadedImage}
+      />
     </div>
   );
 };

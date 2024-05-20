@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "./axiosConfig";
-import { comboType } from "./type";
+import { ComboFormType } from "./type";
 
-const useComboDetail = (id: string): comboType | undefined => {
-  const [combo, setCombo] = useState<comboType>();
+const useComboDetail = (id: string): ComboFormType | undefined => {
+  const [combo, setCombo] = useState<ComboFormType>();
   const getCombo = async (): Promise<void> => {
     try {
       const response = await api.get(`/api/v1/combos/${id}`);

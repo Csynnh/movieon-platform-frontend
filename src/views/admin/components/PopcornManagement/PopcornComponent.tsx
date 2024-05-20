@@ -1,34 +1,44 @@
-import comboPoster from "@/asset/image/combo-poster.png";
+import { ComboFormType } from "@/api/type";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Card } from "antd";
 type PopcornComponentProps = {
-  isForm?: boolean;
+  data?: ComboFormType;
+  onEdit: (data?: ComboFormType) => void;
+  onDelete?: () => void;
 };
-const PopcornComponent = ({ isForm }: PopcornComponentProps) => {
+const PopcornComponent = ({
+  data,
+  onEdit,
+  onDelete,
+}: PopcornComponentProps) => {
+  if (!data) return null;
   return (
     <div className={`popcorn`}>
       <Card
-        cover={<img alt="example" src={comboPoster} />}
-        actions={[<EditOutlined key="edit" />, <DeleteOutlined key="delete" />]}
-        title={"Combo gia đình"}
+        cover={<img alt="example" src={data?.image} />}
+        actions={[
+          <EditOutlined key="edit" onClick={() => onEdit(data)} />,
+          <DeleteOutlined key="delete" onClick={onDelete} />,
+        ]}
+        title={data?.name}
       >
         <div className="popcorn-wrap">
           <p className="popcorn-title">Giá:</p>{" "}
           <p className={`popcorn-value`}>
-            {<>50.000</>}
+            {data?.price}
             <span className="popcorn-unit">VND</span>
           </p>
         </div>
         <div className="popcorn-wrap">
           <p className="popcorn-title">Giảm giá:</p>{" "}
           <p className={`popcorn-value`}>
-            {<>10</>}
+            {data?.discount}
             <span className="popcorn-unit">%</span>
           </p>
         </div>
         <div className="popcorn-wrap">
           <p className="popcorn-title">Mô tả:</p>{" "}
-          <p className={`popcorn-value`}>{"1 bắp + 1 nước"}</p>
+          <p className={`popcorn-value`}>{data?.description}</p>
         </div>
       </Card>
     </div>
