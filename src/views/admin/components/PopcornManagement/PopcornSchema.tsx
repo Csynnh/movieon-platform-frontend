@@ -95,7 +95,7 @@ const PopcornSchema = ({
   };
   return (
     <Modal
-      title="Thêm bắp nước"
+      title="THÊM BẮP NƯỚC"
       open={open}
       onOk={onOk}
       onCancel={onCancel}
@@ -111,11 +111,11 @@ const PopcornSchema = ({
                 <InboxOutlined />
               </p>
               <p className="ant-upload-text">
-                Click or drag file to this area to upload
+                Nhấp chọn hoặc kéo hình ảnh vào khu vực này để tải lên
               </p>
               <p className="ant-upload-hint">
-                Support for a single upload. Strictly prohibited from uploading
-                company data or other banned file.
+                Hỗ trợ tải lên một lần. Nghiêm cấm tải lên dữ liệu công ty hoặc
+                tập tin bị cấm khác.
               </p>
             </Dragger>
           </Form.Item>
