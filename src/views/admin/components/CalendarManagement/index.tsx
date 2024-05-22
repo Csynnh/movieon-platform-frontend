@@ -1,35 +1,23 @@
-import {
-  Button,
-  Col,
-  DatePicker,
-  Form,
-  Modal,
-  Select,
-  Space,
-  Table,
-  TableColumnsType,
-} from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
-import CinemasSelection from "../../../../components/showtime/CinemasSelection";
-import DateSelection, {
-  dateData,
-} from "../../../../components/showtime/DateSelection";
-import CloseForm from "../../CloseForm";
-import { useEffect, useState } from "react";
-import { Cinema, Movie, TheaterType } from "../../../../api/type";
-import useTheaters from "../../../../api/listTheaterByCinemaId";
-import useCalendars from "../../../../api/listCalendar";
-import { convertToDate, convertToIOSDate } from "../../Dashboard";
-import useCinemasData from "../../../../api/listCinemasData";
-import dayjs from "dayjs";
-import { addCalendar } from "../../../../api/addCalendar";
-import Toastify from "toastify-js";
-import "toastify-js/src/toastify.css";
-import { removeCalendar } from "../../../../api/removeCalendar";
-import useMoviesData from "../../../../api/listMoviesData";
+import { Button, Col, DatePicker, Form, Modal, Select, Space, Table, TableColumnsType } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import CinemasSelection from '../../../../components/showtime/CinemasSelection';
+import DateSelection, { dateData } from '../../../../components/showtime/DateSelection';
+import CloseForm from '../../CloseForm';
+import { useEffect, useState } from 'react';
+import { Cinema, Movie, TheaterType } from '../../../../api/type';
+import useTheaters from '../../../../api/listTheaterByCinemaId';
+import useCalendars from '../../../../api/listCalendar';
+import { convertToDate, convertToIOSDate } from '../../Dashboard';
+import useCinemasData from '../../../../api/listCinemasData';
+import dayjs from 'dayjs';
+import { addCalendar } from '../../../../api/addCalendar';
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css';
+import { removeCalendar } from '../../../../api/removeCalendar';
+import useMoviesData from '../../../../api/listMoviesData';
 
 export const CalendarManagement = () => {
-  const [listCinemaWithAction, setListCinema] = useState<Cinema[]>([]);
+  const [listCinema, setListCinema] = useState<Cinema[]>([]);
   const [cinemaSelected, setCinemaSelected] = useState<string>();
   const [dateSelected, setDateSelected] = useState(dateData[0].value);
   const [selectedCalendar, setSelectedCalendar] = useState<any>();
@@ -41,7 +29,7 @@ export const CalendarManagement = () => {
 
   const [openFormWithAction, setOpenFormWithAction] = useState<any>({
     open: false,
-    action: "",
+    action: '',
   });
   const {
     data: theaterData,
@@ -80,59 +68,58 @@ export const CalendarManagement = () => {
         movies?.map((item) => ({
           value: item?._id,
           label: item?.title,
-        }))
+        })),
       );
     }
   }, [dataMovie.length]);
   const columns: TableColumnsType<any> = [
     {
-      title: "Movie name",
+      title: 'Movie name',
       width: 100,
-      dataIndex: "movie",
-      key: "name",
-      fixed: "left",
+      dataIndex: 'movie',
+      key: 'name',
+      fixed: 'left',
       render: (movie: Movie) => <span>{movie?.title}</span>,
       sorter: true,
     },
     {
-      title: "Theater",
+      title: 'Theater',
       width: 100,
-      dataIndex: "theater",
-      key: "theater",
+      dataIndex: 'theater',
+      key: 'theater',
       render: (theater: TheaterType) => <span>{theater?.name}</span>,
       sorter: true,
     },
     {
-      title: "Show time",
+      title: 'Show time',
       width: 100,
-      dataIndex: "showTime",
-      key: "showTime",
-      render: (time: string) => (
-        <span>{dayjs(time).format("DD/MM/YYYY HH:mm")}</span>
-      ),
+      dataIndex: 'showTime',
+      key: 'showTime',
+      render: (time: string) => <span>{dayjs(time).format('DD/MM/YYYY HH:mm')}</span>,
       sorter: true,
     },
     {
       title: (
         <Button
           disabled={isLoadingTheater || isLoading || !cinemaData?.length}
-          className="dashboard-action-btn"
-          type="primary"
+          className='dashboard-action-btn'
+          type='primary'
           onClick={() => {
-            form.resetFields(["movieId", "theaterId", "showTime"]);
-            setOpenFormWithAction({ open: true, action: "add" });
+            form.resetFields(['movieId', 'theaterId', 'showTime']);
+            setSelectedCalendar(null);
+            setOpenFormWithAction({ open: true, action: 'add' });
           }}
         >
           Add
         </Button>
       ),
       width: 50,
-      align: "center",
-      key: "action",
-      className: "dashboard-action",
+      align: 'center',
+      key: 'action',
+      className: 'dashboard-action',
       render: (_: any, record: any) => (
         <Button
-          className="dashboard-action-btn"
+          className='dashboard-action-btn'
           onClick={() => {
             handleEditCalendar(record);
             setSelectedCalendar(record);
@@ -150,19 +137,19 @@ export const CalendarManagement = () => {
         const res: any = await addCalendar(
           convertToIOSDate(values.showTime),
           values.movieId,
-          values.theaterId
+          values.theaterId,
         );
         if (res?._id) {
           Toastify({
             text: `Thêm lịch chiếu thành công`,
             duration: 3000,
             style: {
-              background: "linear-gradient(to right, #00b09b, #96c93d)",
+              background: 'linear-gradient(to right, #00b09b, #96c93d)',
             },
           }).showToast();
           setOpenFormWithAction({
             open: false,
-            action: "",
+            action: '',
           });
           refetch();
         }
@@ -175,7 +162,7 @@ export const CalendarManagement = () => {
           convertToIOSDate(values.showTime),
           values.movieId,
           values.theaterId,
-          selectedCalendar?._id
+          selectedCalendar?._id,
         );
         if (res?._id) {
           refetch();
@@ -183,23 +170,23 @@ export const CalendarManagement = () => {
             text: `Cập nhật lịch chiếu thành công`,
             duration: 3000,
             style: {
-              background: "linear-gradient(to right, #00b09b, #96c93d)",
+              background: 'linear-gradient(to right, #00b09b, #96c93d)',
             },
           }).showToast();
 
           setOpenFormWithAction({
             open: false,
-            action: "",
+            action: '',
           });
         }
       } catch (error) {
         //
       }
     }
-    form.resetFields(["movieId", "theaterId", "showTime"]);
+    form.resetFields(['movieId', 'theaterId', 'showTime']);
     setOpenFormWithAction({
       open: false,
-      action: "",
+      action: '',
     });
     setSubmiting(false);
   };
@@ -211,7 +198,7 @@ export const CalendarManagement = () => {
         text: `Xóa lịch chiếu thành công`,
         duration: 3000,
         style: {
-          background: "linear-gradient(to right, #d7e200, #b6a842)",
+          background: 'linear-gradient(to right, #d7e200, #b6a842)',
         },
       }).showToast();
       refetch();
@@ -220,17 +207,17 @@ export const CalendarManagement = () => {
         text: `Xóa lịch chiếu thất bại`,
         duration: 3000,
         style: {
-          background: "linear-gradient(to right, #ff416c, #ff4b2b)",
+          background: 'linear-gradient(to right, #ff416c, #ff4b2b)',
         },
       }).showToast();
     }
     setOpenFormWithAction({
       open: false,
-      action: "",
+      action: '',
     });
     setDialogOpened(false);
     setSubmiting(false);
-    form.resetFields(["movieId", "theaterId", "showTime"]);
+    form.resetFields(['movieId', 'theaterId', 'showTime']);
   };
   const handleEditCalendar = async (calendar: any) => {
     form.setFieldsValue({
@@ -238,26 +225,23 @@ export const CalendarManagement = () => {
       theaterId: calendar?.theater?._id,
       showTime: dayjs(calendar?.showTime),
     });
-    setOpenFormWithAction({ open: true, action: "edit" });
+    setOpenFormWithAction({ open: true, action: 'edit' });
   };
   const handleChangeOpenForm = () => {
     setOpenFormWithAction({
       open: false,
-      action: "",
+      action: '',
     });
-    form.resetFields(["movieId", "theaterId", "showTime"]);
+    form.resetFields(['movieId', 'theaterId', 'showTime']);
   };
   const disabledDate = (current: any) => {
-    return (
-      current &&
-      (current < dayjs().add(-1, "day") || current > dayjs().add(30, "day"))
-    );
+    return current && (current < dayjs().add(-1, 'day') || current > dayjs().add(30, 'day'));
   };
   return (
-    <div className="dashboard-right">
-      <div className="dashboard-container">
+    <div className='dashboard-right'>
+      <div className='dashboard-container'>
         <CinemasSelection
-          cinemas={listCinemaWithAction}
+          cinemas={listCinema}
           handleSelect={handleSelectCinema}
           value={cinemaSelected}
         ></CinemasSelection>
@@ -266,11 +250,7 @@ export const CalendarManagement = () => {
           setDateSelected={setDateSelected}
         ></DateSelection>
       </div>
-      <div
-        className={`dashboard-wrapper ${
-          openFormWithAction?.open ? "open-form" : ""
-        }`}
-      >
+      <div className={`dashboard-wrapper ${openFormWithAction?.open ? 'open-form' : ''}`}>
         <Table
           loading={isLoadingTheater || isLoading || submiting}
           columns={columns}
@@ -279,24 +259,24 @@ export const CalendarManagement = () => {
           bordered
         />
         {openFormWithAction?.open && (
-          <div className="dashboard-form">
-            <div className="dashboard-form-container">
+          <div className='dashboard-form'>
+            <div className='dashboard-form-container'>
               <Form form={form} onFinish={handleSubmitForm}>
                 <CloseForm handle={handleChangeOpenForm}></CloseForm>
-                <div className="dashboard-form-title">
+                <div className='dashboard-form-title'>
                   <p>Thêm lịch chiếu</p>
                 </div>
-                <div className="dashboard-form-input">
-                  <div className="dashboard-field">
+                <div className='dashboard-form-input'>
+                  <div className='dashboard-field'>
                     <Col>
-                      <Form.Item name={"movieId"} label={"Tên phim"}>
+                      <Form.Item name={'movieId'} label={'Tên phim'}>
                         <Select options={movieOptions}></Select>
                       </Form.Item>
                     </Col>
                   </div>
-                  <div className="dashboard-field">
+                  <div className='dashboard-field'>
                     <Col>
-                      <Form.Item name={"theaterId"} label={"Phòng chiếu"}>
+                      <Form.Item name={'theaterId'} label={'Phòng chiếu'}>
                         <Select
                           options={theaterData?.map((item) => ({
                             value: item?._id,
@@ -306,20 +286,20 @@ export const CalendarManagement = () => {
                       </Form.Item>
                     </Col>
                   </div>
-                  <div className="dashboard-field">
+                  <div className='dashboard-field'>
                     <Col>
                       <Form.Item
-                        name={"showTime"}
-                        label={"Lịch chiếu"}
+                        name={'showTime'}
+                        label={'Lịch chiếu'}
                         rules={[
                           {
                             required: true,
-                            message: "Vui lý nhap thoi gian chieu phim",
+                            message: 'Vui lý nhap thoi gian chieu phim',
                           },
                         ]}
                       >
                         <DatePicker
-                          format="YYYY-MM-DD HH:mm"
+                          format='YYYY-MM-DD HH:mm'
                           showTime
                           disabledDate={disabledDate}
                         ></DatePicker>
@@ -327,24 +307,19 @@ export const CalendarManagement = () => {
                     </Col>
                   </div>
                 </div>
-                <Space.Compact style={{ width: "100%" }}>
-                  <Button
-                    loading={submiting}
-                    disabled={submiting}
-                    type="primary"
-                    htmlType="submit"
-                  >
+                <Space.Compact style={{ width: '100%' }}>
+                  <Button loading={submiting} disabled={submiting} type='primary' htmlType='submit'>
                     Submit
                   </Button>
-                  {openFormWithAction?.action === "edit" && (
+                  {openFormWithAction?.action === 'edit' && (
                     <Button
                       danger
                       style={{
-                        width: "25%",
+                        width: '25%',
                       }}
                       loading={submiting}
                       disabled={submiting}
-                      type="text"
+                      type='text'
                       onClick={() => !dialogOpened && setDialogOpened(true)}
                     >
                       <DeleteOutlined />
@@ -357,28 +332,22 @@ export const CalendarManagement = () => {
         )}
       </div>
       <Modal
-        title="Remove calendar"
+        title='Remove calendar'
         open={dialogOpened}
         onOk={handleRemoveCalendar}
         onCancel={() => setDialogOpened(false)}
       >
         <p
           style={{
-            fontStyle: "italic",
-            textAlign: "center",
+            fontStyle: 'italic',
+            textAlign: 'center',
           }}
         >
-          Bạn có chắc chắn muốn xóa lịch chiếu{" "}
-          <strong>{selectedCalendar?.movie?.title}</strong> tại{" "}
+          Bạn có chắc chắn muốn xóa lịch chiếu <strong>{selectedCalendar?.movie?.title}</strong> tại{' '}
           <strong>
-            {selectedCalendar?.theater?.name} -{" "}
-            {selectedCalendar?.theater?.cinema?.name}
-          </strong>{" "}
-          vào lúc{" "}
-          <strong>
-            {dayjs(selectedCalendar?.showTime).format("DD/MM/YYYY HH:mm")}
-          </strong>
-          ?
+            {selectedCalendar?.theater?.name} - {selectedCalendar?.theater?.cinema?.name}
+          </strong>{' '}
+          vào lúc <strong>{dayjs(selectedCalendar?.showTime).format('DD/MM/YYYY HH:mm')}</strong>?
         </p>
       </Modal>
     </div>
