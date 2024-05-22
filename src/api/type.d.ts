@@ -89,13 +89,14 @@ export interface ComboFormType {
   description: string;
   image: string;
   discount: number;
+  cinemaId: string;
 }
 
 enum SeatType {
-  A = "A",
-  B = "B",
-  C = "C",
-  VIP_1 = "VIP_1",
-  VIP_2 = "VIP_2",
-  COUPLE = "COUPLE",
+  A = 'A',
+  B = 'B',
+  C = 'C',
+  VIP_1 = 'VIP_1',
+  VIP_2 = 'VIP_2',
+  COUPLE = 'COUPLE',
 }
