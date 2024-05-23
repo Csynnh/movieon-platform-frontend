@@ -8,7 +8,6 @@ import Loading from '@/components/loading/Loading';
 import CinemasSelection from '@/components/showtime/CinemasSelection';
 import { Button, Form, Modal, message } from 'antd';
 import { useEffect, useState } from 'react';
-import { RefetchOptions } from 'react-query';
 import PopcornComponent from './PopcornComponent';
 import PopcornSchema from './PopcornSchema';
 import './styles.scss';
@@ -36,7 +35,6 @@ const PopcornManagement = () => {
   }, [cinemaData]);
   useEffect(() => {
     if (cinemaSelected) {
-      console.log(cinemaSelected, '  a');
       refetch();
     }
   }, [cinemaSelected]);
@@ -87,12 +85,11 @@ const PopcornManagement = () => {
     if (selectedCombo?._id) {
       setLoading(true);
       const res = await removeCombo(selectedCombo?._id);
-      console.log('res', res);
-      // if (res) {
-      message.success('Xóa bắp nước thành công');
-      // } else {
-      //   message.error("Xóa bắp nước thất bại");
-      // }
+      if (res) {
+        message.success('Xóa bắp nước thành công');
+      } else {
+        message.error('Xóa bắp nước thất bại');
+      }
       refetch();
       setLoading(false);
       setIsModalVisible({ open: false, action: '' });
@@ -143,7 +140,7 @@ const PopcornManagement = () => {
         onCancel={() => onCloseModal()}
         onFinish={hanldeSubmitForm}
         onUpload={setUploadedImage}
-        imageURL={uploadedImage}
+        imageURL={isModalVisible?.action === 'edit' ? uploadedImage : ''}
         uploadedImage={uploadedImage}
         action={isModalVisible.action}
       />

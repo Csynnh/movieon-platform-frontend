@@ -4,7 +4,6 @@ import { ComboFormType } from './type';
 
 const listCombos = async (cinemaId?: string): Promise<ComboFormType[]> => {
   try {
-    console.log(cinemaId);
     if (!cinemaId) {
       return [] as ComboFormType[];
     }
@@ -20,7 +19,6 @@ const listCombos = async (cinemaId?: string): Promise<ComboFormType[]> => {
   return [] as ComboFormType[];
 };
 const useCombos = (cinemaId?: string) => {
-  console.log('first');
   return useQuery(['combos', { cinemaId }], () => listCombos(cinemaId));
 };
 export default useCombos;

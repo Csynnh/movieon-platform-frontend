@@ -1,6 +1,6 @@
 import { Layout, Tabs } from 'antd';
 import dayjs from 'dayjs';
-import { Children, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'toastify-js/src/toastify.css';
 import getTenant from '../../api/getTenant';
 import { TenantType } from '../../api/type';
@@ -8,10 +8,9 @@ import Search from '../../components/header/components/Search/Search';
 import Logo from '../../components/logo/Logo';
 import './Dashboard.scss';
 import Tenant from './Tenant';
+import AccountManagement from './components/AccountManagement';
 import { CalendarManagement } from './components/CalendarManagement';
 import PopcornManagement from './components/PopcornManagement';
-import AccountManagement from './components/AccountManagement';
-import { styleText } from 'util';
 
 export const convertToDate = (date: string) => {
   const [day, month, year] = date.split('/');
@@ -88,7 +87,7 @@ const Dashboard = () => {
       </div>
       <div className='dashboard-wrap'>
         <div className='dashboard-left'>
-          <Tabs defaultActiveKey={'admin'} tabPosition={'left'} items={itemsTab} />
+          <Tabs defaultActiveKey={'calendar'} tabPosition={'left'} items={itemsTab} />
         </div>
       </div>
     </Layout>

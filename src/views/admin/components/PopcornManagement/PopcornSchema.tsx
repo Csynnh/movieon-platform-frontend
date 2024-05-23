@@ -1,4 +1,5 @@
 import { ComboFormType } from '@/api/type';
+import Loading from '@/components/loading/Loading';
 import { InboxOutlined } from '@ant-design/icons';
 import { Col, Form, Input, Modal, UploadProps, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
@@ -44,11 +45,15 @@ const PopcornSchema = ({
   imageURL,
   uploadedImage,
 }: PopcornFormType) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const s3 = new AWS.S3();
   const props: UploadProps = {
     maxCount: 1,
     listType: 'picture',
     name: 'file',
+    onRemove: (file) => {
+      onUpload('');
+    },
     fileList:
       action === 'edit' && imageURL
         ? [
@@ -70,19 +75,21 @@ const PopcornSchema = ({
           ]
         : [],
     beforeUpload: async (file) => {
+      setIsLoading(true);
       const params = {
         Bucket: 'movieonplatformbucket',
         Key: file.name,
         Body: file,
       };
       if (!s3) return false;
-      const res: any = s3?.upload(params, function (err: any, data: any) {
-        if (err) {
-          console.error(err);
-        }
-        onUpload(data.Location);
+      const res: any = await s3?.upload(params).promise();
+      if (res) {
+        onUpload(res.Location);
         message.success('upload successfully.');
-      });
+      } else {
+        message.error('upload failed.');
+      }
+      setIsLoading(false);
       return false;
     },
     progress: {
@@ -107,16 +114,19 @@ const PopcornSchema = ({
       <Form className='popcorn-form' form={form} onFinish={onFinish}>
         <Col span={22}>
           <Form.Item name={'image'} label='Hình Ảnh'>
-            <Dragger {...props} listType='picture'>
-              <p className='ant-upload-drag-icon'>
-                <InboxOutlined />
-              </p>
-              <p className='ant-upload-text'>
-                Nhấp chọn hoặc kéo hình ảnh vào khu vực này để tải lên
-              </p>
-              <p className='ant-upload-hint'>
-                Hỗ trợ tải lên một lần. Nghiêm cấm tải lên dữ liệu công ty hoặc tập tin bị cấm khác.
-              </p>
+            <Dragger {...props} listType='picture' disabled={isLoading}>
+              <Loading spinning={isLoading}>
+                <p className='ant-upload-drag-icon'>
+                  <InboxOutlined />
+                </p>
+                <p className='ant-upload-text'>
+                  Nhấp chọn hoặc kéo hình ảnh vào khu vực này để tải lên
+                </p>
+                <p className='ant-upload-hint'>
+                  Hỗ trợ tải lên một lần. Nghiêm cấm tải lên dữ liệu công ty hoặc tập tin bị cấm
+                  khác.
+                </p>
+              </Loading>
             </Dragger>
           </Form.Item>
         </Col>

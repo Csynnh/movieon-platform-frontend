@@ -45,12 +45,15 @@ export const CalendarManagement = () => {
     date: convertToDate(dateSelected),
   });
   useEffect(() => {
-    refetch();
-    refetchListTheaterData();
+    if (cinemaSelected) {
+      refetch();
+      refetchListTheaterData();
+    }
   }, [cinemaSelected]);
+
   const [form] = Form.useForm();
   const handleSelectCinema = (event: any) => {
-    event.detail?.value && setCinemaSelected(event.detail?.value?._id);
+    event && setCinemaSelected(event);
   };
   useEffect(() => {
     if (cinemaData) {
