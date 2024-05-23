@@ -1,0 +1,119 @@
+@import '../../../.././/styles/var.scss';
+.dashboard {
+  user-select: none;
+  &-account {
+    margin-block: 30px;
+    width: 100%;
+    max-height: 370px;
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+    .ant-form {
+      width: 90%;
+      gap: 0;
+      label {
+        font-weight: 600;
+      }
+
+      .ant-form-item {
+        width: 100%;
+
+        .ant-row.ant-form-item-row.css-dev-only-do-not-override-lvday7 {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+    }
+    .ant-col {
+      &:not(.ant-form-item-label) {
+        width: 100%;
+        user-select: none;
+        .ant-form-item-control-input-content {
+          & > .ant-input,
+          & > .ant-input-password,
+          & > .ant-input-number {
+            border-radius: 50px;
+            padding: 8px 20px;
+          }
+        }
+        .css-dev-only-do-not-override-lvday7.ant-input-outlined {
+          border: none;
+        }
+      }
+    }
+    .ant-form-item-control {
+      flex: none;
+      min-width: 0;
+    }
+    .ant-col:not(.ant-form-item-label) .css-dev-only-do-not-override-lvday7.ant-input-outlined {
+      cursor: auto;
+    }
+  }
+  &-button {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    .ant-btn {
+      padding: 8px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      &.edit {
+        background-color: #fff;
+        color: #7ec971;
+        border: 1px solid #7ec971;
+        span {
+          font-weight: 600;
+          line-height: 14.52px;
+          text-align: center;
+        }
+        svg {
+          width: 16px;
+          margin-right: 5px;
+        }
+      }
+      &.delete {
+        background-color: #fff;
+        color: #e61e2b;
+        border: 1px solid #e61e2b;
+        span {
+          font-weight: 600;
+          line-height: 14.52px;
+          text-align: center;
+        }
+        svg {
+          width: 16px;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  &-avatar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    img {
+      width: 165px;
+
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+    }
+  }
+  &-name {
+    background-color: #fff;
+    padding: 5px 45px;
+    gap: 10px;
+    border-radius: 30px;
+    opacity: 0px;
+    p {
+      color: $primary-color;
+      font-weight: 600;
+      line-height: 0;
+    }
+  }
+}

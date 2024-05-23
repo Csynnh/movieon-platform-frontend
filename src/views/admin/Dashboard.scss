@@ -1,4 +1,4 @@
-@import "../../styles/var.scss";
+@import '../../styles/var.scss';
 .dashboard {
   width: 90%;
   margin-left: auto;
@@ -102,12 +102,24 @@
     }
   }
   &-admin {
+    width: 100%;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
     gap: 10px;
     margin-bottom: 20px;
+    &-wrap {
+      display: flex;
+      gap: 10px;
+    }
     &-info {
+      display: flex;
+      flex-direction: column;
       text-align: left;
+    }
+    &-icon {
+      svg {
+        width: 24px;
+      }
     }
   }
   &-wrapper {
