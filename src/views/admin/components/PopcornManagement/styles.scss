@@ -1,7 +1,6 @@
-@import "../../../.././/styles/var.scss";
-.popcorn {
-  width: calc(33.33% - 30px * 2 / 3);
-
+@import '../../../.././/styles/var.scss';
+.popcornComponent {
+  width: calc(33.33% - 20px);
   &-wrap {
     display: flex;
     justify-content: space-between;
@@ -67,7 +66,7 @@
   }
 
   .ant-card-body {
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -129,7 +128,7 @@
   }
 
   ant-model-content {
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
   }
   .ant-model-header {
     .ant-model-header {

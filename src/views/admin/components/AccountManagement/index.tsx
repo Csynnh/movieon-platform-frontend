@@ -27,13 +27,13 @@ const AccountManagement = (props: { tenantData: any }) => {
             wrapperCol={{ span: 21 }}
           >
             <Form.Item label='Họ và tên: ' name='username'>
-              <Input placeholder={tenantData?.username} readOnly />
+              <Input readOnly />
             </Form.Item>
             <Form.Item label='Email: ' name='email'>
-              <Input placeholder={tenantData?.email} readOnly />
+              <Input readOnly />
             </Form.Item>
             {tenantData && (
-              <Form.Item label='Mật khẩu: ' name='password' initialValue={tenantData?.password}>
+              <Form.Item label='Mật khẩu: ' name='password'>
                 <Input.Password readOnly />
               </Form.Item>
             )}
