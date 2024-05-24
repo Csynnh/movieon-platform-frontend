@@ -1,4 +1,4 @@
-@import "./var.scss";
+@import './var.scss';
 .ant-btn {
   font-size: 18px;
   font-weight: 600;
@@ -57,7 +57,7 @@
       font-style: normal;
       font-weight: 500;
       label.ant-form-item-required::before {
-        content: "";
+        content: '';
       }
     }
     .ant-picker-outlined {
@@ -100,5 +100,28 @@
 .ant-upload-drag-container {
   p.ant-upload-text {
     font-size: 14px !important;
+  }
+}
+
+.ant-skeleton.ant-skeleton-element {
+  .loading-selector {
+    &.ant-skeleton-button {
+      width: 240px;
+      height: 45px;
+      margin-bottom: 20px;
+      border-radius: 100rem;
+      display: block;
+    }
+  }
+  &.loading-selector {
+    &.date-item {
+      width: 12%;
+      margin-right: 10px;
+      .loading-selector {
+        &.ant-skeleton-button {
+          width: 100%;
+        }
+      }
+    }
   }
 }

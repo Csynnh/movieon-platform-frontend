@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "@apollo/client": "^3.10.2",
+    "@emailjs/browser": "^4.3.3",
     "@hookform/resolvers": "^3.3.4",
     "@jridgewell/sourcemap-codec": "^1.4.15",
     "@polymer/polymer": "^3.5.1",

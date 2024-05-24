@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
-import useCalendars from "../../api/listCalendar";
-import useCinemasData from "../../api/listCinemasData";
-import { Cinema } from "../../api/type";
-import DetailTicket from "../../asset/image/DetailTicket";
-import CinemasSelection from "../../components/showtime/CinemasSelection";
-import DateSelection, {
-  dateData,
-} from "../../components/showtime/DateSelection";
-import { convertToDate } from "../../views/admin/Dashboard";
-import MovieContainer from "./MovieContainer";
-import "./index.scss";
+import { useEffect, useState } from 'react';
+import useCalendars from '../../api/listCalendar';
+import useCinemasData from '../../api/listCinemasData';
+import { Cinema } from '../../api/type';
+import DetailTicket from '../../asset/image/DetailTicket';
+import CinemasSelection from '../../components/showtime/CinemasSelection';
+import DateSelection, { dateData } from '../../components/showtime/DateSelection';
+import { convertToDate } from '../../views/admin/Dashboard';
+import MovieContainer from './MovieContainer';
+import './index.scss';
+import { Skeleton } from 'antd';
 const Showtime = () => {
   const [listCinema, setListCinema] = useState<Cinema[]>([]);
   const [cinemaSelected, setCinemaSelected] = useState<string>();
@@ -24,7 +23,9 @@ const Showtime = () => {
     date: convertToDate(dateSelected),
   });
   useEffect(() => {
-    refetch();
+    if (cinemaSelected && dateSelected) {
+      refetch();
+    }
   }, [cinemaSelected, dateSelected]);
   useEffect(() => {
     if (cinemaData) {
@@ -36,31 +37,48 @@ const Showtime = () => {
     value && setCinemaSelected(value);
   };
   return (
-    <section className={"showtime"} id="showtime">
-      <div className="showtime-container">
-        <div className="showtime-title">
+    <section className={'showtime'} id='showtime'>
+      <div className='showtime-container'>
+        <div className='showtime-title'>
           <h2>XEM GÌ ĐÂY</h2>
         </div>
-        <CinemasSelection
-          value={cinemaSelected}
-          cinemas={listCinema}
-          handleSelect={handleSelectCinema}
-        ></CinemasSelection>
-        <DateSelection
-          dateSelected={dateSelected}
-          setDateSelected={setDateSelected}
-        ></DateSelection>
+        {!(cinemaSelected && dateSelected) ? (
+          <>
+            <Skeleton.Button className='loading-selector cinema'></Skeleton.Button>
+            <div className='loading-selector date'>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <CinemasSelection
+              value={cinemaSelected}
+              cinemas={listCinema}
+              handleSelect={handleSelectCinema}
+            ></CinemasSelection>
+            <DateSelection
+              dateSelected={dateSelected}
+              setDateSelected={setDateSelected}
+            ></DateSelection>
+          </>
+        )}
         <MovieContainer
           calendarData={calendarData ?? []}
           dateSelected={dateSelected}
-          cinemaSelected={cinemaSelected ?? ""}
+          cinemaSelected={cinemaSelected ?? ''}
           loading={isLoading || !cinemaSelected}
         />
-        <div className="showtime-title">
+        <div className='showtime-title'>
           <h2>Chi tiết giá vé</h2>
         </div>
-        <div className="showtime-tickets">
-          <div className="showtime-animate"></div>
+        <div className='showtime-tickets'>
+          <div className='showtime-animate'></div>
           <DetailTicket />
         </div>
       </div>

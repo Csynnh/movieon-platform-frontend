@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import useMovieDetail from '../../api/getMovieData';
 import useListCalendars from '../../api/listCalendarByMovieAndCinema';
@@ -18,6 +18,7 @@ import { seatsArray } from '../../mocks/seats';
 import { getSeat } from '../../util/seat';
 import { convertToDate } from '../admin/Dashboard';
 import './MovieDatail.scss';
+import { CalendarType } from 'antd/es/calendar';
 export interface Seat {
   type: string;
   price: string;
@@ -46,6 +47,8 @@ const MovieDetail = () => {
   useEffect(() => {
     if (cinemaSelected && dateSelected) {
       refetch();
+      setIsOpenBill(false);
+      setSeatSelected([]);
     }
   }, [cinemaSelected, dateSelected]);
   useEffect(() => {
@@ -55,14 +58,17 @@ const MovieDetail = () => {
       setIsOpenBill(false);
     }
   }, [![...seatSelected].length]);
+
+  const [timeSelected, setTimeSelected] = useState(data?.[0]?.time ?? '');
+  const calendarSelected = useMemo(() => {
+    const calendar = data?.find((item) => item.time === timeSelected);
+    return calendar;
+  }, [timeSelected]);
   useEffect(() => {
     if (data && data?.[0]?.time) {
       setTimeSelected(data?.[0]?.time);
     }
   }, [data]);
-  const [timeSelected, setTimeSelected] = useState(data?.[0]?.time ?? '');
-  const calendarSelected = data?.find((item) => item.time === timeSelected);
-
   const {
     data: seatPlacedData,
     refetch: refetchSeatPlaced,
@@ -71,12 +77,11 @@ const MovieDetail = () => {
     calendarId: calendarSelected?._id,
   });
   useEffect(() => {
-    const calendarSelected = data?.find((item) => item.time === timeSelected);
-    if (calendarSelected && timeSelected) {
+    if (calendarSelected) {
       refetchSeatPlaced();
-      setSeatSelected([]);
     }
-  }, [timeSelected, calendarSelected]);
+    setSeatSelected([]);
+  }, [calendarSelected]);
   useEffect(() => {
     if (!isLoadingSeatPlaced && seatPlacedData?.length > 0) {
       setSeatsArrayData(
@@ -280,7 +285,7 @@ const MovieDetail = () => {
             movie: movieDetail,
             seats: [...seatSelected].map((seat) => {
               return {
-                calendarId: data?.find((item) => item.time === timeSelected)?._id ?? '',
+                calendar: data?.find((item) => item.time === timeSelected) ?? undefined,
                 seatNumber: seat.column,
                 seatType: getSeat(seat.type, seat.number, seat?.price)?.type as SeatType,
                 price: parseInt(getSeat(seat.type, seat.number, seat?.price)?.price),

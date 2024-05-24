@@ -1,3 +1,4 @@
+import { CalendarType } from './type.d';
 export interface Movie {
   title: string;
   _id: string;
@@ -20,7 +21,7 @@ export interface Movie {
 export interface CalendarType {
   _id?: string;
   movie: Movie;
-  theater: TheaterType;
+  theater: TheaterResponse;
   showTime: string;
   time?: string;
   calendarId: string;
@@ -38,6 +39,12 @@ export interface TheaterType {
   name: string;
   cinemaId: string;
   theaterId: string;
+}
+
+export interface TheaterResponse {
+  _id: string;
+  name: string;
+  cinema: Cinema;
 }
 export interface MovieDetail {
   title: string;
@@ -76,10 +83,10 @@ export interface Cinema {
   cinemaId: string;
 }
 export interface SeatRequest {
-  seatNumber: number;
-  seatType: SeatType;
-  price: number;
-  calendarId: string;
+  seatNumber?: number;
+  seatType?: SeatType;
+  price?: number;
+  calendarId?: string;
 }
 
 export interface ComboFormType {
@@ -100,3 +107,29 @@ enum SeatType {
   VIP_2 = 'VIP_2',
   COUPLE = 'COUPLE',
 }
+export type RESPONSE = {
+  detail: string;
+  status_code: number;
+};
+export type SeatResponse = {
+  seatNumber?: number;
+  seatType?: SeatType;
+  price?: number;
+  calendar?: CalendarType;
+  _id?: string;
+};
+export type CustomerType = {
+  _id?: string;
+  email: string;
+  name: string;
+  phone: string;
+};
+export type TicketType = {
+  _id?: string;
+  seats?: SeatResponse[];
+  customer?: CustomerType;
+};
+export type TicketRequestType = {
+  seats: SeatRequest[];
+  customer: CustomerType;
+};

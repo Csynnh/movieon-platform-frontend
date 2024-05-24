@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const formatDate = (time: string) => {
   const date = new Date(time);
 
@@ -8,4 +10,12 @@ export const formatDate = (time: string) => {
   const year = date.getFullYear();
 
   return `${hours}h${minutes} Ngày ${day}/${month}/${year}`;
+};
+export const convertToDate = (time: string) => {
+  const date = dayjs(time).format('DD/MM/YYYY');
+  return date;
+};
+export const convertToTime = (time: string) => {
+  const date = dayjs(time).format('HH:mm');
+  return date;
 };

@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Movie, SeatRequest } from '../../api/type';
+import { Movie, SeatRequest, SeatResponse } from '../../api/type';
 import { formatDate } from '../../util/date';
 import CloseIcon from '../../views/checkout/CloseIcon';
 import './CheckoutBox.scss';
@@ -9,7 +9,7 @@ import './CheckoutBox.scss';
 const CheckoutBox = (props: {
   handle: any;
   open?: boolean;
-  data?: { movie: Movie; seats: SeatRequest[]; showtime: string; cinemaId: string };
+  data?: { movie: Movie; seats: SeatResponse[]; showtime: string; cinemaId: string };
   popcorn?: any[];
 }) => {
   const { handle, open, data, popcorn } = props;
@@ -38,8 +38,6 @@ const CheckoutBox = (props: {
     ...data,
     popcorn: popcorn,
   };
-
-  console.log(data);
 
   return (
     <div className={`bill ${open ? 'isOpen' : ''}`}>
