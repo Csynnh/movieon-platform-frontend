@@ -46,7 +46,7 @@ export const routes = [
         handle: { title: 'Buy Popcorn' },
       },
       {
-        path: '/movie/:movieId/:date/:cinemaId',
+        path: '/movie/:movieId/:date?/:cinemaId?',
         element: <MovieDetail />,
         handle: { title: 'Movie Detail' },
       },

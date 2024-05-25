@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useParams } from 'react-router-dom';
 import useMovieDetail from '../../api/getMovieData';
 import useListCalendars from '../../api/listCalendarByMovieAndCinema';
 import useCinemasData from '../../api/listCinemasData';
-import { useParams } from 'react-router-dom';
 import useSeats from '../../api/listSeats';
 import { Cinema, Movie, SeatType } from '../../api/type';
 import { seat, seatActived, seatPlaced } from '../../asset/image/';
@@ -11,14 +11,15 @@ import CheckoutBox from '../../components/checkoutBox/CheckoutBox';
 import Loading from '../../components/loading/Loading';
 import SeatGroup from '../../components/selects/seatSelection/SeatSelection';
 import CinemasSelection from '../../components/showtime/CinemasSelection';
-import DateSelection from '../../components/showtime/DateSelection';
+import DateSelection, { dateData } from '../../components/showtime/DateSelection';
 import TimeSelection from '../../components/showtime/TimeSelection';
 import '../../components/showtime/index.scss';
 import { seatsArray } from '../../mocks/seats';
 import { getSeat } from '../../util/seat';
 import { convertToDate } from '../admin/Dashboard';
 import './MovieDatail.scss';
-import { CalendarType } from 'antd/es/calendar';
+import { Skeleton } from 'antd';
+
 export interface Seat {
   type: string;
   price: string;
@@ -33,10 +34,8 @@ const MovieDetail = () => {
   const cinemaData: Cinema[] = useCinemasData();
   const movieDetail: Movie | undefined = useMovieDetail(movieId ?? '');
   const [isOpenBill, setIsOpenBill] = useState(false);
-  const [dateSelected, setDateSelected] = useState(date ?? '');
-  const [cinemaSelected, setCinemaSelected] = useState<string>(
-    cinemaId ?? cinemaData[0]?.cinemaId ?? '',
-  );
+  const [dateSelected, setDateSelected] = useState(date ?? dateData[0].value);
+  const [cinemaSelected, setCinemaSelected] = useState<string>('');
   const [seatSelected, setSeatSelected] = useState<Seat[]>([]);
   const [seatsArrayData, setSeatsArrayData] = useState<Seat[]>(seatsArray);
   const { data, refetch, isLoading } = useListCalendars({
@@ -44,6 +43,15 @@ const MovieDetail = () => {
     movieId,
     date: convertToDate(dateSelected),
   });
+  useEffect(() => {
+    if (cinemaData) {
+      if (cinemaId) {
+        setCinemaSelected(cinemaId);
+      } else {
+        setCinemaSelected(cinemaData?.[0]?._id);
+      }
+    }
+  }, [cinemaData]);
   useEffect(() => {
     if (cinemaSelected && dateSelected) {
       refetch();
@@ -189,15 +197,19 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className='movie-wrap'>
-            <CinemasSelection
-              value={cinemaSelected}
-              cinemas={cinemaData}
-              handleSelect={handleSelectCinema}
-            ></CinemasSelection>
-            <DateSelection
-              setDateSelected={setDateSelected}
-              dateSelected={dateSelected}
-            ></DateSelection>
+            {cinemaSelected ? (
+              <>
+                <CinemasSelection
+                  value={cinemaSelected}
+                  cinemas={cinemaData}
+                  handleSelect={handleSelectCinema}
+                ></CinemasSelection>
+                <DateSelection
+                  setDateSelected={setDateSelected}
+                  dateSelected={dateSelected}
+                ></DateSelection>
+              </>
+            ) : null}
             <TimeSelection
               timeData={data?.map((item) => item.time) ?? []}
               setTimeSelected={setTimeSelected}

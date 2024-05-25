@@ -66,14 +66,14 @@
       padding: 10px 20px;
       box-shadow: unset;
     }
-    .ant-select-selector {
-      box-shadow: unset !important;
-    }
   }
   .ant-btn {
     width: 100%;
     justify-content: center;
   }
+}
+.ant-select-selector {
+  box-shadow: unset !important;
 }
 .ant-table {
   &-thead {
