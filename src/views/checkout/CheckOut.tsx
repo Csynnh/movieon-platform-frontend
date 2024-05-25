@@ -13,12 +13,14 @@ import './CheckOut.scss';
 import Overlay from './Overlay';
 import { addSeat } from '@/api/addSeat';
 import { addTicket } from '@/api/addTicket';
+import Loading from '@/components/loading/Loading';
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
   const data: {
     movie: Movie;
     seats: SeatResponse[];
@@ -48,13 +50,6 @@ const CheckOut = () => {
 
   const handleSubmitForm = async (values: any) => {
     setIsSubmitting(true);
-    const seatsData = data?.seats?.map((seat) => {
-      return {
-        ...seat,
-        price: Number(seat.price) * 1000,
-        calendarId: seat.calendar?._id,
-      };
-    });
     const ticket: TicketType & RESPONSE = await addTicket({
       seats: data?.seats?.map((seat) => {
         return {
@@ -70,10 +65,17 @@ const CheckOut = () => {
         phone: values.customerPhone,
       },
     });
-    console.log(ticket);
     if (ticket?.status_code === 400) {
+      setLoading(() => true);
       message.error(ticket?.detail);
       setIsSubmitting(false);
+      const rollBackURL = `movie/${data?.movie?._id}/${data?.showtime}/${data?.seats?.[0]?.calendar?._id}`;
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(navigate(rollBackURL));
+        }, 1000);
+      });
+      setLoading(() => false);
       return;
     }
     const formEmail: any = {
@@ -87,14 +89,15 @@ const CheckOut = () => {
       seat_numbers: data?.seats
         ?.map((seat) => seat?.seatType && seat?.seatType + seat?.seatNumber)
         .join(', '),
-      ticket_number: '1',
-      order_number: '1',
+      ticket_number: ticket?._id?.slice(0, 4) ?? '1',
+      order_number: ticket?._id?.slice(-4, -1) ?? '1',
       total_amount: total,
       cinema_address: ticket?.seats?.[0]?.calendar?.theater?.cinema?.address ?? 'Movieon',
       cinema_phone: '0333312630',
       cinema_website: 'movieon@service.com',
       customer_email: values.customerEmail,
     };
+    setLoading(true);
     await emailjs
       .send('service_xrs8e0n', 'template_v5p5c2d', formEmail, {
         publicKey: 'sg63zm_lt_eh-HRFx',
@@ -107,11 +110,17 @@ const CheckOut = () => {
           console.log('FAILED...', error);
         },
       );
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(navigate('/'));
+      }, 1000);
+    });
+    setLoading(false);
     setIsSubmitting(false);
   };
-
+  console.log(loading);
   return (
-    <div>
+    <Loading spinning={loading}>
       <div className='checkout'>
         <div className='checkout-container'>
           <div className='checkout-header'>
@@ -313,7 +322,7 @@ const CheckOut = () => {
         </div>
         {isOpenOverlay && <Overlay handle={handleExit}></Overlay>}
       </div>
-    </div>
+    </Loading>
   );
 };
 

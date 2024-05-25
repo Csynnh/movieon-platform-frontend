@@ -1,4 +1,3 @@
-import { CalendarType } from './type.d';
 export interface Movie {
   title: string;
   _id: string;

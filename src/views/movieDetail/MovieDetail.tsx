@@ -119,6 +119,7 @@ const MovieDetail = () => {
       setSeatSelected(seatSelected.filter((seat) => seat.id !== id));
     }
   };
+  if (!movieDetail) return <div>Loading...</div>;
   return (
     <>
       {movieDetail && (
