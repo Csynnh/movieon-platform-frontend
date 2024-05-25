@@ -1,21 +1,90 @@
-import { Button, Col, Form, Input } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Upload, message } from 'antd';
+import AWS from 'aws-sdk';
+import { useState } from 'react';
 import './style.scss';
-import getTenant from '../../../../api/getTenant';
-import { TenantType } from '@/api/type';
+try {
+  const awsAccessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
+  const awsSecretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
+  if (awsAccessKeyId && awsSecretAccessKey && AWS && AWS.config) {
+    AWS?.config?.update({
+      region: 'ap-southeast-2',
+      accessKeyId: awsAccessKeyId,
+      secretAccessKey: awsSecretAccessKey,
+    });
+  }
+} catch (error) {
+  // Handle the exception here
+}
+
 const AccountManagement = (props: { tenantData: any }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [uploadedImage, setUploadedImage] = useState<string>('');
+  const s3 = new AWS.S3();
+  const handleUpload = async (file: any) => {
+    if (!file?.name) return;
+    setIsLoading(true);
+    const params = {
+      Bucket: 'movieonplatformbucket',
+      Key: file.name,
+      Body: file,
+    };
+
+    if (!s3) {
+      setIsLoading(false);
+      return false;
+    }
+    const res: any = await s3?.upload(params).promise();
+    if (res) {
+      setUploadedImage(res.Location);
+      message.success('upload successfully.');
+    } else {
+      message.error('upload failed.');
+    }
+    setIsLoading(false);
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return false;
+  };
+
   const tenantData = {
     username: props?.tenantData?.username,
     email: props?.tenantData?.email,
     password: props?.tenantData?.password,
   };
-  console.log(tenantData);
+  const uploadButton = (
+    <button style={{ border: 0, background: 'none' }} type='button'>
+      {isLoading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  );
+
   return (
     <div>
       <div className='dashboard-right'>
         <div className='dashboard-account'>
           <div className='dashboard-avatar'>
-            <img src='https://via.placeholder.com/150' alt='Avatar' />
+            {/* <img src='https://via.placeholder.com/150' alt='Avatar' /> */}
+            <Upload
+              name='avatar'
+              listType='picture-card'
+              className='avatar-uploader'
+              showUploadList={false}
+              beforeUpload={handleUpload}
+              disabled={isLoading}
+            >
+              {uploadedImage && !isLoading ? (
+                <img src={uploadedImage} alt='avatar' style={{ width: '100%' }} />
+              ) : (
+                uploadButton
+              )}
+            </Upload>
             <div className='dashboard-name'>
               <p>{tenantData?.username}</p>
             </div>
