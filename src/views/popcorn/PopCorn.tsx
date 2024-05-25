@@ -22,6 +22,7 @@ const PopCorn = () => {
   }, [location, navigate]);
 
   const data = location.state.data;
+  console.log(data);
   const [isOpenBill, setIsOpenBill] = useState(true);
   const [popcorn, setPopcorn] = useState<Combotype[]>([]);
 
