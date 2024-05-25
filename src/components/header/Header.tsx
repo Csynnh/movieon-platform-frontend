@@ -28,6 +28,8 @@ const Header = (props: { hasSearch?: boolean }) => {
       nav('/');
     } else if (key === 'information') {
       nav('/about');
+    } else if (key === 'contact') {
+      nav('/contact');
     }
   };
   return (

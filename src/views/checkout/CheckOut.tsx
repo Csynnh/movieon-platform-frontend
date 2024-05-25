@@ -4,16 +4,16 @@ import { Button, Col, Form, Input, Radio, message } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Movie, RESPONSE, SeatRequest, SeatResponse, TicketType } from '../../api/type';
-import { convertToDate, convertToTime, formatDate } from '../../util/date';
+import { convertToTime, formatDate } from '../../util/date';
 import { convertToVietnamese } from '../../util/language';
 import { Combotype } from '../popcorn/PopCorn';
-import emailjs from '@emailjs/browser';
-
 import './CheckOut.scss';
 import Overlay from './Overlay';
-import { addSeat } from '@/api/addSeat';
 import { addTicket } from '@/api/addTicket';
+import { convertToDate } from '../admin/Dashboard';
 import Loading from '@/components/loading/Loading';
+// import emailjs from 'emailjs-com';
+import * as emailjs from 'emailjs-com';
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,6 +27,7 @@ const CheckOut = () => {
     showtime: string;
     popcorn: Combotype[];
   } = location?.state?.dataCheckout;
+  console.log(data);
   const priceCombo = data?.popcorn?.reduce((acc, item) => acc + item.price * item.count, 0) ?? 0;
 
   const priceTicket = useMemo(() => {
@@ -120,7 +121,7 @@ const CheckOut = () => {
   };
   console.log(loading);
   return (
-    <Loading spinning={loading}>
+    <Loading>
       <div className='checkout'>
         <div className='checkout-container'>
           <div className='checkout-header'>
@@ -235,13 +236,7 @@ const CheckOut = () => {
               </div>
             </div>
             <div className='checkout-right'>
-              <Form
-                autoFocus={false}
-                layout='vertical'
-                form={form}
-                onFinish={handleSubmitForm}
-                disabled={isSubmitting}
-              >
+              <Form autoFocus={false} layout='vertical' form={form} onFinish={handleSubmitForm}>
                 <Col>
                   <Form.Item
                     required
@@ -313,7 +308,11 @@ const CheckOut = () => {
                   </Form.Item>
                 </Col>
 
-                <Button type='primary' htmlType='submit' loading={isSubmitting}>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  // disabled={isSubmitting}
+                >
                   Xác nhận
                 </Button>
               </Form>

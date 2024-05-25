@@ -7,6 +7,7 @@ import MainLayout from './views/MainLayout.js';
 
 const AboutView = lazy(async () => import('./views/about/AboutView'));
 const HomeView = lazy(async () => import('./views/home/HomeView'));
+const Contact = lazy(async () => import('./views/contact/Contact'));
 const ProtectedRoute = lazy(async () => import('./views/admin/ProtectedRoute'));
 const Dashboard = lazy(async () => import('./views/admin/Dashboard'));
 const SignInAdmin = lazy(async () => import('./views/admin/SignInTenant'));
@@ -59,6 +60,11 @@ export const routes = [
           </ProtectedRoute>
         ),
         handle: { title: 'ADMIN' },
+      },
+      {
+        path: '/contact',
+        element: <Contact />,
+        handle: { title: 'CONTACT WITH MOVIEON' },
       },
     ],
   },

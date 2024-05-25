@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Movie, SeatRequest, SeatResponse } from '../../api/type';
+import { ComboFormType, Movie, SeatRequest, SeatResponse } from '../../api/type';
 import { formatDate } from '../../util/date';
 import CloseIcon from '../../views/checkout/CloseIcon';
 import './CheckoutBox.scss';
