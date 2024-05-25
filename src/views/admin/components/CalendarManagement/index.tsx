@@ -1,4 +1,15 @@
-import { Button, Col, DatePicker, Form, Modal, Select, Space, Table, TableColumnsType } from 'antd';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Modal,
+  Select,
+  Skeleton,
+  Space,
+  Table,
+  TableColumnsType,
+} from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import CinemasSelection from '../../../../components/showtime/CinemasSelection';
 import DateSelection, { dateData } from '../../../../components/showtime/DateSelection';
@@ -243,11 +254,26 @@ export const CalendarManagement = () => {
   return (
     <div className='dashboard-right'>
       <div className='dashboard-container'>
-        <CinemasSelection
-          cinemas={listCinema}
-          handleSelect={handleSelectCinema}
-          value={cinemaSelected}
-        ></CinemasSelection>
+        {cinemaSelected ? (
+          <CinemasSelection
+            cinemas={listCinema}
+            handleSelect={handleSelectCinema}
+            value={cinemaSelected}
+          ></CinemasSelection>
+        ) : (
+          <>
+            <Skeleton.Button className='loading-selector cinema'></Skeleton.Button>
+            <div className='loading-selector date'>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+              <Skeleton.Button className='loading-selector date-item'></Skeleton.Button>
+            </div>
+          </>
+        )}
         <DateSelection
           dateSelected={dateSelected}
           setDateSelected={setDateSelected}

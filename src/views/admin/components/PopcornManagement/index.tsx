@@ -6,7 +6,7 @@ import { Cinema, ComboFormType } from '@/api/type';
 import PlusIcon from '@/asset/icon/PlusIcon';
 import Loading from '@/components/loading/Loading';
 import CinemasSelection from '@/components/showtime/CinemasSelection';
-import { Button, Form, Modal, message } from 'antd';
+import { Button, Form, Modal, Skeleton, message } from 'antd';
 import { useEffect, useState } from 'react';
 import PopcornComponent from './PopcornComponent';
 import PopcornSchema from './PopcornSchema';
@@ -98,11 +98,15 @@ const PopcornManagement = () => {
   return (
     <div className='dashboard-right popcorn-header'>
       <div className='dashboard-container'>
-        <CinemasSelection
-          cinemas={listCinemaWithAction}
-          handleSelect={handleSelectCinema}
-          value={cinemaSelected}
-        ></CinemasSelection>
+        {cinemaSelected ? (
+          <CinemasSelection
+            cinemas={listCinemaWithAction}
+            handleSelect={handleSelectCinema}
+            value={cinemaSelected}
+          ></CinemasSelection>
+        ) : (
+          <Skeleton.Button className='loading-selector'></Skeleton.Button>
+        )}
         <Button
           className='popcorn-add-btn'
           onClick={() => setIsModalVisible({ open: true, action: 'add' })}
