@@ -37,22 +37,21 @@ MovieOn is a dynamic platform designed to streamline the movie ticket booking pr
 
 - **Backend**:
 
-  - Java
-  - Spring Boot
+  - Node.js
+  - Express.js
 
 - **Database**:
 
   - MongoDB
 
 - **Other Tools**:
-  - Maven
+  - Webpack
+  - Babel
   - RESTful APIs
 
 ## Installation
 
 To set up the MovieOn Platform locally, follow these steps:
-
-### Frontend
 
 1. **Clone the repository**:
 
@@ -60,16 +59,24 @@ To set up the MovieOn Platform locally, follow these steps:
    git clone https://github.com/Csynnh/movieon-platform-frontend.git
    ```
 
-2. **Navigate to the frontend directory**:
+2. **Navigate to the project directory**:
 
    ```bash
    cd movieon-platform-frontend
    ```
 
 3. **Install dependencies**:
+
    ```bash
    npm install
    ```
+
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+The application will be available at `http://localhost:5173`.
 
 ## Usage
 
@@ -77,10 +84,6 @@ To set up the MovieOn Platform locally, follow these steps:
 2. **Search**: Use the search bar to find movies by various criteria.
 3. **Booking**: Select a movie, choose showtimes, and book your tickets.
 4. **Profile**: Manage your user account and view your booking history.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ---
 
