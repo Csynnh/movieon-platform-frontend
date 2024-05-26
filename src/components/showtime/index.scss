@@ -1,25 +1,17 @@
-@import "../../style.scss";
+@import '../../style.scss';
 .showtime {
   display: flex;
   justify-content: center;
   align-items: center;
   &-container {
     width: 80%;
-    @media screen and (max-width: 1279.98px) {
-      width: 85%;
-    }
-    @media screen and (max-width: 1023.98px) {
-      width: 90%;
-    }
   }
   &-title {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-block: 25px;
-    @media screen and (max-width: 768.98px) {
-      margin-block: 50px 30px;
-    }
+
     h2 {
       font-size: 25px;
       font-weight: 800;
@@ -30,9 +22,7 @@
       position: relative;
       display: inline-block;
       text-transform: uppercase;
-      @media screen and (max-width: 768.98px) {
-        font-size: 24px;
-      }
+
       padding: 14px 28px;
       border-radius: 100rem;
       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -52,11 +42,6 @@
       align-items: center;
       gap: 3px;
       font-weight: 600;
-      @media screen and (max-width: 425.98px) {
-        svg {
-          width: 20px;
-        }
-      }
     }
     .ant-select {
       &-selector {
@@ -110,14 +95,6 @@
     place-content: center;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
-    @media screen and (max-width: 1279.98px) {
-      gap: 20px;
-    }
-
-    @media screen and (max-width: 1023.98px) {
-      grid-template-columns: 80%;
-      margin-bottom: 50px;
-    }
   }
   &-tickets {
     display: grid;
@@ -140,6 +117,23 @@
     justify-content: center;
     flex-direction: column;
   }
+  @media screen and (max-width: 1279.98px) {
+    &-container {
+      width: 85%;
+    }
+    &-movies {
+      gap: 20px;
+    }
+  }
+  @media screen and (max-width: 1023.98px) {
+    &-container {
+      width: 90%;
+    }
+    &-movies {
+      grid-template-columns: 80%;
+      margin-bottom: 50px;
+    }
+  }
   @media screen and (max-width: 768.98px) {
     &-selection {
       span {
@@ -148,6 +142,71 @@
           width: 22px;
         }
       }
+    }
+    &-title {
+      margin-block: 50px 30px;
+      h2 {
+        font-size: 24px;
+      }
+    }
+  }
+  @media screen and (max-width: 425.98px) {
+    &-selection {
+      overflow: hidden;
+      gap: 10px;
+      .ant-select {
+        width: 35px !important;
+        &-selector {
+          height: 80% !important;
+          padding: 10px 15px !important;
+        }
+      }
+      label {
+        svg {
+          width: 20px;
+        }
+      }
+      span.ant-select-selection-item {
+        font-size: 12px;
+      }
+      span.ant-select-arrow {
+        top: 40%;
+      }
+    }
+    .showtime-title {
+      h2 {
+        font-size: 14px;
+        line-height: 1;
+        box-shadow: 0px 1px 4px 0px #00000040;
+      }
+    }
+    &-title {
+      margin-block: 20px;
+    }
+    &-date {
+      overflow: auto;
+      .ant-radio-group {
+        flex-wrap: nowrap;
+        gap: 0;
+      }
+      .ant-radio-wrapper span {
+        font-size: 10px;
+        p {
+          .day {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+    &-movies {
+      margin-block: 30px;
+      grid-template-columns: 1fr;
+    }
+    &-tickets {
+      grid-template-columns: 1fr;
+    }
+    &-animate {
+      display: none;
     }
   }
 }

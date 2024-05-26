@@ -1,4 +1,4 @@
-@import "../../style.scss";
+@import '../../style.scss';
 
 .movie__cp {
   border-radius: 18px;
@@ -104,6 +104,36 @@
       &:hover {
         background-color: white;
         color: $primary-color;
+      }
+    }
+  }
+  @media screen and (max-width: 425.98px) {
+    &-link {
+      font-size: 10px;
+      padding: 10px !important;
+    }
+    span {
+      font-size: 10px;
+    }
+    &-container {
+      border-radius: 10px;
+      align-items: center;
+    }
+    &-poster {
+      img {
+        border-radius: 5px;
+      }
+    }
+    &-title {
+      margin-top: 0;
+    }
+    &-details {
+      gap: 5px;
+      p {
+        line-height: 0;
+      }
+      span {
+        font-size: 10px !important;
       }
     }
   }

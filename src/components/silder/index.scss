@@ -1,4 +1,11 @@
 .slider-container {
-   overflow: hidden;
-   height: 100%;
+  overflow: hidden;
+  height: 100%;
+  @media screen and (max-width: 425.98px) {
+    .slider {
+      h2 {
+        font-size: 24px;
+      }
+    }
+  }
 }

@@ -52,6 +52,21 @@
   @media screen and (max-width: 425.98px) {
     &-combo {
       grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    h2 {
+      text-align: center;
+
+      width: fit-content;
+      margin: 20px auto;
+      padding: 15px;
+      border-radius: 100rem;
+      font-size: 14px;
+      line-height: 1;
+      box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2509803922);
+    }
+    &-title {
+      align-items: center;
     }
   }
 }
