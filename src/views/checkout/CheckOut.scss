@@ -1,4 +1,4 @@
-@import "../../style.scss";
+@import '../../style.scss';
 .checkout {
   width: 100%;
   img {
@@ -212,6 +212,15 @@
     }
     &-header {
       margin: 15px;
+      text-align: center;
+      width: -moz-fit-content;
+      width: fit-content;
+      margin: 20px auto;
+      padding: 0 20px;
+      border-radius: 100rem;
+      font-size: 14px;
+      line-height: 1;
+      box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2509803922);
       h2 {
         font-size: 16px;
       }
@@ -236,19 +245,23 @@
     }
     &-item {
       height: 165px;
+      padding: 8px;
       &-content {
         &-header {
-          font-size: 14px;
+          font-size: 12px;
         }
         &-title {
           font-size: 10px;
         }
       }
+      &-image {
+        width: auto;
+      }
     }
     &-right {
-      padding: 40px;
+      padding: 30px;
       form {
-        gap: 30px;
+        gap: 10px;
         .input {
           span {
             font-size: 12px;
