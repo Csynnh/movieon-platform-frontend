@@ -57,48 +57,19 @@ To set up the MovieOn Platform locally, follow these steps:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/yourusername/movieon-platform.git
+   git clone https://github.com/Csynnh/movieon-platform-frontend.git
    ```
 
-2. **Navigate to the project directory**:
+2. **Navigate to the frontend directory**:
 
    ```bash
-   cd movieon-platform/frontend
+   cd movieon-platform-frontend
    ```
 
 3. **Install dependencies**:
-
    ```bash
    npm install
    ```
-
-4. **Start the development server**:
-   ```bash
-   npm start
-   ```
-
-The frontend application will be available at `http://localhost:3000`.
-
-### Backend
-
-1. **Navigate to the backend directory**:
-
-   ```bash
-   cd movieon-platform/backend
-   ```
-
-2. **Build the project**:
-
-   ```bash
-   mvn clean install
-   ```
-
-3. **Run the Spring Boot application**:
-   ```bash
-   mvn spring-boot:run
-   ```
-
-The backend application will be available at `http://localhost:8080`.
 
 ## Usage
 
@@ -106,26 +77,6 @@ The backend application will be available at `http://localhost:8080`.
 2. **Search**: Use the search bar to find movies by various criteria.
 3. **Booking**: Select a movie, choose showtimes, and book your tickets.
 4. **Profile**: Manage your user account and view your booking history.
-
-## Contributing
-
-We welcome contributions to enhance the MovieOn Platform. To contribute, please follow these steps:
-
-1. **Fork the repository**.
-2. **Create a new branch**:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. **Make your changes**.
-4. **Commit your changes**:
-   ```bash
-   git commit -m 'Add some feature'
-   ```
-5. **Push to the branch**:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-6. **Open a pull request**.
 
 ## License
 
