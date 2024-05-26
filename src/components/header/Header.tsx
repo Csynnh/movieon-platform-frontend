@@ -3,11 +3,27 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './index.scss';
 import Logo from '../logo/Logo';
 import Search from './components/Search/Search';
+import { useEffect, useState } from 'react';
 
 const Header = (props: { hasSearch?: boolean }) => {
   const nav = useNavigate();
   const local = useLocation();
-  const defaultActiveKey = local.pathname.includes('/movie/') ? 'movie' : 'home';
+  const [activeKey, setActiveKey] = useState(
+    local.pathname.includes('/movie/')
+      ? 'movie'
+      : local.pathname.includes('/contact/')
+      ? 'contact'
+      : 'home',
+  );
+  useEffect(() => {
+    setActiveKey(
+      local.pathname.includes('/about')
+        ? 'information'
+        : local.pathname.includes('/contact')
+        ? 'contact'
+        : 'home',
+    );
+  }, [local.pathname]);
   const items: TabsProps['items'] = [
     {
       key: 'home',
@@ -26,11 +42,12 @@ const Header = (props: { hasSearch?: boolean }) => {
   const onChangeTab = (key: string) => {
     if (key === 'home') {
       nav('/');
-    } else if (key === 'information') {
-      nav('/about');
     } else if (key === 'contact') {
       nav('/contact');
+    } else if (key === 'information') {
+      nav('/about');
     }
+    setActiveKey(key);
   };
   return (
     <>
@@ -43,7 +60,7 @@ const Header = (props: { hasSearch?: boolean }) => {
           </h1>
           <Tabs
             slot='navbar'
-            defaultActiveKey={defaultActiveKey}
+            activeKey={activeKey}
             className='flex gap-s header-nav'
             items={items}
             onChange={onChangeTab}

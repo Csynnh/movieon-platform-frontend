@@ -9,8 +9,6 @@ Welcome to the MovieOn Platform! This web application is designed to provide an 
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
