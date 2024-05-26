@@ -60,12 +60,21 @@ export interface MovieDetail {
 }
 export interface TenantType {
   _id?: string;
+  username?: string;
+  password?: string;
+  email?: string;
+  firstName?: string;
+  lastname?: string;
+  avatarURL?: string | null;
+}
+export type TenantResponse = {
+  _id: string;
   username: string;
-  password: string;
   email: string;
   firstName: string;
-  lastname: string;
-}
+  lastName: string;
+  avatarURL: string | null;
+} | null;
 export interface User {
   _id?: string;
   username: string;

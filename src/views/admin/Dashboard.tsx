@@ -1,8 +1,8 @@
-import { Layout, Tabs } from 'antd';
+import { Layout, Skeleton, Tabs } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import 'toastify-js/src/toastify.css';
-import getTenant from '../../api/getTenant';
+import useTenantDetail from '../../api/getTenant';
 import { TenantType } from '../../api/type';
 import Search from '../../components/header/components/Search/Search';
 import Logo from '../../components/logo/Logo';
@@ -22,23 +22,53 @@ export const convertToIOSDate = (date: string) => {
 };
 const Dashboard = () => {
   const [tenant, setTenant] = useState<TenantType>();
-  const tenantInLocal = localStorage.getItem('tenant');
-  const tenantData = tenantInLocal ? getTenant(JSON.parse(tenantInLocal).username) : undefined;
+  const [tenantLocal, setTenantLocal] = useState<any>(null);
+  const {
+    data,
+    isLoading: tenantLoading,
+    isFetching: tenantFetching,
+    refetch: tenantRefetch,
+  } = useTenantDetail(tenantLocal?.username);
+
   useEffect(() => {
-    tenantData && setTenant(tenantData);
-  }, [tenantData]);
+    const tenantInLocal = JSON.parse(localStorage.getItem('tenant') ?? '');
+    if (tenantInLocal) {
+      setTenantLocal(tenantInLocal);
+    }
+  }, [localStorage.getItem('tenant')]);
+
+  useEffect(() => {
+    if (tenantLocal) {
+      tenantRefetch();
+    }
+  }, [tenantLocal]);
+
+  useEffect(() => {
+    data && setTenant(data);
+  }, [data]);
+
+  const handleReload = async () => {
+    const tenantInLocal = JSON.parse(localStorage.getItem('tenant') ?? '');
+    if (tenantInLocal) {
+      setTenantLocal(tenantInLocal);
+    }
+  };
 
   const itemsTab = [
     {
       label: (
         <div className='dashboard-admin'>
-          <div className='dashboard-admin-wrap'>
-            <Tenant tenantData={tenant}></Tenant>
-            <div className='dashboard-admin-info'>
-              <h4>Admin</h4>
-              <span>{tenant?.username}</span>
+          {tenantLoading || tenantFetching ? (
+            <Skeleton.Button className='loading-selector'></Skeleton.Button>
+          ) : (
+            <div className='dashboard-admin-wrap'>
+              <Tenant tenantData={tenant}></Tenant>
+              <div className='dashboard-admin-info'>
+                <h4>Admin</h4>
+                <span>{tenant?.username}</span>
+              </div>
             </div>
-          </div>
+          )}
           <div className='dashboard-admin-icon'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -56,7 +86,7 @@ const Dashboard = () => {
         </div>
       ),
       key: 'admin',
-      children: <AccountManagement tenantData={tenant} />,
+      children: <AccountManagement tenantData={tenant} onResult={handleReload} />,
     },
     {
       label: (
@@ -77,6 +107,9 @@ const Dashboard = () => {
       children: <PopcornManagement />,
     },
   ];
+  useEffect(() => {
+    data && setTenant(data);
+  }, [data]);
   return (
     <Layout className='dashboard'>
       <div className='dashboard-search'>

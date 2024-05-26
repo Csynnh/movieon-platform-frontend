@@ -56,11 +56,15 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 20px;
+    padding: 0 65px;
     .ant-btn {
       padding: 8px 10px;
       border-radius: 6px;
       display: flex;
       align-items: center;
+      width: calc(50% - 10px);
+      text-align: center;
+      justify-content: center;
       &.edit {
         background-color: #fff;
         color: #7ec971;
@@ -75,13 +79,13 @@
           margin-right: 5px;
         }
       }
-      &.delete {
+      &.delete,
+      &.cancel {
         background-color: #fff;
         color: #e61e2b;
         border: 1px solid #e61e2b;
         span {
           font-weight: 600;
-          line-height: 14.52px;
           text-align: center;
         }
         svg {
@@ -98,10 +102,34 @@
     align-items: center;
     gap: 24px;
     img {
+      border: 1.5px solid #fff;
       width: 165px;
-
       aspect-ratio: 1/1;
-      border-radius: 50%;
+      border-radius: 100rem;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      position: relative;
+      &:hover {
+        opacity: 0.3;
+      }
+    }
+    .ant-upload-wrapper.avatar-uploader {
+      position: relative;
+      &:hover {
+        isolation: isolate;
+      }
+      .upload-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        z-index: -1;
+        font-size: 18px;
+        button {
+          padding: 0;
+        }
+      }
     }
   }
   &-name {

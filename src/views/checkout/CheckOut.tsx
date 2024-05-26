@@ -12,8 +12,8 @@ import Overlay from './Overlay';
 import { addTicket } from '@/api/addTicket';
 import { convertToDate } from '../admin/Dashboard';
 import Loading from '@/components/loading/Loading';
-// import emailjs from 'emailjs-com';
-import * as emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
+// import * as emailjs from 'emailjs-com';
 const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -119,9 +119,8 @@ const CheckOut = () => {
     setLoading(false);
     setIsSubmitting(false);
   };
-  console.log(loading);
   return (
-    <Loading>
+    <Loading spinning={loading}>
       <div className='checkout'>
         <div className='checkout-container'>
           <div className='checkout-header'>
@@ -236,7 +235,13 @@ const CheckOut = () => {
               </div>
             </div>
             <div className='checkout-right'>
-              <Form autoFocus={false} layout='vertical' form={form} onFinish={handleSubmitForm}>
+              <Form
+                autoFocus={false}
+                layout='vertical'
+                form={form}
+                onFinish={handleSubmitForm}
+                disabled={loading || isSubmitting}
+              >
                 <Col>
                   <Form.Item
                     required
@@ -308,11 +313,7 @@ const CheckOut = () => {
                   </Form.Item>
                 </Col>
 
-                <Button
-                  type='primary'
-                  htmlType='submit'
-                  // disabled={isSubmitting}
-                >
+                <Button type='primary' htmlType='submit' loading={isSubmitting}>
                   Xác nhận
                 </Button>
               </Form>
