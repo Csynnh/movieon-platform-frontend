@@ -88,8 +88,23 @@ const Contact = () => {
             </h1>
             <h3>TÊN DỰ ÁN : XÂY DỰNG WEBSITE ĐẶT VÉ XEM PHIM - MOVIEON</h3>
             <div className='contact-project-link'>
-              <span>Tìm hiểu thêm tại:</span>
-              <a href='https://github.com/Csynnh' target='blank' rel='noopener noreferrer'>
+              <span className='contact-title'>Backend:</span>
+              <a
+                href='https://github.com/Csynnh/movieon-platform-backend'
+                target='blank'
+                rel='noopener noreferrer'
+              >
+                <img src={githubIcon} alt='Movieon-image' />
+                <span>Github</span>
+              </a>
+            </div>
+            <div className='contact-project-link'>
+              <span className='contact-title'>Fontend:</span>
+              <a
+                href='https://github.com/Csynnh/movieon-platform-frontend'
+                target='blank'
+                rel='noopener noreferrer'
+              >
                 <img src={githubIcon} alt='Movieon-image' />
                 <span>Github</span>
               </a>
