@@ -1,7 +1,5 @@
 # MovieOn Platform
 
-![MovieOn Logo](https://movieonplatformbucket.s3.ap-southeast-2.amazonaws.com/icon-movieon.png)
-
 Welcome to the MovieOn Platform! This web application is designed to provide an exceptional user experience for booking movie tickets and searching for movie information.
 
 ## Table of Contents
@@ -37,8 +35,8 @@ MovieOn is a dynamic platform designed to streamline the movie ticket booking pr
 
 - **Backend**:
 
-  - Node.js
-  - Express.js
+  - Java
+  - Spring Boot
 
 - **Database**:
 
@@ -48,6 +46,8 @@ MovieOn is a dynamic platform designed to streamline the movie ticket booking pr
   - Webpack
   - Babel
   - RESTful APIs
+  - EmailJS
+  - Swagger - UI
 
 ## Installation
 
