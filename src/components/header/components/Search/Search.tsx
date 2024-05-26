@@ -34,10 +34,6 @@ const Search = () => {
   return (
     <div className={'search'}>
       <div className={'search-container'}>
-        <div className='search-menu'>
-          <Menu handle={handleClickMenu}></Menu>
-          {isOpenMenu && <MenuTab></MenuTab>}
-        </div>
         <Select
           ref={searchRef}
           value={selectValue}
