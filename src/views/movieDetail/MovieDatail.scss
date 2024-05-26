@@ -1,4 +1,4 @@
-@import "../../style.scss";
+@import '../../style.scss';
 
 .movie {
   &-title {
@@ -131,7 +131,7 @@
     gap: 22px 12px;
     isolation: isolate;
     &::after {
-      content: "";
+      content: '';
       z-index: -1;
       width: 33.5%;
       height: 115%;
@@ -142,6 +142,10 @@
       border-radius: 12px;
       border: 2px solid $primary-color;
       opacity: 0.3;
+      @media screen and (max-width: 425.98px) {
+        width: 75.5%;
+        transform: translate(29%, -50%);
+      }
     }
   }
   .dou-seat {
@@ -311,14 +315,27 @@
     }
   }
   @media screen and (max-width: 425.98px) {
+    &-poster {
+      height: 200px;
+      img {
+        display: block;
+        margin: 0 auto;
+      }
+    }
     &-container {
       width: 90%;
       display: flex;
-      flex-direction: column-reverse;
+      flex-direction: column;
       gap: 5px;
-      h2 {
-        font-size: 18px;
+      padding: 20px 0;
+      h3 {
+        font-size: 14px;
         font-weight: 800;
+      }
+    }
+    &-title {
+      .line {
+        display: none;
       }
     }
     &-detail {
@@ -326,14 +343,16 @@
       &-top,
       &-bottom {
         margin: 0;
-        gap: 5px;
+        gap: 0;
       }
       &-desc {
         margin-left: 0;
+        strong,
+        span {
+          font-size: 12px;
+        }
         h4 {
-          font-size: 14px;
-          margin-block: 8px;
-          font-weight: 700;
+          display: none;
         }
       }
     }
@@ -349,18 +368,26 @@
         gap: 4px;
       }
     }
+    &-wrap {
+      margin-top: -20px;
+    }
     &-seat {
+      &-area {
+        overflow: auto;
+      }
       &-row {
         font-size: 10px;
         width: 50px;
-        gap: 20px;
+        gap: 8px;
       }
       &-desc {
-        display: flex;
-        flex-direction: column;
         width: auto;
-        margin-block: 20px 42px;
+        margin-block: 20px;
+        &-img {
+          height: auto;
+        }
         &-wrap {
+          align-items: center;
           p {
             font-size: 12px;
           }
@@ -388,11 +415,16 @@
       margin-block: 12px;
     }
     &-booking {
-      margin: 0 auto;
+      width: 90%;
+      overflow: hidden;
+      margin: 20px auto;
       .seat {
+        margin: 0 auto;
         gap: 10px;
-        overflow-x: auto;
       }
+    }
+    .ant-btn.ant-btn-primary {
+      margin-top: -20px;
     }
   }
 }

@@ -1,4 +1,4 @@
-@import "../../styles/var.scss";
+@import '../../styles/var.scss';
 .bill {
   width: 100%;
   background-color: #fff;
@@ -63,6 +63,12 @@
   &-title {
     font-weight: 700;
   }
+
+  @media screen and (min-width: 768.98px) and (max-width: 1024.98px) {
+    h4 {
+      padding-left: 102px;
+    }
+  }
   @media screen and (min-width: 425.98px) and (max-width: 768.98px) {
     &-container {
       width: 85%;
@@ -74,14 +80,9 @@
       font-size: 14px;
     }
   }
-  @media screen and (min-width: 768.98px) and (max-width: 1024.98px) {
-    h4 {
-      padding-left: 102px;
-    }
-  }
   @media screen and (max-width: 425.98px) {
     h4 {
-      padding: 8px 22px;
+      width: 90%;
       font-size: 16px;
     }
     &-container {
@@ -91,6 +92,18 @@
       span {
         font-size: 12px;
       }
+    }
+    .ant-btn {
+      padding: 8px 20px;
+      span {
+        font-size: 12px;
+      }
+    }
+    &-link {
+      display: flex;
+      flex-direction: column;
+
+      justify-content: flex-end;
     }
   }
 }

@@ -1,4 +1,4 @@
-@import "../../style.scss";
+@import '../../style.scss';
 .banner {
   background-color: $primary-color;
   color: white;
@@ -32,28 +32,31 @@
     }
   }
   &-content {
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
     gap: 16px;
     width: 50%;
     margin-left: -30px;
     @media screen and (max-width: 425.98px) {
-      gap: 2px;
+      gap: 0;
+      height: 100%;
+      margin-left: 0;
+      justify-content: center;
       h2 {
         margin-bottom: 0;
+        font-size: 14px;
+        margin-bottom: 10px;
       }
     }
   }
   &-title {
     font-size: 30px;
     font-weight: 800;
-    // line-height: 33.89px;
     color: white;
     margin-bottom: 14px;
     @media screen and (min-width: 425.98px) and (max-width: 769.98px) {
       font-size: 20px;
-      margin-bottom: 10px;
     }
   }
   &-detail {
@@ -63,17 +66,37 @@
     span {
       font-weight: 200;
       font-size: 16px;
-      @media screen and (max-width: 425.98px) {
-        font-size: 10px;
-      }
     }
     @media screen and (min-width: 425.98px) and (max-width: 769.98px) {
       font-size: 14px;
+    }
+    @media screen and (max-width: 425.98px) {
+      font-size: 10px;
+      strong {
+        font-size: 10px;
+      }
+      span {
+        display: inline-block;
+        font-size: 10px;
+      }
     }
   }
   &-button {
     @media screen and (max-width: 768.98px) {
       margin-left: auto;
+    }
+  }
+  @media screen and (max-width: 425.98px) {
+    height: 200px;
+    position: relative;
+    padding: 0 5%;
+    .ant-btn {
+      display: none;
+    }
+    &-poster {
+      img {
+        width: 100%;
+      }
     }
   }
 }
