@@ -16,6 +16,10 @@ export interface Movie {
   cast: string[];
   fullplot: string;
   rated: string;
+  isTopTrending: {
+    type: Boolean;
+    default: false;
+  };
 }
 export interface CalendarType {
   _id?: string;
