@@ -23,6 +23,15 @@
       color: white;
     }
   }
+  .ant-table-cell {
+    .dashboard-top-trending {
+      width: 20px;
+      height: 20px;
+      &.active svg {
+        fill: yellow;
+      }
+    }
+  }
   &-left {
     padding: 20px;
     background-color: #0b24470a;

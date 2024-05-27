@@ -15,7 +15,7 @@ import CinemasSelection from '../../../../components/showtime/CinemasSelection';
 import DateSelection, { dateData } from '../../../../components/showtime/DateSelection';
 import CloseForm from '../../CloseForm';
 import { useEffect, useState } from 'react';
-import { Cinema, Movie, TheaterType } from '../../../../api/type';
+import { CalendarType, Cinema, Movie, TheaterType } from '../../../../api/type';
 import useTheaters from '../../../../api/listTheaterByCinemaId';
 import useCalendars from '../../../../api/listCalendar';
 import { convertToDate, convertToIOSDate } from '../../Dashboard';
@@ -26,6 +26,8 @@ import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
 import { removeCalendar } from '../../../../api/removeCalendar';
 import useMoviesData from '../../../../api/listMoviesData';
+import { useUpdateMovie } from '@/api/updateTrendingMovie';
+import useUpdateTrending from '@/api/useUpdateTrending';
 
 export const CalendarManagement = () => {
   const [listCinema, setListCinema] = useState<Cinema[]>([]);
@@ -55,6 +57,7 @@ export const CalendarManagement = () => {
     cinemaId: cinemaSelected,
     date: convertToDate(dateSelected),
   });
+
   useEffect(() => {
     if (cinemaSelected) {
       refetch();
@@ -110,6 +113,37 @@ export const CalendarManagement = () => {
       dataIndex: 'showTime',
       key: 'showTime',
       render: (time: string) => <span>{dayjs(time).format('DD/MM/YYYY HH:mm')}</span>,
+      sorter: true,
+    },
+    {
+      title: 'Top Trending',
+      width: 100,
+      dataIndex: 'movie',
+      key: 'topTrending',
+      render: (movie: Movie, record: CalendarType) => (
+        <div
+          onClick={async () => {
+            await useUpdateTrending(record?._id, !record?.movie?.isTopTrending);
+          }}
+          // className={`dashboard-top-trending${movie?.isTopTrending ? ' active' : ''}`}
+          className={`dashboard-top-trending ${record?.movie?.isTopTrending ? 'active' : ''}`}
+        >
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke-width='1.5'
+            stroke='currentColor'
+            className='size-6'
+          >
+            <path
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              d='M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z'
+            />
+          </svg>
+        </div>
+      ),
       sorter: true,
     },
     {
