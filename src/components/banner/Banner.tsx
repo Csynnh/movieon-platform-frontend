@@ -1,41 +1,44 @@
-import { Button } from "antd";
-import { NavLink } from "react-router-dom";
-import "./styles.scss";
+import { Button } from 'antd';
+import { NavLink } from 'react-router-dom';
+import './styles.scss';
 export type BannerProps = {
-  id: number;
+  // id: number;
   image: string;
   title: string;
+  time: number;
+  type: string;
+  language: string;
   description: string;
 };
-const Banner = ({ image, title, description }: BannerProps) => {
+const Banner = ({ image, title, time, type, language, description }: BannerProps) => {
   return (
-    <div className={"banner"}>
-      <div className="banner-container">
-        <div className="banner-poster">
-          <img src={image} alt="poster" />
+    <div className={'banner'}>
+      <div className='banner-container'>
+        <div className='banner-poster'>
+          <img src={image} alt='poster' />
         </div>
-        <div className="banner-content">
-          <h2 className="banner-title">{title}</h2>
-          <p className={"banner-detail"}>
+        <div className='banner-content'>
+          <h2 className='banner-title'>{title}</h2>
+          <p className={'banner-detail'}>
             <strong>Thể loại: </strong>
-            <span>{description}</span>
+            <span>{type}</span>
           </p>
-          <p className={"banner-detail"}>
-            <strong>Thể loại: </strong>
-            <span>{description}</span>
+          <p className={'banner-detail'}>
+            <strong>Thời lượng: </strong>
+            <span>{time}</span>
           </p>
-          <p className={"banner-detail"}>
-            <strong>Thể loại: </strong>
-            <span>{description}</span>
+          <p className={'banner-detail'}>
+            <strong>Ngôn ngữ: </strong>
+            <span>{language}</span>
           </p>
-          <p className={"banner-detail"}>
-            <strong>Thể loại: </strong>
+          <p className={'banner-detail'}>
+            <strong>Nội dung: </strong>
             <span>{description}</span>
           </p>
 
-          <NavLink to={`/movie/${1}`} className={"banner-button"}>
-            <Button type="default">Xem chi tiết</Button>
-          </NavLink>
+          {/* <NavLink to={`/movie/${1}`} className={'banner-button'}>
+            <Button type='default'>Xem chi tiết</Button>
+          </NavLink> */}
         </div>
       </div>
     </div>
