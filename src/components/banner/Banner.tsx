@@ -2,15 +2,15 @@ import { Button } from 'antd';
 import { NavLink } from 'react-router-dom';
 import './styles.scss';
 export type BannerProps = {
-  // id: number;
+  movieId: number;
   image: string;
   title: string;
   time: number;
-  type: string;
+  type: any;
   language: string;
   description: string;
 };
-const Banner = ({ image, title, time, type, language, description }: BannerProps) => {
+const Banner = ({ image, title, time, type, language, description, movieId }: BannerProps) => {
   return (
     <div className={'banner'}>
       <div className='banner-container'>
@@ -21,7 +21,7 @@ const Banner = ({ image, title, time, type, language, description }: BannerProps
           <h2 className='banner-title'>{title}</h2>
           <p className={'banner-detail'}>
             <strong>Thể loại: </strong>
-            <span>{type}</span>
+            <span>{type?.map((item: any, index: number) => (index ? ' - ' + item : item))}</span>
           </p>
           <p className={'banner-detail'}>
             <strong>Thời lượng: </strong>
@@ -36,9 +36,9 @@ const Banner = ({ image, title, time, type, language, description }: BannerProps
             <span>{description}</span>
           </p>
 
-          {/* <NavLink to={`/movie/${1}`} className={'banner-button'}>
+          <NavLink to={`/movie/${movieId}`} className={'banner-button'}>
             <Button type='default'>Xem chi tiết</Button>
-          </NavLink> */}
+          </NavLink>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ const MovieTicket = ({ children, data }: { children: any; data: any }) => {
           dataSource={[
             ...(data?.seats?.map((seat: any) => ({
               key: seat._id,
-              name: seat.seatType,
+              name: seat.seatType + ' - ' + seat.seatNumber,
               count: 1,
               price: formatNumber((seat.price * 1000).toString()),
             })) ?? []),
@@ -66,7 +66,7 @@ const MovieTicket = ({ children, data }: { children: any; data: any }) => {
               key: combo._id,
               name: combo.name,
               count: combo.count,
-              price: formatNumber((combo.price * 1000).toString()),
+              price: formatNumber((combo.price * combo.count).toString()),
             })) ?? []),
           ]}
         ></Table>

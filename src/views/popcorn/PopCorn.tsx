@@ -14,6 +14,8 @@ export type Combotype = {
 const PopCorn = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isOpenBill, setIsOpenBill] = useState(true);
+  const [popcorn, setPopcorn] = useState<Combotype[]>([]);
 
   useEffect(() => {
     if (!location?.state?.data) {
@@ -22,17 +24,16 @@ const PopCorn = () => {
   }, [location, navigate]);
 
   const data = location.state.data;
-  console.log(data);
-  const [isOpenBill, setIsOpenBill] = useState(true);
-  const [popcorn, setPopcorn] = useState<Combotype[]>([]);
-
   const { data: dataCombo, isLoading } = useCombos(data.cinemaId);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+
   const handleCloseBill = () => {
     setIsOpenBill(false);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className='popcorn'>
       <div className='popcorn-container'>

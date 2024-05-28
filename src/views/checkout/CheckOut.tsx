@@ -1,9 +1,9 @@
 import combo from '../../asset/image/combo.png';
 
-import { addTicket } from '@/api/addTicket';
 import AWS from 'aws-sdk';
 
 import Loading from '@/components/loading/Loading';
+import emailjs from '@emailjs/browser';
 import { Button, Col, Form, Input, Modal, QRCode, Radio, message } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -12,10 +12,10 @@ import { convertToTime, formatDate } from '../../util/date';
 import { convertToVietnamese } from '../../util/language';
 import { convertToDate } from '../admin/Dashboard';
 import { Combotype } from '../popcorn/PopCorn';
-import emailjs from '@emailjs/browser';
 
 import './CheckOut.scss';
 import MovieTicket from './MovieTicket';
+import { addTicket } from '@/api/addTicket';
 function dataURLtoFile(dataurl: string, filename: string): Promise<File> {
   return fetch(dataurl)
     .then((response) => response.blob())
@@ -59,49 +59,52 @@ const CheckOut = () => {
 
   const handleSubmitForm = async (values: any) => {
     setIsSubmitting(true);
-    // const ticket: TicketType & RESPONSE = await addTicket({
-    //   seats: data?.seats?.map((seat) => {
-    //     return {
-    //       seatNumber: seat.seatNumber,
-    //       seatType: seat.seatType,
-    //       price: seat.price,
-    //       calendarId: seat.calendar?._id,
-    //     };
-    //   }),
-    //   customer: {
-    //     name: values.customerName,
-    //     email: values.customerEmail,
-    //     phone: values.customerPhone,
-    //   },
-    // });
-    // if (ticket?.status_code === 400) {
-    //   setLoading(() => true);
-    //   message.error(ticket?.detail);
-    //   setIsSubmitting(false);
-    //   const rollBackURL = `movie/${data?.movie?._id}/${data?.showtime}/${data?.seats?.[0]?.calendar?._id}`;
-    //   await new Promise((resolve) => {
-    //     setTimeout(() => {
-    //       resolve(navigate(rollBackURL));
-    //     }, 1000);
-    //   });
-    //   setLoading(() => false);
-    //   return;
-    // }
+
+    const ticket: TicketType & RESPONSE = await addTicket({
+      seats: data?.seats?.map((seat) => {
+        return {
+          seatNumber: seat.seatNumber,
+          seatType: seat.seatType,
+          price: seat.price,
+          calendarId: seat.calendar?._id,
+        };
+      }),
+      customer: {
+        name: values.customerName,
+        email: values.customerEmail,
+        phone: values.customerPhone,
+      },
+    });
+
+    if (ticket?.status_code === 400) {
+      setLoading(() => true);
+      message.error(ticket?.detail);
+      setIsSubmitting(false);
+      const rollBackURL = `/movie/${data?.movie?._id}/${data?.showtime}/${data?.seats?.[0]?.calendar?._id}`;
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(navigate(rollBackURL));
+        }, 1000);
+      });
+      setLoading(() => false);
+      return;
+    }
+
     const formEmail: any = {
       customer_name: values.customerName,
       customer_service_phone: '0333312630',
-      // cinema_name: ticket?.seats?.[0]?.calendar?.theater?.cinema?.name ?? 'Movieon',
+      cinema_name: ticket?.seats?.[0]?.calendar?.theater?.cinema?.name ?? 'Movieon',
       movie_title: data?.movie?.title,
       date: convertToDate(data?.showtime),
       time: convertToTime(data?.showtime),
-      // cinema_hall: ticket?.seats?.[0]?.calendar?.theater?.name ?? 'Movieon Lê Văn Việt',
+      cinema_hall: ticket?.seats?.[0]?.calendar?.theater?.name ?? 'Movieon Lê Văn Việt',
       seat_numbers: data?.seats
         ?.map((seat) => seat?.seatType && seat?.seatType + seat?.seatNumber)
         .join(', '),
-      // // ticket_number: ticket?._id?.slice(0, 4) ?? '1',
-      // order_number: ticket?._id?.slice(-4, -1) ?? '1',
+      ticket_number: ticket?._id?.slice(0, 4) ?? '1',
+      order_number: ticket?._id?.slice(-4, -1) ?? '1',
       total_amount: total,
-      // cinema_address: ticket?.seats?.[0]?.calendar?.theater?.cinema?.address ?? 'Movieon',
+      cinema_address: ticket?.seats?.[0]?.calendar?.theater?.cinema?.address ?? 'Movieon',
       cinema_phone: '0333312630',
       cinema_website: 'movieon@service.com',
       customer_email: values.customerEmail,
@@ -111,63 +114,60 @@ const CheckOut = () => {
     setIsSubmitting(false);
   };
   useEffect(() => {
-    if (isOpenOverlay) {
-      const fetch = async () => {
-        try {
-          const awsAccessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
-          const awsSecretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
-          if (awsAccessKeyId && awsSecretAccessKey && AWS && AWS.config) {
-            AWS?.config?.update({
-              region: 'ap-southeast-2',
-              accessKeyId: awsAccessKeyId,
-              secretAccessKey: awsSecretAccessKey,
-            });
-          }
-        } catch (error) {
-          console.error('Error updating AWS config:', error);
-        }
-        const s3 = new AWS.S3();
-
-        qrRef.current.scrollIntoView();
-        const base64String = qrRef.current.querySelector('.ant-qrcode canvas').toDataURL();
-        const file = await dataURLtoFile(base64String, 'image.png');
-        const paramsBucket = {
-          Bucket: 'movieonplatformbucket',
-          Key: file.name,
-          Body: file,
-        };
-        if (!s3) return false;
-        const res: any = await s3?.upload(paramsBucket).promise();
-        if (res) {
-          const formParams = {
-            ...params,
-            qr_url: res.Location,
-          };
-          message.success('upload successfully.');
-          await emailjs
-            .send('service_xrs8e0n', 'template_v5p5c2d', formParams, {
-              publicKey: 'sg63zm_lt_eh-HRFx',
-            })
-            .then(
-              () => {
-                message.success('Đặt vé thành công');
-              },
-              (error) => {
-                console.log('FAILED...', error);
-              },
-            );
-          // await new Promise((resolve) => {
-          //   setTimeout(() => {
-          //     resolve(navigate('/'));
-          //   }, 1000);
-          // });
-          setLoading(false);
-        } else {
-          message.error('upload failed.');
-        }
-      };
-      fetch();
+    if (!isOpenOverlay) {
+      return;
     }
+
+    const fetch = async () => {
+      try {
+        const awsAccessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
+        const awsSecretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
+        if (awsAccessKeyId && awsSecretAccessKey && AWS && AWS.config) {
+          AWS?.config?.update({
+            region: 'ap-southeast-2',
+            accessKeyId: awsAccessKeyId,
+            secretAccessKey: awsSecretAccessKey,
+          });
+        }
+      } catch (error) {
+        console.error('Error updating AWS config:', error);
+      }
+      const s3 = new AWS.S3();
+
+      qrRef.current.scrollIntoView();
+      const base64String = qrRef.current.querySelector('.ant-qrcode canvas').toDataURL();
+      const file = await dataURLtoFile(base64String, 'image.png');
+      const paramsBucket = {
+        Bucket: 'movieonplatformbucket',
+        Key: file.name,
+        Body: file,
+      };
+      if (!s3) return false;
+      const res: any = await s3?.upload(paramsBucket).promise();
+      if (res) {
+        const formParams = {
+          ...params,
+          qr_url: res.Location,
+        };
+        message.success('upload successfully.');
+        await emailjs
+          .send('service_xrs8e0n', 'template_v5p5c2d', formParams, {
+            publicKey: 'sg63zm_lt_eh-HRFx',
+          })
+          .then(
+            () => {
+              message.success('Đặt vé thành công');
+            },
+            (error) => {
+              console.log('FAILED...', error);
+            },
+          );
+        setLoading(false);
+      } else {
+        message.error('upload failed.');
+      }
+    };
+    fetch();
   }, [isOpenOverlay]);
   return (
     <Loading spinning={loading}>
@@ -370,10 +370,28 @@ const CheckOut = () => {
             </div>
           </div>
         </div>
-        {/* {isOpenOverlay && <Overlay handle={handleExit}></Overlay>} */}
         <Modal
           open={isOpenOverlay && params}
-          onOk={() => setIsOpenOverlay(false)}
+          onOk={async () => {
+            setIsOpenOverlay(false);
+            setLoading(true);
+            await new Promise((resolve) => {
+              setTimeout(() => {
+                resolve(navigate('/'));
+              }, 1000);
+            });
+            setLoading(false);
+          }}
+          onCancel={async () => {
+            setIsOpenOverlay(false);
+            setLoading(true);
+            await new Promise((resolve) => {
+              setTimeout(() => {
+                resolve(navigate('/'));
+              }, 1000);
+            });
+            setLoading(false);
+          }}
           cancelButtonProps={{ style: { display: 'none' } }}
         >
           <div className='' ref={qrRef}>
@@ -385,7 +403,7 @@ const CheckOut = () => {
                 price: total,
               }}
             >
-              <QRCode value={params?.customer_name}></QRCode>
+              <QRCode value={params?.ticket_number}></QRCode>
             </MovieTicket>
           </div>
         </Modal>
