@@ -178,6 +178,7 @@ export const CalendarManagement = () => {
       ),
     },
   ];
+  console.log(calendarData);
   const handleSubmitForm = async (values: any) => {
     setSubmiting(true);
     if (!selectedCalendar?._id) {
