@@ -53,9 +53,15 @@ const PopcornManagement = () => {
     };
     const res = await addCombo(data);
     if (res?.name) {
-      message.success('Thêm bắp nước thành công');
+      message.success(
+        isModalVisible.action === 'edit'
+          ? 'Chỉnh sửa bắp nước thành công'
+          : 'Thêm bắp nước thành công',
+      );
     } else {
-      message.error('Thêm bắp nước thất bại');
+      message.error(
+        isModalVisible.action === 'edit' ? 'Chỉnh sửa bắp nước thất bại' : 'Thêm bắp nước thất bại',
+      );
     }
     setIsModalVisible({ open: false, action: '' });
     refetch();

@@ -103,11 +103,11 @@ const PopcornSchema = ({
   };
   return (
     <Modal
-      title='THÊM BẮP NƯỚC'
+      title={`${action === 'edit' ? 'CHỈNH SỬA' : 'THÊM'} BẮP NƯỚC`}
       open={open}
       onOk={onOk}
       onCancel={onCancel}
-      okText='Thêm'
+      okText='Submit'
       cancelText='Hủy'
       confirmLoading={loading}
     >

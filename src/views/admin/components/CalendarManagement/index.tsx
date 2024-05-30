@@ -328,7 +328,7 @@ export const CalendarManagement = () => {
               <Form form={form} onFinish={handleSubmitForm}>
                 <CloseForm handle={handleChangeOpenForm}></CloseForm>
                 <div className='dashboard-form-title'>
-                  <p>Thêm lịch chiếu</p>
+                  <p>{openFormWithAction?.action === 'edit' ? 'Chỉnh sửa' : 'Thêm'} lịch chiếu</p>
                 </div>
                 <div className='dashboard-form-input'>
                   <div className='dashboard-field'>
