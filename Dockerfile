@@ -1,20 +1,14 @@
-# Use an official Node.js runtime based on Alpine Linux as the base image
-FROM node:alpine
-
-# Set the working directory in the container to /srv/app
-WORKDIR /srv/app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install the application dependencies
+FROM node:17-alpine
+WORKDIR /app
+COPY package.json .
 RUN npm install
-
-# Copy the rest of the application code to the working directory
 COPY . .
-
-# Expose port 8000 for the application
-EXPOSE 8000
-
-# Start the application
-CMD [ "npm", "start" ]
+ARG VITE_AWS_REGION
+ARG VITE_AWS_ACCESS_KEY_ID
+ARG VITE_AWS_SECRET_ACCESS_KEY
+ARG VITE_API_GATEWAY_URL
+ENV VITE_AWS_REGION=$VITE_AWS_REGION
+ENV VITE_AWS_ACCESS_KEY_ID=$VITE_AWS_ACCESS_KEY_ID
+ENV VITE_AWS_SECRET_ACCESS_KEY=$VITE_AWS_SECRET_ACCESS_KEY
+ENV VITE_API_GATEWAY_URL=$VITE_API_GATEWAY_URL
+CMD ["npm", "run", "dev"]

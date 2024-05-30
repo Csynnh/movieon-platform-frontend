@@ -122,9 +122,10 @@ const CheckOut = () => {
       try {
         const awsAccessKeyId = import.meta.env.VITE_AWS_ACCESS_KEY_ID;
         const awsSecretAccessKey = import.meta.env.VITE_AWS_SECRET_ACCESS_KEY;
+        const region = import.meta.env.VITE_AWS_REGION;
         if (awsAccessKeyId && awsSecretAccessKey && AWS && AWS.config) {
           AWS?.config?.update({
-            region: 'ap-southeast-2',
+            region: region,
             accessKeyId: awsAccessKeyId,
             secretAccessKey: awsSecretAccessKey,
           });
@@ -143,7 +144,7 @@ const CheckOut = () => {
         Body: file,
       };
       if (!s3) return false;
-      const res: any = await s3?.upload(paramsBucket).promise();
+      const res: any = await s3?.upload(paramsBucket)?.promise();
       if (res) {
         const formParams = {
           ...params,
