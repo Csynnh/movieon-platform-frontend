@@ -378,6 +378,7 @@ const CheckOut = () => {
         </div>
         <Modal
           open={isOpenOverlay && params}
+          title={'Bạn đã đặt vé thành công, vui lòng mang mã QR này đến quày đặt vé!'}
           onOk={async () => {
             setIsOpenOverlay(false);
             setLoading(true);
@@ -388,6 +389,11 @@ const CheckOut = () => {
             });
             setLoading(false);
           }}
+          footer={
+            <div>
+              <i>Mọi thông tin chiết tiết bao gồm cả QR đã được gửi vào email của bạn!</i>
+            </div>
+          }
           onCancel={async () => {
             setIsOpenOverlay(false);
             setLoading(true);
@@ -400,17 +406,17 @@ const CheckOut = () => {
           }}
           cancelButtonProps={{ style: { display: 'none' } }}
         >
-          <div className='' ref={qrRef}>
-            <MovieTicket
-              data={{
-                ...data,
-                ticket: params?.ticket_number,
-                customerName: params?.customer_name,
-                price: total,
-              }}
-            >
-              <QRCode value={params?.ticket_number}></QRCode>
-            </MovieTicket>
+          <div
+            className=''
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '20px',
+            }}
+            ref={qrRef}
+          >
+            <QRCode value={params?.ticket_number}></QRCode>
           </div>
         </Modal>
         {/* MODAL CONFIRM */}

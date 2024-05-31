@@ -135,3 +135,11 @@
     border-radius: 100rem;
   }
 }
+.ant-modal {
+  &-content {
+    padding: 20px 30px !important;
+  }
+  &-title {
+    text-align: center;
+  }
+}
