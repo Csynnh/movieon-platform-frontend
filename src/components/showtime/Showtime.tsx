@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useCalendars from '../../api/listCalendar';
 import useCinemasData from '../../api/listCinemasData';
 import { Cinema } from '../../api/type';
-import DetailTicket from '../../asset/image/DetailTicket';
+import DetailTicket from '../../asset/image/frame.png';
 import CinemasSelection from '../../components/showtime/CinemasSelection';
 import DateSelection, { dateData } from '../../components/showtime/DateSelection';
 import { convertToDate } from '../../views/admin/Dashboard';
@@ -78,8 +78,9 @@ const Showtime = () => {
           <h2>Chi tiết giá vé</h2>
         </div>
         <div className='showtime-tickets'>
-          <div className='showtime-animate'></div>
-          <DetailTicket />
+          <div className='showtime-animate'>
+            <img src={DetailTicket} alt='frame' />
+          </div>
         </div>
       </div>
     </section>

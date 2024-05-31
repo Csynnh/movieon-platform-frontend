@@ -25,6 +25,7 @@ const CheckOut = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpenOverlay, setIsOpenOverlay] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -54,10 +55,11 @@ const CheckOut = () => {
 
   //Xu ly close Overlay
   const handleExit = () => {
-    setIsOpenOverlay(false);
+    setIsModalVisible(false);
   };
 
   const handleSubmitForm = async (values: any) => {
+    setIsModalVisible(false);
     setIsSubmitting(true);
 
     const ticket: TicketType & RESPONSE = await addTicket({
@@ -150,7 +152,6 @@ const CheckOut = () => {
           ...params,
           qr_url: res.Location,
         };
-        message.success('upload successfully.');
         await emailjs
           .send('service_xrs8e0n', 'template_v5p5c2d', formParams, {
             publicKey: 'sg63zm_lt_eh-HRFx',
@@ -364,7 +365,11 @@ const CheckOut = () => {
                   </Form.Item>
                 </Col>
 
-                <Button type='primary' htmlType='submit' loading={isSubmitting}>
+                <Button
+                  type='primary'
+                  onClick={() => setIsModalVisible(true)}
+                  loading={isSubmitting}
+                >
                   Xác nhận
                 </Button>
               </Form>
@@ -407,6 +412,22 @@ const CheckOut = () => {
               <QRCode value={params?.ticket_number}></QRCode>
             </MovieTicket>
           </div>
+        </Modal>
+        {/* MODAL CONFIRM */}
+        <Modal
+          title='Xác nhận'
+          open={isModalVisible}
+          onOk={() => form.submit()}
+          onCancel={handleExit}
+        >
+          <MovieTicket
+            data={{
+              ...data,
+              ticket: params?.ticket_number,
+              customerName: params?.customer_name,
+              price: total,
+            }}
+          ></MovieTicket>
         </Modal>
       </div>
     </Loading>

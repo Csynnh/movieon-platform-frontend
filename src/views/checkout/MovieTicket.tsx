@@ -9,7 +9,7 @@ function formatNumber(numString: string): string {
 }
 
 // Usage
-const MovieTicket = ({ children, data }: { children: any; data: any }) => {
+const MovieTicket = ({ children, data }: { children?: any; data: any }) => {
   const columns = [
     {
       title: 'Đã đặt',
@@ -81,27 +81,32 @@ const MovieTicket = ({ children, data }: { children: any; data: any }) => {
             {convertToVietnamese(data?.price)})
           </Paragraph>
         </Col>
-        <Col span={24}>
-          <Paragraph>
-            <Title level={5}>Mã vé: {data?.ticket_number}</Title>
-          </Paragraph>
-        </Col>
-        <Col span={24}>
-          <Paragraph>
-            <Title level={5}>Mã vé (QR):</Title>
-            <div
-              className=''
-              style={{
-                // center
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              {children}
-            </div>
-          </Paragraph>
-        </Col>
+        {children && (
+          <>
+            <Col span={24}>
+              <Paragraph>
+                <Title level={5}>Mã vé: {data?.ticket_number}</Title>
+              </Paragraph>
+            </Col>
+
+            <Col span={24}>
+              <Paragraph>
+                <Title level={5}>Mã vé (QR):</Title>
+                <div
+                  className=''
+                  style={{
+                    // center
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  {children}
+                </div>
+              </Paragraph>
+            </Col>
+          </>
+        )}
       </Row>
     </Card>
   );
