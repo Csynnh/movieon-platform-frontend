@@ -21,7 +21,8 @@
     display: flex;
     align-items: center;
     padding: 1rem 0rem;
-    justify-content: space-between;
+    gap: 50px;
+    // justify-content: space-between;
     @media screen and (max-width: 769.98px) {
       gap: 15px;
       width: 90%;
@@ -42,7 +43,7 @@
       object-fit: cover;
       aspect-ratio: 2/3;
       @media screen and (max-width: 1023.98px) {
-        max-width: 300px;
+        max-width: 220px;
       }
       @media screen and (max-width: 767.98px) {
         max-height: 40dvh;
