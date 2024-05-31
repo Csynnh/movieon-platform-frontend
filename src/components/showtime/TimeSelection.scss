@@ -1,10 +1,22 @@
+@import '../../style.scss';
+
 .showtime-time {
   .ant-radio {
     display: none;
   }
-  .ant-btn {
-    width: fit-content;
-    font-size: 14px;
+
+  .ant-radio-wrapper {
+    .ant-btn {
+      background-color: white;
+      color: $primary-color;
+      width: fit-content;
+    }
+    &.ant-radio-wrapper-checked {
+      .ant-btn {
+        background-color: $primary-color;
+        color: white;
+      }
+    }
   }
 }
 .showtime-selection.time {

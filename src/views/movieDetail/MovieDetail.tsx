@@ -67,13 +67,13 @@ const MovieDetail = () => {
     }
   }, [![...seatSelected].length]);
 
-  const [timeSelected, setTimeSelected] = useState(data?.[0]?.time ?? '');
+  const [timeSelected, setTimeSelected] = useState(data?.[0]?.time);
   const calendarSelected = useMemo(() => {
     const calendar = data?.find((item) => item.time === timeSelected);
     return calendar;
   }, [timeSelected]);
   useEffect(() => {
-    if (data && data?.[0]?.time) {
+    if (data) {
       setTimeSelected(data?.[0]?.time);
     }
   }, [data]);
@@ -211,7 +211,7 @@ const MovieDetail = () => {
               </>
             ) : null}
             <TimeSelection
-              timeData={data?.map((item) => item.time) ?? []}
+              timeData={data?.map((item) => item.time) || []}
               setTimeSelected={setTimeSelected}
               timeSelected={timeSelected}
             ></TimeSelection>

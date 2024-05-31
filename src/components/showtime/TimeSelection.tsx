@@ -11,7 +11,16 @@ const TimeSelection = (props: {
   const { timeData, timeSelected, setTimeSelected } = props;
   const items: CheckboxOptionType[] = timeData?.map((item) => ({
     value: item ?? '',
-    label: <TimeButton isActive={timeSelected === item}>{item?.split(' ')[1]}</TimeButton>,
+    label: (
+      <div
+        className=''
+        onClick={() => {
+          setTimeSelected(item);
+        }}
+      >
+        <TimeButton isActive={timeSelected === item}>{item?.split(' ')[1]}</TimeButton>
+      </div>
+    ),
   }));
   return (
     <>
@@ -22,11 +31,7 @@ const TimeSelection = (props: {
         </label>
       </div>
       <div className='showtime-time'>
-        <Radio.Group
-          onChange={(e) => setTimeSelected(e.target.value)}
-          options={items}
-          value={timeSelected}
-        ></Radio.Group>
+        <Radio.Group options={items} value={timeSelected}></Radio.Group>
       </div>
     </>
   );
